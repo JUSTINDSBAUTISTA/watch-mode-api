@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearFilter = document.getElementById('yearFilter');
     const resultsContainer = document.getElementById('resultsContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');
+    const resultsCountDiv = document.querySelector('.results');
 
     if (localStorage.getItem('searchResults')) {
         const savedKeyword = localStorage.getItem('searchKeyword');
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         loadingSpinner.style.display = 'block';
         resultsContainer.innerHTML = '';
+        resultsCountDiv.textContent = ''; // Clear previous count
 
         const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&year=${year}`);
         const results = await response.json();
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingSpinner.style.display = 'none';
         displayResults(results);
 
+        // Save search data to local storage
         localStorage.setItem('searchKeyword', keyword);
         localStorage.setItem('searchYear', year);
         localStorage.setItem('searchResults', JSON.stringify(results));
@@ -36,6 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayResults(results) {
         resultsContainer.innerHTML = '';
+
+        // Display the count of results
+        const resultsCount = results.length;
+        resultsCountDiv.textContent = `Found ${resultsCount} result${resultsCount !== 1 ? 's' : ''}`;
+
         results.forEach(result => {
             const imageUrl = result.poster || 'default.jpg';
             const card = document.createElement('div');

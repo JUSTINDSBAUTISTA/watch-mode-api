@@ -4,7 +4,7 @@ define("CSV_FILE", "titles.csv");
 
 header('Content-Type: application/json');
 
-function searchCsvForTitleAndYearRange($keyword, $startYear, $endYear) {
+function searchCsvForTitleAndYear($keyword, $year) {
     $watchmodeIds = [];
     if (($handle = fopen(CSV_FILE, "r")) !== FALSE) {
         fgetcsv($handle); // Skip header row
@@ -14,8 +14,8 @@ function searchCsvForTitleAndYearRange($keyword, $startYear, $endYear) {
             $titleYear = $data[5];  // Assuming year is in the 6th column (index 5)
             
             if (stripos($title, $keyword) !== false) {
-                // Check if title year falls within the range if provided
-                if ((!$startYear || $titleYear >= $startYear) && (!$endYear || $titleYear <= $endYear)) {
+                // Check if title matches the specified year if provided
+                if (!$year || $titleYear == $year) {
                     $watchmodeIds[] = $data[0];
                 }
             }
@@ -36,18 +36,30 @@ function fetchDetailsByWatchmodeId($watchmodeId) {
     return json_decode($response, true);
 }
 
+function isWatchmodeId($input) {
+    return ctype_digit($input);
+}
+
 if (isset($_GET['title'])) {
     $keyword = $_GET['title'];
-    $startYear = $_GET['startYear'] ?? null;  // Get start year from request
-    $endYear = $_GET['endYear'] ?? null;      // Get end year from request
+    $year = $_GET['year'] ?? null;  // Get specific year from request
     
-    $watchmodeIds = searchCsvForTitleAndYearRange($keyword, $startYear, $endYear);
     $results = [];
 
-    foreach ($watchmodeIds as $id) {
-        $details = fetchDetailsByWatchmodeId($id);
+    // Check if input is a Watchmode ID
+    if (isWatchmodeId($keyword)) {
+        $details = fetchDetailsByWatchmodeId($keyword);
         if ($details) {
             $results[] = $details;
+        }
+    } else {
+        $watchmodeIds = searchCsvForTitleAndYear($keyword, $year);
+        
+        foreach ($watchmodeIds as $id) {
+            $details = fetchDetailsByWatchmodeId($id);
+            if ($details) {
+                $results[] = $details;
+            }
         }
     }
 

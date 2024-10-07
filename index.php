@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title Search</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <style>
@@ -20,19 +19,11 @@
         <h1 class="text-center mb-4">Search Titles</h1>
         <form id="searchForm" class="mb-4">
             <div class="input-group">
-                <input type="text" id="searchInput" class="form-control" placeholder="Enter title keyword..." required>
+                <input type="text" id="searchInput" class="form-control" placeholder="Enter title keyword or Watchmode ID..." required>
 
-                <!-- Start Year Dropdown -->
-                <select id="startYearFilter" class="custom-select" style="max-width: 120px;">
-                    <option value="">Start Year</option>
-                    <?php for ($year = 1939; $year <= 2045; $year++): ?>
-                        <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
-                    <?php endfor; ?>
-                </select>
-
-                <!-- End Year Dropdown -->
-                <select id="endYearFilter" class="custom-select" style="max-width: 120px;">
-                    <option value="">End Year</option>
+                <!-- Specific Year Dropdown -->
+                <select id="yearFilter" class="custom-select" style="max-width: 120px;">
+                    <option value="">Select Year</option>
                     <?php for ($year = 1939; $year <= 2045; $year++): ?>
                         <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
                     <?php endfor; ?>
@@ -59,7 +50,6 @@
     </div>
     
     <script src="main.js"></script>
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

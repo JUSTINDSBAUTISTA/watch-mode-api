@@ -1,14 +1,26 @@
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
+    const startYearFilter = document.getElementById('startYearFilter');
+    const endYearFilter = document.getElementById('endYearFilter');
     const resultsContainer = document.getElementById('resultsContainer');
+    const loadingSpinner = document.getElementById('loadingSpinner');
 
     document.getElementById('searchForm').addEventListener('submit', async function(event) {
         event.preventDefault();
         const keyword = searchInput.value.trim();
-        
-        const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}`);
+        const startYear = startYearFilter.value;
+        const endYear = endYearFilter.value;
+
+        // Show the loading spinner and clear previous results
+        loadingSpinner.style.display = 'block';
+        resultsContainer.innerHTML = '';
+
+        // Fetch results from API
+        const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&startYear=${startYear}&endYear=${endYear}`);
         const results = await response.json();
-        
+
+        // Hide the loading spinner and display results
+        loadingSpinner.style.display = 'none';
         displayResults(results);
     });
 
@@ -17,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         results.forEach(result => {
             const imageUrl = result.poster || 'default.jpg';
             const card = document.createElement('div');
-            // Use Bootstrap's responsive column classes
             card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
 
             card.innerHTML = `

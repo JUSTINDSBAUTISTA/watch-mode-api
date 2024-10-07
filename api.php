@@ -4,15 +4,20 @@ define("CSV_FILE", "titles.csv");
 
 header('Content-Type: application/json');
 
-function searchCsvForTitle($keyword) {
+function searchCsvForTitleAndYearRange($keyword, $startYear, $endYear) {
     $watchmodeIds = [];
     if (($handle = fopen(CSV_FILE, "r")) !== FALSE) {
         fgetcsv($handle); // Skip header row
 
         while (($data = fgetcsv($handle)) !== FALSE) {
             $title = $data[4];
+            $titleYear = $data[5];  // Assuming year is in the 6th column (index 5)
+            
             if (stripos($title, $keyword) !== false) {
-                $watchmodeIds[] = $data[0];
+                // Check if title year falls within the range if provided
+                if ((!$startYear || $titleYear >= $startYear) && (!$endYear || $titleYear <= $endYear)) {
+                    $watchmodeIds[] = $data[0];
+                }
             }
         }
         fclose($handle);
@@ -33,7 +38,10 @@ function fetchDetailsByWatchmodeId($watchmodeId) {
 
 if (isset($_GET['title'])) {
     $keyword = $_GET['title'];
-    $watchmodeIds = searchCsvForTitle($keyword);
+    $startYear = $_GET['startYear'] ?? null;  // Get start year from request
+    $endYear = $_GET['endYear'] ?? null;      // Get end year from request
+    
+    $watchmodeIds = searchCsvForTitleAndYearRange($keyword, $startYear, $endYear);
     $results = [];
 
     foreach ($watchmodeIds as $id) {

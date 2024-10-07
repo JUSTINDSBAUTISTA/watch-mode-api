@@ -31,7 +31,7 @@ if ($watchmodeId) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .backdrop {
-            background-image: url('<?php echo $details['backdrop']; ?>');
+            background-image: url('<?php echo !empty($details['backdrop']) ? $details['backdrop'] : 'default.jpg'; ?>');
             background-size: cover;
             background-position: center;
             height: 300px;
@@ -65,29 +65,43 @@ if ($watchmodeId) {
     <div class="container-custom">
         <div class="row">
             <!-- Available On Section -->
-            <div class="col-lg-2 col-md-3 col-sm-1">
-                <div class="card h-100">
-                    <div class="card-header bg-primary text-white">
-                        Available On
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled">
-                            <?php foreach ($details['sources'] as $source): ?>
-                                <li class="mb-2">
-                                    <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none">
-                                        <?php echo htmlspecialchars($source['name']); ?>
-                                    </a>
-                                    <span class="text-muted">(<?php echo htmlspecialchars($source['format']); ?>, <?php echo htmlspecialchars($source['type']); ?>, <?php echo htmlspecialchars($source['region']); ?>)</span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
+            <?php if (!empty($details['sources'])): ?>
+                <div class="col-12 col-md-3 col-lg-3 col-xl-2">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            Available On
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <?php foreach ($details['sources'] as $source): ?>
+                                    <li class="mb-2">
+                                        <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none">
+                                            <?php echo htmlspecialchars($source['name']); ?>
+                                        </a>
+                                        <span class="text-muted">(<?php echo htmlspecialchars($source['format']); ?>, <?php echo htmlspecialchars($source['type']); ?>, <?php echo htmlspecialchars($source['region']); ?>)</span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php else: ?>
+                <div class="col-12 col-md-3 col-lg-3 col-xl-2">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            Available On
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted">Not available on any platform</p>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
 
             <!-- Main Content Section -->
-            <div class="col-lg-4 col-md-4" style="
-                background-image: url('<?php echo $details['poster']; ?>');
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4" style="
+                background-image: url('<?php echo !empty($details['poster']) ? $details['poster'] : 'default.jpg'; ?>');
                 background-size: cover;
                 background-position: center;
                 height: 750px;
@@ -95,9 +109,12 @@ if ($watchmodeId) {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
             </div>
 
-            <div class="col-lg-5 col-md-5">
+            <div class="col-12 col-md-5 col-lg-5 col-xl-5">
                 <div class="p-3">
-                    <h2><?php echo htmlspecialchars($details['title']); ?> <span class="badge bg-secondary"><?php echo htmlspecialchars($details['year']); ?></span></h2>
+                    <h2>
+                        <?php echo htmlspecialchars($details['title']); ?>
+                        <?php echo !empty($details['year']) ? '<span class="badge bg-secondary">' . htmlspecialchars($details['year']) . '</span>' : ''; ?>
+                    </h2>
                     <p class="lead"><?php echo htmlspecialchars($details['plot_overview']); ?></p>
                     <p><strong>Genres:</strong> <?php echo implode(", ", $details['genre_names']); ?></p>
                     <p><strong>User Rating:</strong> <?php echo htmlspecialchars($details['user_rating']); ?> / 10</p>
@@ -113,7 +130,7 @@ if ($watchmodeId) {
 
             <!-- Similar Titles Section -->
             <?php if (!empty($details['similar_titles'])): ?>
-                <div class="col-lg-1 col-md-3">
+                <div class="col-12 col-md-3 col-lg-3 col-xl-2">
                     <div class="card h-100">
                         <div class="card-header bg-info text-white">
                             Similar Titles
@@ -134,6 +151,7 @@ if ($watchmodeId) {
             <?php endif; ?>
         </div>
     </div>
+
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

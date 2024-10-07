@@ -121,8 +121,10 @@ if ($watchmodeId) {
                         <div class="card-body">
                             <ul class="list-unstyled">
                                 <?php foreach ($details['similar_titles'] as $similarId): ?>
-                                    <li class="mb-1">
-                                        <a href="show.php?watchmodeId=<?php echo $similarId; ?>" class="similar-title-link"><?php echo $similarId; ?></a>
+                                    <li class="mb-1" style="width: 100%;">
+                                        <a href="show.php?watchmodeId=<?php echo $similarId; ?>" class="similar-title-link d-block text-truncate">
+                                            <?php echo $similarId; ?>
+                                        </a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

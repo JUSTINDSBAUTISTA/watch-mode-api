@@ -5,6 +5,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultsContainer = document.getElementById('resultsContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');
 
+    // Check if previous search data exists in local storage
+    if (localStorage.getItem('searchResults')) {
+        const savedKeyword = localStorage.getItem('searchKeyword');
+        const savedStartYear = localStorage.getItem('searchStartYear');
+        const savedEndYear = localStorage.getItem('searchEndYear');
+        const savedResults = JSON.parse(localStorage.getItem('searchResults'));
+
+        // Populate input fields with saved values
+        searchInput.value = savedKeyword || '';
+        startYearFilter.value = savedStartYear || '';
+        endYearFilter.value = savedEndYear || '';
+
+        // Display saved search results
+        displayResults(savedResults);
+    }
+
     document.getElementById('searchForm').addEventListener('submit', async function(event) {
         event.preventDefault();
         const keyword = searchInput.value.trim();
@@ -22,6 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide the loading spinner and display results
         loadingSpinner.style.display = 'none';
         displayResults(results);
+
+        // Save search data to local storage
+        localStorage.setItem('searchKeyword', keyword);
+        localStorage.setItem('searchStartYear', startYear);
+        localStorage.setItem('searchEndYear', endYear);
+        localStorage.setItem('searchResults', JSON.stringify(results));
     });
 
     function displayResults(results) {

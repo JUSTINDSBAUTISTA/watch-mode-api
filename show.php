@@ -31,6 +31,7 @@ if ($watchmodeId) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .backdrop {
+            position: relative;
             background-image: url('<?php echo !empty($details['backdrop']) ? $details['backdrop'] : 'default.jpg'; ?>');
             background-size: cover;
             background-position: center;
@@ -43,6 +44,17 @@ if ($watchmodeId) {
         .container-custom {
             margin-left: 2%;
             margin-right: 2%;
+        }
+        .back-to-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: grey;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
         .similar-title-link {
             color: black;
@@ -58,9 +70,9 @@ if ($watchmodeId) {
     
     <!-- Backdrop Banner -->
     <div class="backdrop d-flex justify-content-center">
+        <a href="index.php" class="back-to-home">Back to Home</a>
         <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
     </div>
-    <a href="index.php" class="text-primary mx-4">Back to Home</a>
 
     <div class="container-custom">
         <div class="row">
@@ -98,7 +110,6 @@ if ($watchmodeId) {
                 </div>
             <?php endif; ?>
 
-
             <!-- Main Content Section -->
             <div class="col-12 col-md-4 col-lg-4 col-xl-4" style="
                 background-image: url('<?php echo !empty($details['poster']) ? $details['poster'] : 'default.jpg'; ?>');
@@ -129,27 +140,34 @@ if ($watchmodeId) {
             </div>
 
             <!-- Similar Titles Section -->
-            <?php if (!empty($details['similar_titles'])): ?>
-                <div class="col-12 col-md-3 col-lg-3 col-xl-2">
-                    <div class="card h-100">
-                        <div class="card-header bg-info text-white">
-                            Similar Titles
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled">
-                                <?php foreach ($details['similar_titles'] as $similarId): ?>
-                                    <li class="mb-1" style="width: 100%;">
-                                        <a href="show.php?watchmodeId=<?php echo $similarId; ?>" class="similar-title-link d-block text-truncate">
-                                            <?php echo $similarId; ?>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
+        </div>
+        <?php if (!empty($details['similar_titles'])): ?>
+            <div class="mt-4">
+                <div class="card h-100">
+                    <div class="card-header bg-info text-white text-center">
+                        Similar Titles
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap justify-content-center">
+                            <?php foreach ($details['similar_titles'] as $similarId): 
+                                $similarDetails = fetchDetailsByWatchmodeId($similarId); // Fetch details for each similar title
+                                if ($similarDetails): ?>
+                                    <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none mx-2 my-2" style="width: 120px;">
+                                        <div class="card text-center">
+                                            <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100px; object-fit: cover;">
+                                            <div class="card-body p-1">
+                                                <h6 class="card-title text-truncate" style="font-size: 0.85em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
+                                                <p class="card-text" style="font-size: 0.8em;"><small>ID: <?php echo htmlspecialchars($similarDetails['id']); ?></small></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                <?php endif;
+                            endforeach; ?>
                         </div>
                     </div>
                 </div>
-            <?php endif; ?>
-        </div>
+            </div>
+        <?php endif; ?>
     </div>
 
 

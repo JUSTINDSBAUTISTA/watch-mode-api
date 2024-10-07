@@ -74,7 +74,7 @@ if ($watchmodeId) {
         <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
     </div>
 
-    <div class="container-custom">
+    <div class="container-custom mt-3">
         <div class="row">
             <!-- Available On Section -->
             <?php if (!empty($details['sources'])): ?>
@@ -142,13 +142,23 @@ if ($watchmodeId) {
             <!-- Similar Titles Section -->
         </div>
         <?php if (!empty($details['similar_titles'])): ?>
+<!-- Similar Titles Section -->
             <div class="mt-4">
                 <div class="card h-100">
                     <div class="card-header bg-info text-white text-center">
                         Similar Titles
                     </div>
                     <div class="card-body">
-                        <div class="d-flex flex-wrap justify-content-center">
+                        <!-- Loading Spinner -->
+                        <div id="loadingSpinner" class="text-center my-3">
+                            <div class="spinner-border text-info" role="status">
+                                <span class="sr-only">Loading similar titles...</span>
+                            </div>
+                            <p>Loading similar titles...</p>
+                        </div>
+
+                        <!-- Similar Titles Container -->
+                        <div id="similarTitlesContainer" class="d-flex flex-wrap justify-content-center" style="display: none;">
                             <?php foreach ($details['similar_titles'] as $similarId): 
                                 $similarDetails = fetchDetailsByWatchmodeId($similarId); // Fetch details for each similar title
                                 if ($similarDetails): ?>
@@ -169,8 +179,19 @@ if ($watchmodeId) {
             </div>
         <?php endif; ?>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const similarTitlesContainer = document.getElementById('similarTitlesContainer');
 
-
+            // Simulate fetching similar titles
+            setTimeout(() => {
+                // Hide loading spinner and show similar titles
+                loadingSpinner.style.display = 'none';
+                similarTitlesContainer.style.display = 'flex';
+            }, 1500); // Adjust this timeout as necessary for your actual loading time
+        });
+    </script>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

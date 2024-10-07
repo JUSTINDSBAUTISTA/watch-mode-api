@@ -10,10 +10,12 @@
     object-fit: cover; /* Crop images to fill the height */
 }
 /* Truncate plot overview text with ellipsis */
-.plot-overview {
+.details {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2; /* Show up to 2 lines */
     -webkit-box-orient: vertical;
 }
+
+/* From SHOW.php */

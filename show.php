@@ -55,15 +55,17 @@ if ($watchmodeId) {
     </style>
 </head>
 <body>
+    
     <!-- Backdrop Banner -->
     <div class="backdrop d-flex justify-content-center">
         <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
     </div>
+    <a href="index.php" class="text-primary mx-4">Back to Home</a>
 
-    <div class="container-custom mt-5">
+    <div class="container-custom">
         <div class="row">
             <!-- Available On Section -->
-            <div class="col-md-2">
+            <div class="col-lg-2 col-md-3 col-sm-1">
                 <div class="card h-100">
                     <div class="card-header bg-primary text-white">
                         Available On
@@ -84,7 +86,7 @@ if ($watchmodeId) {
             </div>
 
             <!-- Main Content Section -->
-            <div class="col-md-4" style="
+            <div class="col-lg-4 col-md-4" style="
                 background-image: url('<?php echo $details['poster']; ?>');
                 background-size: cover;
                 background-position: center;
@@ -93,7 +95,7 @@ if ($watchmodeId) {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
             </div>
 
-            <div class="col-md-5">
+            <div class="col-lg-5 col-md-5">
                 <div class="p-3">
                     <h2><?php echo htmlspecialchars($details['title']); ?> <span class="badge bg-secondary"><?php echo htmlspecialchars($details['year']); ?></span></h2>
                     <p class="lead"><?php echo htmlspecialchars($details['plot_overview']); ?></p>
@@ -111,7 +113,7 @@ if ($watchmodeId) {
 
             <!-- Similar Titles Section -->
             <?php if (!empty($details['similar_titles'])): ?>
-                <div class="col-md-1">
+                <div class="col-lg-1 col-md-3">
                     <div class="card h-100">
                         <div class="card-header bg-info text-white">
                             Similar Titles

@@ -27,7 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <h4 class="card-id">ID: ${result.id}</h4>
                         <hr class="hr">
                         <h5 class="card-title">${result.title}</h5>
-                        <p class="card-text plot-overview">${result.plot_overview || 'No description available.'}</p>
+                        <p class="card-text details"><strong>Ratings: </strong>${result.user_rating || 'No ratings.'}</p>
+                        <p class="card-text details"><strong>IMDB_ID: </strong>${result.imdb_id}</p>
+                        <p class="card-text details"><strong>TMDB_ID: </strong>${result.tmdb_id}</p>
                         <button data-id="${result.id}" class="btn btn-primary mt-auto view-details">View Details</button>
                     </div>
                 </div>

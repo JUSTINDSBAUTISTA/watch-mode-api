@@ -1,0 +1,19 @@
+/* Ensures each card has the same height and width */
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+/* Fix image height and center/crop it */
+.card-img-top {
+    height: 350px; /* Set a consistent height for images */
+    object-fit: cover; /* Crop images to fill the height */
+}
+/* Truncate plot overview text with ellipsis */
+.plot-overview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Show up to 2 lines */
+    -webkit-box-orient: vertical;
+}

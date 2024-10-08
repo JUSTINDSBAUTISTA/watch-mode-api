@@ -13,6 +13,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($details['title'] ?? 'Title Details'); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/show/styles.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -83,21 +84,80 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
 
                 <!-- Details Section -->
                 <div class="bg-light col-12 col-md-12 col-lg-4">
-                    <div class="p-3">
-                        <h4 class="text-success"><?php echo htmlspecialchars($details['title']); ?> <?php echo !empty($details['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($details['year']) . '</span>' : ''; ?></h4>
-                        <hr class="hr">
-                        <p class="lead"><?php echo htmlspecialchars($details['plot_overview']); ?></p>
-                        <hr class="hr">
-                        <p><strong>Genres:</strong> <?php echo implode(", ", $details['genre_names']); ?></p>
-                        <p><strong>User Rating:</strong> <?php echo htmlspecialchars($details['user_rating']); ?> / 10</p>
-                        <p><strong>Critic Score:</strong> <?php echo htmlspecialchars($details['critic_score']); ?>%</p>
-                        <p><strong>Runtime:</strong> <?php echo htmlspecialchars($details['runtime_minutes']); ?> minutes</p>
-                        <p><strong>TV Rating:</strong> <?php echo htmlspecialchars($details['us_rating']); ?></p>
-                        <p><strong>Language:</strong> <?php echo htmlspecialchars($details['original_language']); ?></p>
-                        <?php if (isset($details['trailer'])): ?>
-                            <a href="<?php echo htmlspecialchars($details['trailer']); ?>" target="_blank" class="btn btn-danger mt-3">Watch Trailer</a>
-                        <?php endif; ?>
+                <div class="p-3">
+                    <h4 class="text-success">
+                        <?php echo htmlspecialchars($details['title'] ?? 'Not available'); ?> 
+                        <?php echo !empty($details['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($details['year']) . '</span>' : ''; ?>
+                    </h4>
+                    <hr class="hr">
+                    
+                    <p class="lead">
+                        <?php echo !empty($details['plot_overview']) ? htmlspecialchars($details['plot_overview']) : 'Plot overview not available'; ?>
+                    </p>
+                    <hr class="hr">
+                    
+                    <p><strong>Genres:</strong> 
+                        <?php echo !empty($details['genre_names']) ? implode(", ", array_map('htmlspecialchars', $details['genre_names'])) : 'Not available'; ?>
+                    </p>
+                    
+                    <p class="mb-0"><strong>User Rating:</strong> 
+                        <?php 
+                            $userRating = isset($details['user_rating']) ? $details['user_rating'] : null;
+                            echo $userRating ? htmlspecialchars($userRating) . ' / 10' : 'Not available'; 
+                        ?>
+                    </p>
+
+                    <!-- Star Rating Display -->
+                    <div class="rating mb-2 text-warning">
+                        <?php
+                            if ($userRating) {
+                                $fullStars = floor($userRating);
+                                $halfStar = ($userRating - $fullStars) >= 0.5 ? 1 : 0;
+                                $emptyStars = 10 - ($fullStars + $halfStar);
+
+                                // Display full stars
+                                for ($i = 0; $i < $fullStars; $i++) {
+                                    echo '<i class="fas fa-star"></i>';
+                                }
+
+                                // Display half star if applicable
+                                if ($halfStar) {
+                                    echo '<i class="fas fa-star-half-alt"></i>';
+                                }
+
+                                // Display empty stars
+                                for ($i = 0; $i < $emptyStars; $i++) {
+                                    echo '<i class="far fa-star"></i>';
+                                }
+                            } else {
+                                echo 'No rating available';
+                            }
+                        ?>
                     </div>
+                    
+                    <p><strong>Critic Score:</strong> 
+                        <?php echo isset($details['critic_score']) ? htmlspecialchars($details['critic_score']) . '%' : 'Not available'; ?>
+                    </p>
+                    
+                    <p><strong>Runtime:</strong> 
+                        <?php echo isset($details['runtime_minutes']) ? htmlspecialchars($details['runtime_minutes']) . ' minutes' : 'Not available'; ?>
+                    </p>
+                    
+                    <p><strong>TV Rating:</strong> 
+                        <?php echo !empty($details['us_rating']) ? htmlspecialchars($details['us_rating']) : 'Not available'; ?>
+                    </p>
+                    
+                    <p><strong>Language:</strong> 
+                        <?php echo !empty($details['original_language']) ? htmlspecialchars($details['original_language']) : 'Not available'; ?>
+                    </p>
+
+                    <?php if (!empty($details['trailer'])): ?>
+                        <a href="<?php echo htmlspecialchars($details['trailer']); ?>" target="_blank" class="btn btn-danger mt-3">Watch Trailer</a>
+                    <?php else: ?>
+                        <p class="text-muted mt-3">Trailer not available</p>
+                    <?php endif; ?>
+                </div>
+
                 </div>
             </div>
 

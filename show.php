@@ -1,7 +1,8 @@
 <?php
 require_once 'loadenv.php'; // Load environment variables
 
-define("API_KEY", $_ENV['WATCHMODE_API_KEY']); // Use the API key from .env
+// Use the API key from .env
+define("API_KEY", $_ENV['WATCHMODE_API_KEY']);
 
 function fetchDetailsByWatchmodeId($watchmodeId) {
     $url = "https://api.watchmode.com/v1/title/$watchmodeId/details/?apiKey=" . API_KEY . "&append_to_response=sources";
@@ -31,17 +32,28 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
             background-image: url('<?php echo !empty($details['backdrop']) ? $details['backdrop'] : 'default.jpg'; ?>');
             background-size: cover;
             background-position: center;
-            height: 300px;
+            height: 750px;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .container-custom { margin: 2%; }
-        .suggestions { position: absolute; background: #fff; width: 100%; border: 1px solid #ccc; border-radius: 4px; z-index: 1000; }
+        .suggestions {
+            position: absolute;
+            top: 100%; /* Position directly below the search bar */
+            left: 0;
+            background: #fff;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            z-index: 1000;
+            margin-top: 5px; /* Adds slight spacing between input and suggestions */
+        }
         .suggestion-item { display: flex; align-items: center; padding: 8px; cursor: pointer; }
         .suggestion-item img { height: 30px; width: 30px; margin-right: 10px; border-radius: 3px; }
         .suggestion-item:hover { background-color: #f1f1f1; }
+        #availableOnContainer { max-height: 750px; overflow-y: auto; }
     </style>
 </head>
 <body class="bg-secondary bg-gradient">
@@ -77,10 +89,10 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                 <div class="col-12 col-md-3 col-lg-3 col-xl-2">
                     <div class="card h-100">
                         <div class="card-header bg-primary text-white">Available On</div>
-                        <div class="card-body">
-                            <ul class="list-unstyled">
+                        <div class="card-body p-0" id="availableOnContainer">
+                            <ul class="list-unstyled mb-0">
                                 <?php foreach ($details['sources'] as $source): ?>
-                                    <li class="mb-2">
+                                    <li class="p-2">
                                         <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none">
                                             <?php echo htmlspecialchars($source['name']); ?>
                                         </a>
@@ -149,7 +161,6 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
         document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('searchInput');
             const suggestionsBox = document.getElementById('suggestions');
-            const detailsContainer = document.getElementById('detailsContainer');
 
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.trim();

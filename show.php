@@ -31,7 +31,7 @@ if ($watchmodeId) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($details['title'] ?? 'Title Details'); ?></title>
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
     <style>
         .backdrop {
             position: relative;
@@ -48,17 +48,6 @@ if ($watchmodeId) {
             margin-left: 2%;
             margin-right: 2%;
         }
-        .back-to-home {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: black;
-            font-weight: bold;
-            text-decoration: none;
-            background-color: grey;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
         .similar-title-link {
             color: black;
             text-decoration: none;
@@ -69,11 +58,42 @@ if ($watchmodeId) {
         }
     </style>
 </head>
-<body>
+<body class="bg-secondary bg-gradient">
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold back-to-home" href="index.php">
+                WATCHMODE-API
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                <form class="d-flex ms-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search Titles" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
     
     <!-- Backdrop Banner -->
     <div class="backdrop d-flex justify-content-center">
-        <a href="index.php" class="back-to-home">Back to Home</a>
         <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
     </div>
 
@@ -123,11 +143,11 @@ if ($watchmodeId) {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
             </div>
 
-            <div class="col-12 col-md-5 col-lg-5 col-xl-5">
+            <div class="bg-light col-12 col-md-5 col-lg-5 col-xl-5">
                 <div class="p-3">
-                    <h2>
+                    <h2 class="text-success">
                         <?php echo htmlspecialchars($details['title']); ?>
-                        <?php echo !empty($details['year']) ? '<span class="badge bg-secondary">' . htmlspecialchars($details['year']) . '</span>' : ''; ?>
+                        <?php echo !empty($details['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($details['year']) . '</span>' : ''; ?>
                     </h2>
                     <p class="lead"><?php echo htmlspecialchars($details['plot_overview']); ?></p>
                     <p><strong>Genres:</strong> <?php echo implode(", ", $details['genre_names']); ?></p>
@@ -145,25 +165,16 @@ if ($watchmodeId) {
             <!-- Similar Titles Section -->
         </div>
         <?php if (!empty($details['similar_titles'])): ?>
-<!-- Similar Titles Section -->
+            <!-- Similar Titles Section -->
             <div class="mt-4">
                 <div class="card h-100">
                     <div class="card-header bg-info text-white text-center">
                         Similar Titles
                     </div>
                     <div class="card-body">
-                        <!-- Loading Spinner -->
-                        <div id="loadingSpinner" class="text-center my-3">
-                            <div class="spinner-border text-info" role="status">
-                                <span class="sr-only">Loading similar titles...</span>
-                            </div>
-                            <p>Loading similar titles...</p>
-                        </div>
-
-                        <!-- Similar Titles Container -->
-                        <div id="similarTitlesContainer" class="d-flex flex-wrap justify-content-center" style="display: none;">
+                        <div id="similarTitlesContainer" class="d-flex flex-wrap justify-content-center">
                             <?php foreach ($details['similar_titles'] as $similarId): 
-                                $similarDetails = fetchDetailsByWatchmodeId($similarId); // Fetch details for each similar title
+                                $similarDetails = fetchDetailsByWatchmodeId($similarId);
                                 if ($similarDetails): ?>
                                     <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none mx-2 my-2" style="width: 120px;">
                                         <div class="card text-center">
@@ -182,22 +193,8 @@ if ($watchmodeId) {
             </div>
         <?php endif; ?>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            const similarTitlesContainer = document.getElementById('similarTitlesContainer');
 
-            // Simulate fetching similar titles
-            setTimeout(() => {
-                // Hide loading spinner and show similar titles
-                loadingSpinner.style.display = 'none';
-                similarTitlesContainer.style.display = 'flex';
-            }, 1500); // Adjust this timeout as necessary for your actual loading time
-        });
-    </script>
     <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
 </body>
 </html>

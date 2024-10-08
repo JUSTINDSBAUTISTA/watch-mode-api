@@ -55,12 +55,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="card h-100">
                     <img src="${imageUrl}" class="card-img-top" alt="${result.title}">
                     <div class="card-body d-flex flex-column">
-                        <h4 class="card-id">ID: ${result.id}</h4>
-                        <hr class="hr">
-                        <h5 class="card-title">${result.title}</h5>
-                        <p class="card-text details"><strong>Ratings: </strong>${result.user_rating || 'No ratings.'}</p>
-                        <p class="card-text details"><strong>IMDB_ID: </strong>${result.imdb_id}</p>
-                        <p class="card-text details"><strong>TMDB_ID: </strong>${result.tmdb_id}</p>
+                        <h4 class="card-id text-center mb-0">ID: ${result.id}</h4>
+                        <hr class="hr my-1">
+                        <h5 class="card-title mb-2 text-center text-success">${result.title}</h5>
+                        <p class="card-text mb-0 text-muted"><strong>Ratings: </strong>${result.user_rating || 'No ratings.'}</p>
+                        <p class="card-text mb-0 text-muted"><strong>IMDB_ID: </strong>${result.imdb_id}</p>
+                        <p class="card-text mb-0 text-muted"><strong>TMDB_ID: </strong>${result.tmdb_id}</p>
                         <button data-id="${result.id}" class="btn btn-primary mt-auto view-details">View Details</button>
                     </div>
                 </div>

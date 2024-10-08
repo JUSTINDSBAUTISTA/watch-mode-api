@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watchmode API</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     <style>
         /* Loading spinner styling */
@@ -14,7 +14,7 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-secondary bg-gradient">
     <div class="container my-3">
         <h1 class="text-center mb-4">Search Titles</h1>
         <form id="searchForm" class="mb-4">
@@ -22,7 +22,7 @@
                 <input type="text" id="searchInput" class="form-control" placeholder="Enter title keyword or Watchmode ID..." required>
 
                 <!-- Specific Year Dropdown -->
-                <select id="yearFilter" class="custom-select" style="max-width: 120px;">
+                <select id="yearFilter" class="form-select" style="max-width: 120px;">
                     <option value="">Select Year</option>
                     <?php for ($year = 1939; $year <= 2045; $year++): ?>
                         <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
@@ -38,7 +38,7 @@
         <!-- Loading Spinner -->
         <div id="loadingSpinner" class="my-4">
             <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
+                <span class="visually-hidden">Loading...</span>
             </div>
             <p>Loading results...</p>
         </div>
@@ -57,8 +57,7 @@
     </div>
     
     <script src="main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
 </body>
 </html>

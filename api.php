@@ -1,5 +1,7 @@
 <?php
-define("API_KEY", "AnISQaWQOo81g1hfdRnHaUXsr2DGp5HIY4hzyNUW"); // Replace with your actual API key
+require_once 'loadenv.php'; // Load environment variables
+
+define("API_KEY", $_ENV['WATCHMODE_API_KEY']); // Use the API key from .env
 define("CSV_FILE", "titles.csv");
 
 header('Content-Type: application/json');

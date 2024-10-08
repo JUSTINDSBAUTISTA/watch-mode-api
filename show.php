@@ -1,5 +1,8 @@
 <?php
-define("API_KEY", "AnISQaWQOo81g1hfdRnHaUXsr2DGp5HIY4hzyNUW");
+require_once 'loadenv.php'; // Load environment variables
+
+// Use the API key from .env
+define("API_KEY", $_ENV['WATCHMODE_API_KEY']);
 
 function fetchDetailsByWatchmodeId($watchmodeId) {
     $url = "https://api.watchmode.com/v1/title/$watchmodeId/details/?apiKey=" . API_KEY . "&append_to_response=sources";

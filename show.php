@@ -55,7 +55,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
     <!-- Backdrop Banner -->
     <?php if ($details): ?>
         <div class="backdrop d-flex justify-content-center align-items-center text-center" style="background-image: url('<?php echo !empty($details['backdrop']) ? htmlspecialchars($details['backdrop']) : 'default.jpg'; ?>');">
-            <h1 class="display-4 bg-dark bg-opacity-75 p-3 rounded text-white"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
+            <h1 class="display-4 bg-dark bg-opacity-75 p-3 rounded text-white"><?php echo htmlspecialchars($details['title']); ?> "<?php echo htmlspecialchars($details['id']); ?>"</h1>
         </div>
     <?php endif; ?>
 

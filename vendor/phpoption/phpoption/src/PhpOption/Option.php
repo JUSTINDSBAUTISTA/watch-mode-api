@@ -32,18 +32,18 @@ abstract class Option implements IteratorAggregate
      * Creates an option given a return value.
      *
      * This is intended for consuming existing APIs and allows you to easily
-     * convert them to an option. By default, we treat ``null`` as the None
+     * convert them to an option. By default, we treat ``NULL`` as the None
      * case, and everything else as Some.
      *
      * @template S
      *
      * @param S $value     The actual return value.
-     * @param S $noneValue The value which should be considered "None"; null by
+     * @param S $noneValue The value which should be considered "None"; NULL by
      *                     default.
      *
      * @return Option<S>
      */
-    public static function fromValue($value, $noneValue = null)
+    public static function fromValue($value, $noneValue = NULL)
     {
         if ($value === $noneValue) {
             return None::create();
@@ -56,19 +56,19 @@ abstract class Option implements IteratorAggregate
      * Creates an option from an array's value.
      *
      * If the key does not exist in the array, the array is not actually an
-     * array, or the array's value at the given key is null, None is returned.
+     * array, or the array's value at the given key is NULL, None is returned.
      * Otherwise, Some is returned wrapping the value at the given key.
      *
      * @template S
      *
-     * @param array<string|int,S>|ArrayAccess<string|int,S>|null $array A potential array or \ArrayAccess value.
-     * @param string|int|null                                    $key   The key to check.
+     * @param array<string|int,S>|ArrayAccess<string|int,S>|NULL $array A potential array or \ArrayAccess value.
+     * @param string|int|NULL                                    $key   The key to check.
      *
      * @return Option<S>
      */
     public static function fromArraysValue($array, $key)
     {
-        if ($key === null || !(is_array($array) || $array instanceof ArrayAccess) || !isset($array[$key])) {
+        if ($key === NULL || !(is_array($array) || $array instanceof ArrayAccess) || !isset($array[$key])) {
             return None::create();
         }
 
@@ -79,7 +79,7 @@ abstract class Option implements IteratorAggregate
      * Creates a lazy-option with the given callback.
      *
      * This is also a helper constructor for lazy-consuming existing APIs where
-     * the return value is not yet an option. By default, we treat ``null`` as
+     * the return value is not yet an option. By default, we treat ``NULL`` as
      * None case, and everything else as Some.
      *
      * @template S
@@ -87,11 +87,11 @@ abstract class Option implements IteratorAggregate
      * @param callable $callback  The callback to evaluate.
      * @param array    $arguments The arguments for the callback.
      * @param S        $noneValue The value which should be considered "None";
-    *                             null by default.
+    *                             NULL by default.
      *
      * @return LazyOption<S>
      */
-    public static function fromReturn($callback, array $arguments = [], $noneValue = null)
+    public static function fromReturn($callback, array $arguments = [], $noneValue = NULL)
     {
         return new LazyOption(static function () use ($callback, $arguments, $noneValue) {
             /** @var mixed */
@@ -121,7 +121,7 @@ abstract class Option implements IteratorAggregate
      *
      * @return Option<S>|LazyOption<S>
      */
-    public static function ensure($value, $noneValue = null)
+    public static function ensure($value, $noneValue = NULL)
     {
         if ($value instanceof self) {
             return $value;
@@ -157,7 +157,7 @@ abstract class Option implements IteratorAggregate
      *
      * @return callable
      */
-    public static function lift($callback, $noneValue = null)
+    public static function lift($callback, $noneValue = NULL)
     {
         return static function () use ($callback, $noneValue) {
             /** @var array<int, mixed> */
@@ -404,7 +404,7 @@ abstract class Option implements IteratorAggregate
      *     $result = $none->foldLeft(1, function($a, $b) { return $a + $b; }); // int(1)
      *
      *     // This can be used instead of something like the following:
-     *     $option = Option::fromValue($integerOrNull);
+     *     $option = Option::fromValue($integerOrNULL);
      *     $result = 1;
      *     if ( ! $option->isEmpty()) {
      *         $result += $option->get();

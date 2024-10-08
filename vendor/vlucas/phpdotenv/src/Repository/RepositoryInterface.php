@@ -22,7 +22,7 @@ interface RepositoryInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return string|null
+     * @return string|NULL
      */
     public function get(string $name);
 

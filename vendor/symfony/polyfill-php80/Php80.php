@@ -28,7 +28,7 @@ final class Php80
     public static function get_debug_type($value): string
     {
         switch (true) {
-            case null === $value: return 'null';
+            case NULL === $value: return 'NULL';
             case \is_bool($value): return 'bool';
             case \is_string($value): return 'string';
             case \is_array($value): return 'array';
@@ -37,7 +37,7 @@ final class Php80
             case \is_object($value): break;
             case $value instanceof \__PHP_Incomplete_Class: return '__PHP_Incomplete_Class';
             default:
-                if (null === $type = @get_resource_type($value)) {
+                if (NULL === $type = @get_resource_type($value)) {
                     return 'unknown';
                 }
 
@@ -59,7 +59,7 @@ final class Php80
 
     public static function get_resource_id($res): int
     {
-        if (!\is_resource($res) && null === @get_resource_type($res)) {
+        if (!\is_resource($res) && NULL === @get_resource_type($res)) {
             throw new \TypeError(sprintf('Argument 1 passed to get_resource_id() must be of the type resource, %s given', get_debug_type($res)));
         }
 

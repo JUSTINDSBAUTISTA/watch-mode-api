@@ -49,8 +49,8 @@ final class EntryParser
             [$name, $value] = $parts;
 
             return self::parseName($name)->flatMap(static function (string $name) use ($value) {
-                /** @var Result<Value|null,string> */
-                $parsedValue = $value === null ? Success::create(null) : self::parseValue($value);
+                /** @var Result<Value|NULL,string> */
+                $parsedValue = $value === NULL ? Success::create(NULL) : self::parseValue($value);
 
                 return $parsedValue->map(static function (?Value $value) use ($name) {
                     return new Entry($name, $value);
@@ -64,21 +64,21 @@ final class EntryParser
      *
      * @param string $line
      *
-     * @return \GrahamCampbell\ResultType\Result<array{string,string|null},string>
+     * @return \GrahamCampbell\ResultType\Result<array{string,string|NULL},string>
      */
     private static function splitStringIntoParts(string $line)
     {
-        /** @var array{string,string|null} */
+        /** @var array{string,string|NULL} */
         $result = Str::pos($line, '=')->map(static function () use ($line) {
             return \array_map('trim', \explode('=', $line, 2));
-        })->getOrElse([$line, null]);
+        })->getOrElse([$line, NULL]);
 
         if ($result[0] === '') {
-            /** @var \GrahamCampbell\ResultType\Result<array{string,string|null},string> */
+            /** @var \GrahamCampbell\ResultType\Result<array{string,string|NULL},string> */
             return Error::create(self::getErrorMessage('an unexpected equals', $line));
         }
 
-        /** @var \GrahamCampbell\ResultType\Result<array{string,string|null},string> */
+        /** @var \GrahamCampbell\ResultType\Result<array{string,string|NULL},string> */
         return Success::create($result);
     }
 

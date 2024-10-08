@@ -47,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
         resultsContainer.innerHTML = '';
 
         results.forEach(result => {
+            if (!result || result.success === false) return; // Skip invalid results
+
             const imageUrl = result.poster || 'default.jpg';
             const card = document.createElement('div');
             card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';

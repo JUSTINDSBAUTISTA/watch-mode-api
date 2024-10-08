@@ -51,7 +51,7 @@ final class RepositoryBuilder
     /**
      * The variable name allow list.
      *
-     * @var string[]|null
+     * @var string[]|NULL
      */
     private $allowList;
 
@@ -61,11 +61,11 @@ final class RepositoryBuilder
      * @param \Dotenv\Repository\Adapter\ReaderInterface[] $readers
      * @param \Dotenv\Repository\Adapter\WriterInterface[] $writers
      * @param bool                                         $immutable
-     * @param string[]|null                                $allowList
+     * @param string[]|NULL                                $allowList
      *
      * @return void
      */
-    private function __construct(array $readers = [], array $writers = [], bool $immutable = false, ?array $allowList = null)
+    private function __construct(array $readers = [], array $writers = [], bool $immutable = false, ?array $allowList = NULL)
     {
         $this->readers = $readers;
         $this->writers = $writers;
@@ -240,11 +240,11 @@ final class RepositoryBuilder
     /**
      * Creates a repository builder with the given allow list.
      *
-     * @param string[]|null $allowList
+     * @param string[]|NULL $allowList
      *
      * @return \Dotenv\Repository\RepositoryBuilder
      */
-    public function allowList(?array $allowList = null)
+    public function allowList(?array $allowList = NULL)
     {
         return new self($this->readers, $this->writers, $this->immutable, $allowList);
     }
@@ -263,7 +263,7 @@ final class RepositoryBuilder
             $writer = new ImmutableWriter($writer, $reader);
         }
 
-        if ($this->allowList !== null) {
+        if ($this->allowList !== NULL) {
             $writer = new GuardedWriter($writer, $this->allowList);
         }
 

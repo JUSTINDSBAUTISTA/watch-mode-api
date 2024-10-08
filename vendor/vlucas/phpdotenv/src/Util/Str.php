@@ -29,19 +29,19 @@ final class Str
      * Convert a string to UTF-8 from the given encoding.
      *
      * @param string      $input
-     * @param string|null $encoding
+     * @param string|NULL $encoding
      *
      * @return \GrahamCampbell\ResultType\Result<string,string>
      */
-    public static function utf8(string $input, ?string $encoding = null)
+    public static function utf8(string $input, ?string $encoding = NULL)
     {
-        if ($encoding !== null && !\in_array($encoding, \mb_list_encodings(), true)) {
+        if ($encoding !== NULL && !\in_array($encoding, \mb_list_encodings(), true)) {
             /** @var \GrahamCampbell\ResultType\Result<string,string> */
             return Error::create(
                 \sprintf('Illegal character encoding [%s] specified.', $encoding)
             );
         }
-        $converted = $encoding === null ?
+        $converted = $encoding === NULL ?
             @\mb_convert_encoding($input, 'UTF-8') :
             @\mb_convert_encoding($input, 'UTF-8', $encoding);
         /**
@@ -75,11 +75,11 @@ final class Str
      *
      * @param string   $input
      * @param int      $start
-     * @param int|null $length
+     * @param int|NULL $length
      *
      * @return string
      */
-    public static function substr(string $input, int $start, ?int $length = null)
+    public static function substr(string $input, int $start, ?int $length = NULL)
     {
         return \mb_substr($input, $start, $length, 'UTF-8');
     }

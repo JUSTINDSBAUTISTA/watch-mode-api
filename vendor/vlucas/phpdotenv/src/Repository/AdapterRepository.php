@@ -57,7 +57,7 @@ final class AdapterRepository implements RepositoryInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return string|null
+     * @return string|NULL
      */
     public function get(string $name)
     {
@@ -65,7 +65,7 @@ final class AdapterRepository implements RepositoryInterface
             throw new InvalidArgumentException('Expected name to be a non-empty string.');
         }
 
-        return $this->reader->read($name)->getOrElse(null);
+        return $this->reader->read($name)->getOrElse(NULL);
     }
 
     /**

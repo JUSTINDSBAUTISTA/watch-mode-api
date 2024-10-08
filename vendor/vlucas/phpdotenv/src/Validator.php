@@ -52,7 +52,7 @@ class Validator
     {
         return $this->assert(
             static function (?string $value) {
-                return $value !== null;
+                return $value !== NULL;
             },
             'is missing'
         );
@@ -67,7 +67,7 @@ class Validator
      */
     public function notEmpty()
     {
-        return $this->assertNullable(
+        return $this->assertNULLable(
             static function (string $value) {
                 return Str::len(\trim($value)) > 0;
             },
@@ -84,7 +84,7 @@ class Validator
      */
     public function isInteger()
     {
-        return $this->assertNullable(
+        return $this->assertNULLable(
             static function (string $value) {
                 return \ctype_digit($value);
             },
@@ -101,13 +101,13 @@ class Validator
      */
     public function isBoolean()
     {
-        return $this->assertNullable(
+        return $this->assertNULLable(
             static function (string $value) {
                 if ($value === '') {
                     return false;
                 }
 
-                return \filter_var($value, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE) !== null;
+                return \filter_var($value, \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE) !== NULL;
             },
             'is not a boolean'
         );
@@ -124,7 +124,7 @@ class Validator
      */
     public function allowedValues(array $choices)
     {
-        return $this->assertNullable(
+        return $this->assertNULLable(
             static function (string $value) use ($choices) {
                 return \in_array($value, $choices, true);
             },
@@ -143,7 +143,7 @@ class Validator
      */
     public function allowedRegexValues(string $regex)
     {
-        return $this->assertNullable(
+        return $this->assertNULLable(
             static function (string $value) use ($regex) {
                 return Regex::matches($regex, $value)->success()->getOrElse(false);
             },
@@ -184,7 +184,7 @@ class Validator
     /**
      * Assert that the callback returns true for each variable.
      *
-     * Skip checking null variable values.
+     * Skip checking NULL variable values.
      *
      * @param callable(string):bool $callback
      * @param string                $message
@@ -193,11 +193,11 @@ class Validator
      *
      * @return \Dotenv\Validator
      */
-    public function assertNullable(callable $callback, string $message)
+    public function assertNULLable(callable $callback, string $message)
     {
         return $this->assert(
             static function (?string $value) use ($callback) {
-                if ($value === null) {
+                if ($value === NULL) {
                     return true;
                 }
 

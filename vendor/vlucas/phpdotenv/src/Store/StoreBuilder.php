@@ -37,7 +37,7 @@ final class StoreBuilder
     /**
      * The file encoding.
      *
-     * @var string|null
+     * @var string|NULL
      */
     private $fileEncoding;
 
@@ -47,11 +47,11 @@ final class StoreBuilder
      * @param string[]    $paths
      * @param string[]    $names
      * @param bool        $shortCircuit
-     * @param string|null $fileEncoding
+     * @param string|NULL $fileEncoding
      *
      * @return void
      */
-    private function __construct(array $paths = [], array $names = [], bool $shortCircuit = false, ?string $fileEncoding = null)
+    private function __construct(array $paths = [], array $names = [], bool $shortCircuit = false, ?string $fileEncoding = NULL)
     {
         $this->paths = $paths;
         $this->names = $names;
@@ -116,11 +116,11 @@ final class StoreBuilder
     /**
      * Creates a store builder with the specified file encoding.
      *
-     * @param string|null $fileEncoding
+     * @param string|NULL $fileEncoding
      *
      * @return \Dotenv\Store\StoreBuilder
      */
-    public function fileEncoding(?string $fileEncoding = null)
+    public function fileEncoding(?string $fileEncoding = NULL)
     {
         return new self($this->paths, $this->names, $this->shortCircuit, $fileEncoding);
     }

@@ -18,7 +18,7 @@ final class Entry
     /**
      * The entry value.
      *
-     * @var \Dotenv\Parser\Value|null
+     * @var \Dotenv\Parser\Value|NULL
      */
     private $value;
 
@@ -26,11 +26,11 @@ final class Entry
      * Create a new entry instance.
      *
      * @param string                    $name
-     * @param \Dotenv\Parser\Value|null $value
+     * @param \Dotenv\Parser\Value|NULL $value
      *
      * @return void
      */
-    public function __construct(string $name, ?Value $value = null)
+    public function __construct(string $name, ?Value $value = NULL)
     {
         $this->name = $name;
         $this->value = $value;

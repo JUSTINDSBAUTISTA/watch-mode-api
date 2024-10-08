@@ -19,7 +19,7 @@ final class Loader implements LoaderInterface
      * @param \Dotenv\Repository\RepositoryInterface $repository
      * @param \Dotenv\Parser\Entry[]                 $entries
      *
-     * @return array<string,string|null>
+     * @return array<string,string|NULL>
      */
     public function load(RepositoryInterface $repository, array $entries)
     {
@@ -37,7 +37,7 @@ final class Loader implements LoaderInterface
                 }
             } else {
                 if ($repository->clear($name)) {
-                    return \array_merge($vars, [$name => null]);
+                    return \array_merge($vars, [$name => NULL]);
                 }
             }
 

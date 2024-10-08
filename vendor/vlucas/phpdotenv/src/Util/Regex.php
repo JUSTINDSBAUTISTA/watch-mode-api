@@ -60,11 +60,11 @@ final class Regex
      * @param string   $pattern
      * @param callable $callback
      * @param string   $subject
-     * @param int|null $limit
+     * @param int|NULL $limit
      *
      * @return \GrahamCampbell\ResultType\Result<string,string>
      */
-    public static function replaceCallback(string $pattern, callable $callback, string $subject, ?int $limit = null)
+    public static function replaceCallback(string $pattern, callable $callback, string $subject, ?int $limit = NULL)
     {
         return self::pregAndWrap(static function (string $subject) use ($pattern, $callback, $limit) {
             return (string) @\preg_replace_callback($pattern, $callback, $subject, $limit ?? -1);

@@ -26,7 +26,7 @@ final class FileStore implements StoreInterface
     /**
      * The file encoding.
      *
-     * @var string|null
+     * @var string|NULL
      */
     private $fileEncoding;
 
@@ -35,11 +35,11 @@ final class FileStore implements StoreInterface
      *
      * @param string[]    $filePaths
      * @param bool        $shortCircuit
-     * @param string|null $fileEncoding
+     * @param string|NULL $fileEncoding
      *
      * @return void
      */
-    public function __construct(array $filePaths, bool $shortCircuit, ?string $fileEncoding = null)
+    public function __construct(array $filePaths, bool $shortCircuit, ?string $fileEncoding = NULL)
     {
         $this->filePaths = $filePaths;
         $this->shortCircuit = $shortCircuit;

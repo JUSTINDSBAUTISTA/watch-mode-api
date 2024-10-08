@@ -52,22 +52,18 @@ function searchCsvForTitleAndYear($keyword, $year, $page, $itemsPerPage) {
 
         while (($data = fgetcsv($handle)) !== FALSE) {
             $title = $data[4];
-            $titleYear = $data[5]; // Assuming year is in the 6th column (index 5)
-            $watchmodeId = $data[0]; // Assuming Watchmode ID is in the 1st column
+            $titleYear = $data[5];
+            $watchmodeId = $data[0];
 
-            // Check if we're searching by Watchmode ID
             if (isWatchmodeId($keyword)) {
-                // If the Watchmode ID matches the keyword, add it directly
                 if ($watchmodeId === $keyword) {
                     $watchmodeIds[] = $watchmodeId;
                     $totalResults = 1;
-                    break; // No need to continue if we found an exact ID match
+                    break;
                 }
             } else {
-                // Perform a title search if the keyword is not a Watchmode ID
                 if (stripos($title, $keyword) !== false && (!$year || $titleYear == $year)) {
                     $totalResults++;
-                    // Only add rows within the current page range
                     if ($index >= $start && $index < $end) {
                         $watchmodeIds[] = $watchmodeId;
                     }
@@ -78,16 +74,16 @@ function searchCsvForTitleAndYear($keyword, $year, $page, $itemsPerPage) {
         fclose($handle);
     }
 
-    // Fetch details for each Watchmode ID in the current page
     foreach ($watchmodeIds as $id) {
         $details = fetchDetailsByWatchmodeId($id);
-        if ($details) {
+        if ($details) { // Only add if details are not null
             $results[] = $details;
         }
     }
 
     return ['results' => $results, 'totalResults' => $totalResults];
 }
+
 
 // Fetch details for a given Watchmode ID
 function fetchDetailsByWatchmodeId($watchmodeId) {
@@ -98,13 +94,19 @@ function fetchDetailsByWatchmodeId($watchmodeId) {
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     $response = curl_exec($ch);
     curl_close($ch);
-    return json_decode($response, true);
+
+    $decodedResponse = json_decode($response, true);
+
+    if (isset($decodedResponse['success']) && $decodedResponse['success'] === false) {
+        return NULL;
+    }
+    return $decodedResponse;
 }
 
 // Main logic for handling title or Watchmode ID searches with pagination
 if (isset($_GET['title'])) {
     $keyword = $_GET['title'];
-    $year = $_GET['year'] ?? null;
+    $year = $_GET['year'] ?? NULL;
     $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
     $itemsPerPage = isset($_GET['itemsPerPage']) ? (int) $_GET['itemsPerPage'] : 20;
 

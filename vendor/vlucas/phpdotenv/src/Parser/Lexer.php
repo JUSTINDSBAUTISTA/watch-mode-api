@@ -39,7 +39,7 @@ final class Lexer
     {
         static $regex;
 
-        if ($regex === null) {
+        if ($regex === NULL) {
             $regex = '(('.\implode(')|(', self::PATTERNS).'))A';
         }
 

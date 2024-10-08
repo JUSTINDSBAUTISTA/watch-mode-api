@@ -34,13 +34,13 @@ final class Reader
      *
      * @param string[]    $filePaths
      * @param bool        $shortCircuit
-     * @param string|null $fileEncoding
+     * @param string|NULL $fileEncoding
      *
      * @throws \Dotenv\Exception\InvalidEncodingException
      *
      * @return array<string,string>
      */
-    public static function read(array $filePaths, bool $shortCircuit = true, ?string $fileEncoding = null)
+    public static function read(array $filePaths, bool $shortCircuit = true, ?string $fileEncoding = NULL)
     {
         $output = [];
 
@@ -61,13 +61,13 @@ final class Reader
      * Read the given file.
      *
      * @param string      $path
-     * @param string|null $encoding
+     * @param string|NULL $encoding
      *
      * @throws \Dotenv\Exception\InvalidEncodingException
      *
      * @return \PhpOption\Option<string>
      */
-    private static function readFromFile(string $path, ?string $encoding = null)
+    private static function readFromFile(string $path, ?string $encoding = NULL)
     {
         /** @var Option<string> */
         $content = Option::fromValue(@\file_get_contents($path), false);

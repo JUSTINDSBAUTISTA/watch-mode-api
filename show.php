@@ -12,7 +12,15 @@ function fetchDetailsByWatchmodeId($watchmodeId) {
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     $response = curl_exec($ch);
     curl_close($ch);
-    return json_decode($response, true);
+
+    $decodedResponse = json_decode($response, true);
+
+    // Check if the response indicates failure
+    if (isset($decodedResponse['success']) && $decodedResponse['success'] === false) {
+        return null; // Title not found, return null to indicate failure
+    }
+
+    return $decodedResponse;
 }
 
 $watchmodeId = $_GET['watchmodeId'] ?? null;
@@ -39,21 +47,6 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
             justify-content: center;
         }
         .container-custom { margin: 2%; }
-        .suggestions {
-            position: absolute;
-            top: 100%; /* Position directly below the search bar */
-            left: 0;
-            background: #fff;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            z-index: 1000;
-            margin-top: 5px; /* Adds slight spacing between input and suggestions */
-        }
-        .suggestion-item { display: flex; align-items: center; padding: 8px; cursor: pointer; }
-        .suggestion-item img { height: 30px; width: 30px; margin-right: 10px; border-radius: 3px; }
-        .suggestion-item:hover { background-color: #f1f1f1; }
-        #availableOnContainer { max-height: 750px; overflow-y: auto; }
     </style>
 </head>
 <body class="bg-secondary bg-gradient">
@@ -61,35 +54,25 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="index.php">
-                WATCHMODE-API
-            </a>
+            <a class="navbar-brand fw-bold" href="index.php">WATCHMODE-API</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <form class="d-flex position-relative w-75" id="searchForm" role="search">
-                    <input class="form-control me-2" type="text" id="searchInput" placeholder="Search by ID..." aria-label="Search" style="width: 100%;">
-                    <div id="suggestions" class="suggestions d-none"></div>
-                </form>
-            </div>
         </div>
     </nav>
 
-    <!-- Backdrop Banner -->
-    <?php if ($details): ?>
-        <div class="backdrop d-flex justify-content-center">
-            <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
-        </div>
-    <?php endif; ?>
-
     <div class="container-custom mt-3" id="detailsContainer">
         <?php if ($details): ?>
-            <div class="row">
-                <div class="col-12 col-md-3 col-lg-2 col-xl-2">
+            <!-- Backdrop Banner -->
+            <div class="backdrop d-flex justify-content-center">
+                <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12 col-md-3 col-lg-2">
                     <div class="card h-100">
                         <div class="card-header bg-info text-white">Available On</div>
-                        <div class="card-body p-0" id="availableOnContainer">
+                        <div class="card-body p-0" id="availableOnContainer" style="max-height: 750px; overflow-y: auto;">
                             <ul class="list-unstyled mb-0">
                                 <?php foreach ($details['sources'] as $source): ?>
                                     <li class="p-2">
@@ -103,9 +86,9 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-4 col-lg-6 col-xl-5" style="background-image: url('<?php echo !empty($details['poster']) ? $details['poster'] : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                <div class="col-12 col-md-4 col-lg-6" style="background-image: url('<?php echo !empty($details['poster']) ? $details['poster'] : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                 </div>
-                <div class="bg-light col-12 col-md-5 col-lg-4 col-xl-5">
+                <div class="bg-light col-12 col-md-5 col-lg-4">
                     <div class="p-3">
                         <h2 class="text-success"><?php echo htmlspecialchars($details['title']); ?> <?php echo !empty($details['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($details['year']) . '</span>' : ''; ?></h2>
                         <p class="lead"><?php echo htmlspecialchars($details['plot_overview']); ?></p>
@@ -121,78 +104,15 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                     </div>
                 </div>
             </div>
-            
-            <!-- Similar Titles Section -->
-            <?php if (!empty($details['similar_titles'])): ?>
-                <div class="mt-4">
-                    <div class="card h-100">
-                        <div class="card-header bg-warning text-white text-center">
-                            Similar Titles
-                        </div>
-                        <div class="card-body">
-                            <div id="similarTitlesContainer" class="d-flex flex-wrap justify-content-center">
-                                <?php foreach ($details['similar_titles'] as $similarId): 
-                                    $similarDetails = fetchDetailsByWatchmodeId($similarId);
-                                    if ($similarDetails): ?>
-                                        <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none mx-2 my-2" style="width: 120px;">
-                                            <div class="card text-center">
-                                                <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100px; object-fit: cover;">
-                                                <div class="card-body p-1">
-                                                    <h6 class="card-title text-truncate" style="font-size: 0.85em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
-                                                    <p class="card-text" style="font-size: 0.8em;"><small>ID: <?php echo htmlspecialchars($similarDetails['id']); ?></small></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    <?php endif;
-                                endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?>
         <?php else: ?>
-            <p class="text-center mt-5">Enter a title or ID in the search bar to see details.</p>
+            <!-- Title Not Found Message -->
+            <div class="alert alert-warning text-center mt-5">
+                <h2>Title Not Found</h2>
+                <p>The title you are looking for does not exist in our records. Please try a different title or ID.</p>
+            </div>
         <?php endif; ?>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchInput');
-            const suggestionsBox = document.getElementById('suggestions');
-
-            searchInput.addEventListener('input', function () {
-                const query = searchInput.value.trim();
-                if (query.length > 2) {
-                    fetch(`api.php?title=${encodeURIComponent(query)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.results && data.results.length > 0) {
-                                suggestionsBox.innerHTML = data.results.map(result => `
-                                    <div class="suggestion-item" data-id="${result.id}">
-                                        <img src="${result.poster || 'default.jpg'}" alt="${result.title}">
-                                        <span>${result.title} (ID: ${result.id})</span>
-                                    </div>
-                                `).join('');
-                                suggestionsBox.classList.remove('d-none');
-                            } else {
-                                suggestionsBox.classList.add('d-none');
-                            }
-                        });
-                } else {
-                    suggestionsBox.classList.add('d-none');
-                }
-            });
-
-            suggestionsBox.addEventListener('click', function (event) {
-                const target = event.target.closest('.suggestion-item');
-                if (target) {
-                    const watchmodeId = target.dataset.id;
-                    window.location.href = `show.php?watchmodeId=${watchmodeId}`;
-                }
-            });
-        });
-    </script>
 </body>
 </html>

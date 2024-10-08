@@ -25,7 +25,7 @@ use EmptyIterator;
  */
 final class None extends Option
 {
-    /** @var None|null */
+    /** @var None|NULL */
     private static $instance;
 
     /**
@@ -33,7 +33,7 @@ final class None extends Option
      */
     public static function create(): self
     {
-        if (null === self::$instance) {
+        if (NULL === self::$instance) {
             self::$instance = new self();
         }
 

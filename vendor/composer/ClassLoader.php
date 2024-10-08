@@ -45,7 +45,7 @@ class ClassLoader
     /** @var \Closure(string):void */
     private static $includeFile;
 
-    /** @var string|null */
+    /** @var string|NULL */
     private $vendorDir;
 
     // PSR-4
@@ -92,7 +92,7 @@ class ClassLoader
      */
     private $missingClasses = array();
 
-    /** @var string|null */
+    /** @var string|NULL */
     private $apcuPrefix;
 
     /**
@@ -101,9 +101,9 @@ class ClassLoader
     private static $registeredLoaders = array();
 
     /**
-     * @param string|null $vendorDir
+     * @param string|NULL $vendorDir
      */
-    public function __construct($vendorDir = null)
+    public function __construct($vendorDir = NULL)
     {
         $this->vendorDir = $vendorDir;
         self::initializeIncludeClosure();
@@ -358,19 +358,19 @@ class ClassLoader
     /**
      * APCu prefix to use to cache found/not-found classes, if the extension is enabled.
      *
-     * @param string|null $apcuPrefix
+     * @param string|NULL $apcuPrefix
      *
      * @return void
      */
     public function setApcuPrefix($apcuPrefix)
     {
-        $this->apcuPrefix = function_exists('apcu_fetch') && filter_var(ini_get('apc.enabled'), FILTER_VALIDATE_BOOLEAN) ? $apcuPrefix : null;
+        $this->apcuPrefix = function_exists('apcu_fetch') && filter_var(ini_get('apc.enabled'), FILTER_VALIDATE_BOOLEAN) ? $apcuPrefix : NULL;
     }
 
     /**
-     * The APCu prefix in use, or null if APCu caching is not enabled.
+     * The APCu prefix in use, or NULL if APCu caching is not enabled.
      *
-     * @return string|null
+     * @return string|NULL
      */
     public function getApcuPrefix()
     {
@@ -388,7 +388,7 @@ class ClassLoader
     {
         spl_autoload_register(array($this, 'loadClass'), true, $prepend);
 
-        if (null === $this->vendorDir) {
+        if (NULL === $this->vendorDir) {
             return;
         }
 
@@ -409,7 +409,7 @@ class ClassLoader
     {
         spl_autoload_unregister(array($this, 'loadClass'));
 
-        if (null !== $this->vendorDir) {
+        if (NULL !== $this->vendorDir) {
             unset(self::$registeredLoaders[$this->vendorDir]);
         }
     }
@@ -418,7 +418,7 @@ class ClassLoader
      * Loads the given class or interface.
      *
      * @param  string    $class The name of the class
-     * @return true|null True if loaded, null otherwise
+     * @return true|NULL True if loaded, NULL otherwise
      */
     public function loadClass($class)
     {
@@ -429,7 +429,7 @@ class ClassLoader
             return true;
         }
 
-        return null;
+        return NULL;
     }
 
     /**
@@ -448,7 +448,7 @@ class ClassLoader
         if ($this->classMapAuthoritative || isset($this->missingClasses[$class])) {
             return false;
         }
-        if (null !== $this->apcuPrefix) {
+        if (NULL !== $this->apcuPrefix) {
             $file = apcu_fetch($this->apcuPrefix.$class, $hit);
             if ($hit) {
                 return $file;
@@ -462,7 +462,7 @@ class ClassLoader
             $file = $this->findFileWithExtension($class, '.hh');
         }
 
-        if (null !== $this->apcuPrefix) {
+        if (NULL !== $this->apcuPrefix) {
             apcu_add($this->apcuPrefix.$class, $file);
         }
 
@@ -560,7 +560,7 @@ class ClassLoader
      */
     private static function initializeIncludeClosure()
     {
-        if (self::$includeFile !== null) {
+        if (self::$includeFile !== NULL) {
             return;
         }
 
@@ -574,6 +574,6 @@ class ClassLoader
          */
         self::$includeFile = \Closure::bind(static function($file) {
             include $file;
-        }, null, null);
+        }, NULL, NULL);
     }
 }

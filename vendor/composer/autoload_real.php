@@ -18,7 +18,7 @@ class ComposerAutoloaderInite875ae8441d070d7dda5f4b47a2117aa
      */
     public static function getLoader()
     {
-        if (null !== self::$loader) {
+        if (NULL !== self::$loader) {
             return self::$loader;
         }
 
@@ -40,7 +40,7 @@ class ComposerAutoloaderInite875ae8441d070d7dda5f4b47a2117aa
 
                 require $file;
             }
-        }, null, null);
+        }, NULL, NULL);
         foreach ($filesToLoad as $fileIdentifier => $file) {
             $requireFile($fileIdentifier, $file);
         }

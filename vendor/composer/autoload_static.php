@@ -76,6 +76,6 @@ class ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa
             $loader->prefixDirsPsr4 = ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa::$classMap;
 
-        }, null, ClassLoader::class);
+        }, NULL, ClassLoader::class);
     }
 }

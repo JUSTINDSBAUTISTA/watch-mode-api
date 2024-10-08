@@ -33,7 +33,7 @@ final class LazyOption extends Option
     /** @var array<int, mixed> */
     private $arguments;
 
-    /** @var Option<T>|null */
+    /** @var Option<T>|NULL */
     private $option;
 
     /**
@@ -160,7 +160,7 @@ final class LazyOption extends Option
      */
     private function option(): Option
     {
-        if (null === $this->option) {
+        if (NULL === $this->option) {
             /** @var mixed */
             $option = call_user_func_array($this->callback, $this->arguments);
             if ($option instanceof Option) {

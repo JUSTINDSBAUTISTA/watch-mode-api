@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
                         <hr class="hr my-1">
                         <h5 class="card-title mb-2 text-center text-warning">${result.title}</h5>
-                        <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings.'}</p>
+                        <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
                         <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id}</p>
                         <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id}</p>
                         <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>

@@ -1,3 +1,7 @@
+p {
+    font-size: 1em;
+    font-family: Roboto Condensed, sans-serif;
+}
 /* Ensures each card has the same height and width */
 .card {
     height: 100%;
@@ -9,3 +13,4 @@
     height: 380px; /* Set a consistent height for images */
     object-fit: cover; /* Crop images to fill the height */
 }
+

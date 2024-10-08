@@ -21,7 +21,6 @@
         <form id="searchForm" class="mb-4">
             <div class="input-group">
                 <input type="text" id="searchInput" class="form-control" placeholder="Enter title keyword or Watchmode ID..." required>
-
                 <!-- Specific Year Dropdown -->
                 <select id="yearFilter" class="form-select" style="max-width: 120px;">
                     <option value="">Select Year</option>

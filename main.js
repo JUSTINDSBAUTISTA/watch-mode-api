@@ -82,7 +82,31 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalPages = Math.ceil(totalResults / itemsPerPage);
         paginationControls.innerHTML = '';
 
-        for (let i = 1; i <= totalPages; i++) {
+        // Create "Previous" button
+        if (currentPage > 1) {
+            const prevButton = document.createElement('button');
+            prevButton.className = 'btn btn-outline-primary mx-1';
+            prevButton.textContent = 'Previous';
+            prevButton.addEventListener('click', function () {
+                currentPage--;
+                fetchResults(currentPage);
+            });
+            paginationControls.appendChild(prevButton);
+        }
+
+        // Display numbered page buttons (e.g., 1, 2, ..., 15, 16)
+        const maxPageButtons = 5; // Number of visible page buttons at once
+        const halfMaxButtons = Math.floor(maxPageButtons / 2);
+        let startPage = Math.max(1, currentPage - halfMaxButtons);
+        let endPage = Math.min(totalPages, currentPage + halfMaxButtons);
+
+        if (currentPage <= halfMaxButtons) {
+            endPage = Math.min(totalPages, maxPageButtons);
+        } else if (currentPage + halfMaxButtons >= totalPages) {
+            startPage = Math.max(1, totalPages - maxPageButtons + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
             const pageButton = document.createElement('button');
             pageButton.className = 'btn btn-outline-primary mx-1';
             pageButton.textContent = i;
@@ -95,7 +119,20 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             paginationControls.appendChild(pageButton);
         }
+
+        // Create "Next" button
+        if (currentPage < totalPages) {
+            const nextButton = document.createElement('button');
+            nextButton.className = 'btn btn-outline-primary mx-1';
+            nextButton.textContent = 'Next';
+            nextButton.addEventListener('click', function () {
+                currentPage++;
+                fetchResults(currentPage);
+            });
+            paginationControls.appendChild(nextButton);
+        }
     }
+
 
     // Load saved search data if it exists
     function loadSavedSearch() {

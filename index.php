@@ -14,7 +14,7 @@
         }
     </style>
 </head>
-<body class="bg-secondary bg-gradient">
+<body class="bg-light">
     <div class="container my-3">
         <h1 class="text-center mb-4">Search Titles</h1>
         <form id="searchForm" class="mb-4">

@@ -69,7 +69,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <form class="d-flex position-relative w-75" id="searchForm" role="search">
-                    <input class="form-control me-2" type="text" id="searchInput" placeholder="Search Titles or ID" aria-label="Search" style="width: 100%;">
+                    <input class="form-control me-2" type="text" id="searchInput" placeholder="Search by ID..." aria-label="Search" style="width: 100%;">
                     <div id="suggestions" class="suggestions d-none"></div>
                 </form>
             </div>
@@ -86,9 +86,9 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
     <div class="container-custom mt-3" id="detailsContainer">
         <?php if ($details): ?>
             <div class="row">
-                <div class="col-12 col-md-3 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-3 col-lg-2 col-xl-2">
                     <div class="card h-100">
-                        <div class="card-header bg-primary text-white">Available On</div>
+                        <div class="card-header bg-info text-white">Available On</div>
                         <div class="card-body p-0" id="availableOnContainer">
                             <ul class="list-unstyled mb-0">
                                 <?php foreach ($details['sources'] as $source): ?>
@@ -103,9 +103,9 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-4 col-lg-4 col-xl-4" style="background-image: url('<?php echo !empty($details['poster']) ? $details['poster'] : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 750px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                <div class="col-12 col-md-4 col-lg-6 col-xl-5" style="background-image: url('<?php echo !empty($details['poster']) ? $details['poster'] : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                 </div>
-                <div class="bg-light col-12 col-md-5 col-lg-5 col-xl-5">
+                <div class="bg-light col-12 col-md-5 col-lg-4 col-xl-5">
                     <div class="p-3">
                         <h2 class="text-success"><?php echo htmlspecialchars($details['title']); ?> <?php echo !empty($details['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($details['year']) . '</span>' : ''; ?></h2>
                         <p class="lead"><?php echo htmlspecialchars($details['plot_overview']); ?></p>
@@ -126,7 +126,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
             <?php if (!empty($details['similar_titles'])): ?>
                 <div class="mt-4">
                     <div class="card h-100">
-                        <div class="card-header bg-info text-white text-center">
+                        <div class="card-header bg-warning text-white text-center">
                             Similar Titles
                         </div>
                         <div class="card-body">

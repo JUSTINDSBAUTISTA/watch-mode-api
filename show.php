@@ -1,29 +1,8 @@
 <?php
-require_once 'loadenv.php'; // Load environment variables
+require_once 'functions.php'; // Include the reusable functions
 
-// Use the API key from .env
-define("API_KEY", $_ENV['WATCHMODE_API_KEY']);
-
-function fetchDetailsByWatchmodeId($watchmodeId) {
-    $url = "https://api.watchmode.com/v1/title/$watchmodeId/details/?apiKey=" . API_KEY . "&append_to_response=sources";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    $decodedResponse = json_decode($response, true);
-
-    // Check if the response indicates failure
-    if (isset($decodedResponse['success']) && $decodedResponse['success'] === false) {
-        return null; // Title not found, return null to indicate failure
-    }
-
-    return $decodedResponse;
-}
-
-$watchmodeId = $_GET['watchmodeId'] ?? null;
+// Validate the provided watchmodeId
+$watchmodeId = isset($_GET['watchmodeId']) && ctype_digit($_GET['watchmodeId']) ? $_GET['watchmodeId'] : null;
 $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
 ?>
 
@@ -33,36 +12,8 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($details['title'] ?? 'Title Details'); ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
-    <style>
-        .backdrop {
-            position: relative;
-            background-image: url('<?php echo !empty($details['backdrop']) ? $details['backdrop'] : 'default.jpg'; ?>');
-            background-size: cover;
-            background-position: center;
-            height: 750px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container-custom { margin: 2%; }
-        .suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            z-index: 1000;
-            margin-top: 5px;
-        }
-        .suggestion-item { display: flex; align-items: center; padding: 8px; cursor: pointer; }
-        .suggestion-item img { height: 30px; width: 30px; margin-right: 10px; border-radius: 3px; }
-        .suggestion-item:hover { background-color: #f1f1f1; }
-        #availableOnContainer { max-height: 750px; overflow-y: auto; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/show/styles.css">
 </head>
 <body class="bg-secondary bg-gradient">
     
@@ -75,7 +26,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <form class="d-flex position-relative w-75" id="searchForm" role="search">
-                    <input class="form-control me-2" type="text" id="searchInput" placeholder="Search by Title or ID" aria-label="Search" style="width: 100%;">
+                    <input class="form-control me-2" type="text" id="searchInput" placeholder="Search by Title" aria-label="Search" style="width: 100%;">
                     <div id="suggestions" class="suggestions d-none"></div>
                 </form>
             </div>
@@ -84,7 +35,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
 
     <!-- Backdrop Banner -->
     <?php if ($details): ?>
-        <div class="backdrop d-flex justify-content-center">
+        <div class="backdrop d-flex justify-content-center" style="background-image: url('<?php echo !empty($details['backdrop']) ? htmlspecialchars($details['backdrop']) : 'default.jpg'; ?>');">
             <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
         </div>
     <?php endif; ?>
@@ -109,7 +60,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-4 col-lg-6" style="background-image: url('<?php echo !empty($details['poster']) ? $details['poster'] : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                <div class="col-12 col-md-4 col-lg-6" style="background-image: url('<?php echo !empty($details['poster']) ? htmlspecialchars($details['poster']) : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                 </div>
                 <div class="bg-light col-12 col-md-5 col-lg-4">
                     <div class="p-3">
@@ -165,43 +116,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
         <?php endif; ?>
     </div>
 
+    <script src="javascript/show_page/show.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchInput');
-            const suggestionsBox = document.getElementById('suggestions');
-
-            searchInput.addEventListener('input', function () {
-                const query = searchInput.value.trim();
-                if (query.length > 2) {
-                    fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data && data.length > 0) {
-                                suggestionsBox.innerHTML = data.map(item => `
-                                    <div class="suggestion-item" data-id="${item.watchmodeId}">
-                                        <img src="${item.poster || 'default-small.jpg'}" alt="${item.title}">
-                                        <span>${item.title} (ID: ${item.watchmodeId})</span>
-                                    </div>
-                                `).join('');
-                                suggestionsBox.classList.remove('d-none');
-                            } else {
-                                suggestionsBox.classList.add('d-none');
-                            }
-                        });
-                } else {
-                    suggestionsBox.classList.add('d-none');
-                }
-            });
-
-            suggestionsBox.addEventListener('click', function (event) {
-                const target = event.target.closest('.suggestion-item');
-                if (target) {
-                    const watchmodeId = target.dataset.id;
-                    window.location.href = `show.php?watchmodeId=${watchmodeId}`;
-                }
-            });
-        });
-    </script>
 </body>
 </html>

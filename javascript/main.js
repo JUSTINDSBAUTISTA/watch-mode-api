@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const loadingSpinner = document.getElementById('loadingSpinner');
     const paginationControls = document.getElementById('paginationControls');
     const resultsCountDiv = document.querySelector('.results');
+    const suggestionsBox = document.getElementById('suggestions');
 
     const itemsPerPage = 20;
     let currentPage = parseInt(localStorage.getItem('currentPage'), 10) || 1;
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchResults(currentPage); // Fetch initial results if there's a query
     }
 
-    // Function to fetch and display results with pagination
+    // Fetch results with pagination
     async function fetchResults(page = 1) {
         const keyword = searchInput.value.trim();
         const year = yearFilter.value;
@@ -42,12 +43,12 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('totalResults', totalResults);
     }
 
-    // Function to display results on the page
+    // Display results
     function displayResults(results) {
         resultsContainer.innerHTML = '';
 
         results.forEach(result => {
-            if (!result || result.success === false) return; // Skip invalid results
+            if (!result || result.success === false) return;
 
             const imageUrl = result.poster || 'default.jpg';
             const card = document.createElement('div');
@@ -70,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
             resultsContainer.appendChild(card);
         });
 
-        // Attach event listeners to "View Details" buttons
         document.querySelectorAll('.view-details').forEach(button => {
             button.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
@@ -79,12 +79,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Function to update pagination controls based on total results
+    // Update pagination controls
     function updatePagination(totalResults) {
         const totalPages = Math.ceil(totalResults / itemsPerPage);
         paginationControls.innerHTML = '';
 
-        // Create "Previous" button
         if (currentPage > 1) {
             const prevButton = document.createElement('button');
             prevButton.className = 'btn btn-outline-primary mx-1';
@@ -96,8 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             paginationControls.appendChild(prevButton);
         }
 
-        // Display numbered page buttons (e.g., 1, 2, ..., 15, 16)
-        const maxPageButtons = 5; // Number of visible page buttons at once
+        const maxPageButtons = 5;
         const halfMaxButtons = Math.floor(maxPageButtons / 2);
         let startPage = Math.max(1, currentPage - halfMaxButtons);
         let endPage = Math.min(totalPages, currentPage + halfMaxButtons);
@@ -122,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
             paginationControls.appendChild(pageButton);
         }
 
-        // Create "Next" button
         if (currentPage < totalPages) {
             const nextButton = document.createElement('button');
             nextButton.className = 'btn btn-outline-primary mx-1';
@@ -135,8 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-
-    // Load saved search data if it exists
+    // Load saved search data
     function loadSavedSearch() {
         const savedKeyword = localStorage.getItem('searchKeyword');
         const savedYear = localStorage.getItem('searchYear');
@@ -150,14 +146,47 @@ document.addEventListener('DOMContentLoaded', function () {
         updatePagination(totalResults);
     }
 
-    // Event listener for the search form
     searchForm.addEventListener('submit', function (event) {
         event.preventDefault();
         currentPage = 1;
         fetchResults(currentPage);
     });
 
-    // Event listener to clear saved search data on hard refresh (CMD + SHIFT + R)
+    // Event listener for search suggestions
+    searchInput.addEventListener('input', function () {
+        const query = searchInput.value.trim();
+        if (query.length > 2) {
+            fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (suggestionsBox && data && data.length > 0) {
+                        suggestionsBox.innerHTML = data.map(item => `
+                            <div class="suggestion-item" data-id="${item.watchmodeId}">
+                                <img src="${item.poster || 'default-small.jpg'}" alt="${item.title}">
+                                <span>${item.title} (ID: ${item.watchmodeId})</span>
+                            </div>
+                        `).join('');
+                        suggestionsBox.classList.remove('d-none');
+                    } else if (suggestionsBox) {
+                        suggestionsBox.classList.add('d-none');
+                    }
+                });
+        } else if (suggestionsBox) {
+            suggestionsBox.classList.add('d-none');
+        }
+    });
+
+    // Navigate to show.php for selected suggestion
+    suggestionsBox.addEventListener('click', function (event) {
+        const target = event.target.closest('.suggestion-item');
+        if (target) {
+            const watchmodeId = target.dataset.id; // Retrieve the ID from data attribute
+            if (watchmodeId) {
+                window.location.href = `show.php?watchmodeId=${watchmodeId}`; // Navigate with valid ID
+            }
+        }
+    });
+
     document.addEventListener('keydown', function(event) {
         if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.code === 'KeyR') {
             localStorage.clear();

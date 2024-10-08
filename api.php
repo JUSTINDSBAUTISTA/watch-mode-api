@@ -1,121 +1,45 @@
 <?php
-require_once 'loadenv.php'; // Load environment variables
-
-define("API_KEY", $_ENV['WATCHMODE_API_KEY']); // Use the API key from .env
-define("CSV_FILE", "titles.csv");
+require_once 'functions.php'; // Include the reusable functions
 
 header('Content-Type: application/json');
 
-// Check if the input is numeric (i.e., a Watchmode ID)
-function isWatchmodeId($input) {
-    return ctype_digit($input);
-}
-
-// Fetch suggestions based on partial keyword
+// Fetch suggestions dynamically from the Watchmode API
 if (isset($_GET['suggestion'])) {
-    $keyword = $_GET['suggestion'];
-    $matches = [];
-
-    if (($handle = fopen(CSV_FILE, "r")) !== FALSE) {
-        fgetcsv($handle); // Skip header row
-        while (($data = fgetcsv($handle)) !== FALSE) {
-            $title = $data[4];
-            $watchmodeId = $data[0];
-            $posterUrl = $data[6] ?? 'default-small.jpg'; // Adjust index as needed
-
-            if (stripos($title, $keyword) !== false || stripos($watchmodeId, $keyword) !== false) {
-                $matches[] = [
-                    'title' => $title,
-                    'watchmodeId' => $watchmodeId,
-                    'poster' => $posterUrl,
-                ];
-            }
-            if (count($matches) >= 5) break; // Limit suggestions to 5
-        }
-        fclose($handle);
-    }
-    echo json_encode($matches);
-    exit;
-}
-
-// Search function for title and Watchmode ID with pagination
-function searchCsvForTitleAndYear($keyword, $year, $page, $itemsPerPage) {
-    $watchmodeIds = [];
-    $totalResults = 0;
-    $start = ($page - 1) * $itemsPerPage;
-    $end = $start + $itemsPerPage;
-    $results = [];
-
-    if (($handle = fopen(CSV_FILE, "r")) !== FALSE) {
-        fgetcsv($handle); // Skip header row
-        $index = 0;
-
-        while (($data = fgetcsv($handle)) !== FALSE) {
-            $title = $data[4];
-            $titleYear = $data[5];
-            $watchmodeId = $data[0];
-
-            if (isWatchmodeId($keyword)) {
-                if ($watchmodeId === $keyword) {
-                    $watchmodeIds[] = $watchmodeId;
-                    $totalResults = 1;
-                    break;
-                }
-            } else {
-                if (stripos($title, $keyword) !== false && (!$year || $titleYear == $year)) {
-                    $totalResults++;
-                    if ($index >= $start && $index < $end) {
-                        $watchmodeIds[] = $watchmodeId;
-                    }
-                    $index++;
-                }
-            }
-        }
-        fclose($handle);
-    }
-
-    foreach ($watchmodeIds as $id) {
-        $details = fetchDetailsByWatchmodeId($id);
-        if ($details) { // Only add if details are not null
-            $results[] = $details;
-        }
-    }
-
-    return ['results' => $results, 'totalResults' => $totalResults];
-}
-
-
-// Fetch details for a given Watchmode ID
-function fetchDetailsByWatchmodeId($watchmodeId) {
-    $url = "https://api.watchmode.com/v1/title/$watchmodeId/details/?apiKey=" . API_KEY . "&append_to_response=sources";
+    $keyword = urlencode($_GET['suggestion']);
+    $url = "https://api.watchmode.com/v1/autocomplete-search/?apiKey=" . API_KEY . "&search_value=$keyword&search_type=1";
+    
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     $response = curl_exec($ch);
     curl_close($ch);
+    
+    $data = json_decode($response, true);
+    $suggestions = [];
 
-    $decodedResponse = json_decode($response, true);
-
-    if (isset($decodedResponse['success']) && $decodedResponse['success'] === false) {
-        return NULL;
+    if (!empty($data['results'])) {
+        foreach ($data['results'] as $result) {
+            $suggestions[] = [
+                'title' => $result['title'],
+                'watchmodeId' => $result['id'],
+                'poster' => $result['image_url'] ?? 'default-small.jpg',
+            ];
+        }
     }
-    return $decodedResponse;
+    
+    echo json_encode($suggestions);
+    exit;
 }
 
-// Main logic for handling title or Watchmode ID searches with pagination
+// Main search logic with pagination
 if (isset($_GET['title'])) {
-    $keyword = $_GET['title'];
-    $year = $_GET['year'] ?? NULL;
+    $keyword = urlencode($_GET['title']);
+    $year = $_GET['year'] ?? null;
     $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
     $itemsPerPage = isset($_GET['itemsPerPage']) ? (int) $_GET['itemsPerPage'] : 20;
 
-    $data = searchCsvForTitleAndYear($keyword, $year, $page, $itemsPerPage);
+    $data = searchTitles($keyword, $year, $page, $itemsPerPage);
     echo json_encode($data);
-}
-
-// Fetch details by Watchmode ID for show.php
-if (isset($_GET['details'])) {
-    $watchmodeId = $_GET['details'];
-    echo json_encode(fetchDetailsByWatchmodeId($watchmodeId));
+    exit;
 }

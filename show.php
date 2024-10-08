@@ -6,6 +6,10 @@ $watchmodeId = isset($_GET['watchmodeId']) && ctype_digit($_GET['watchmodeId']) 
 $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
 ?>
 
+<?php 
+    require_once 'show/genres.php'; // Include the genre classes
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +20,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/show/styles.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/show/genre.css">
 </head>
 <body>
     
@@ -97,8 +102,18 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                     <hr class="hr">
                     
                     <p><strong>Genres:</strong> 
-                        <?php echo !empty($details['genre_names']) ? implode(", ", array_map('htmlspecialchars', $details['genre_names'])) : 'Not available'; ?>
+                        <?php 
+                        if (!empty($details['genre_names'])) {
+                            foreach ($details['genre_names'] as $genre) {
+                                $class = getGenreClass($genre);
+                                echo '<span class="badge ' . $class . '">' . htmlspecialchars($genre) . '</span> ';
+                            }
+                        } else {
+                            echo 'Not available';
+                        }
+                        ?>
                     </p>
+
                     
                     <p class="mb-0"><strong>User Rating:</strong> 
                         <?php 

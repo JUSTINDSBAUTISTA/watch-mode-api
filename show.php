@@ -47,32 +47,55 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
             justify-content: center;
         }
         .container-custom { margin: 2%; }
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+        .suggestion-item { display: flex; align-items: center; padding: 8px; cursor: pointer; }
+        .suggestion-item img { height: 30px; width: 30px; margin-right: 10px; border-radius: 3px; }
+        .suggestion-item:hover { background-color: #f1f1f1; }
+        #availableOnContainer { max-height: 750px; overflow-y: auto; }
     </style>
 </head>
 <body class="bg-secondary bg-gradient">
     
-    <!-- Navigation Bar -->
+    <!-- Navigation Bar with Search Form -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="index.php">WATCHMODE-API</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <form class="d-flex position-relative w-75" id="searchForm" role="search">
+                    <input class="form-control me-2" type="text" id="searchInput" placeholder="Search by Title or ID" aria-label="Search" style="width: 100%;">
+                    <div id="suggestions" class="suggestions d-none"></div>
+                </form>
+            </div>
         </div>
     </nav>
 
+    <!-- Backdrop Banner -->
+    <?php if ($details): ?>
+        <div class="backdrop d-flex justify-content-center">
+            <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
+        </div>
+    <?php endif; ?>
+
     <div class="container-custom mt-3" id="detailsContainer">
         <?php if ($details): ?>
-            <!-- Backdrop Banner -->
-            <div class="backdrop d-flex justify-content-center">
-                <h1 class="display-4 text-center bg-dark bg-opacity-75 p-3 rounded"><?php echo htmlspecialchars($details['title']); ?> ( <?php echo htmlspecialchars($details['id']); ?> )</h1>
-            </div>
-            
-            <div class="row mt-4">
+            <div class="row">
                 <div class="col-12 col-md-3 col-lg-2">
                     <div class="card h-100">
                         <div class="card-header bg-info text-white">Available On</div>
-                        <div class="card-body p-0" id="availableOnContainer" style="max-height: 750px; overflow-y: auto;">
+                        <div class="card-body p-0" id="availableOnContainer">
                             <ul class="list-unstyled mb-0">
                                 <?php foreach ($details['sources'] as $source): ?>
                                     <li class="p-2">
@@ -104,6 +127,35 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                     </div>
                 </div>
             </div>
+
+            <!-- Similar Titles Section -->
+            <?php if (!empty($details['similar_titles'])): ?>
+                <div class="mt-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-warning text-white text-center">
+                            Similar Titles
+                        </div>
+                        <div class="card-body">
+                            <div id="similarTitlesContainer" class="d-flex flex-wrap justify-content-center">
+                                <?php foreach ($details['similar_titles'] as $similarId): 
+                                    $similarDetails = fetchDetailsByWatchmodeId($similarId);
+                                    if ($similarDetails): ?>
+                                        <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none mx-2 my-2" style="width: 120px;">
+                                            <div class="card text-center">
+                                                <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100px; object-fit: cover;">
+                                                <div class="card-body p-1">
+                                                    <h6 class="card-title text-truncate" style="font-size: 0.85em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
+                                                    <p class="card-text" style="font-size: 0.8em;"><small>ID: <?php echo htmlspecialchars($similarDetails['id']); ?></small></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    <?php endif;
+                                endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
         <?php else: ?>
             <!-- Title Not Found Message -->
             <div class="alert alert-warning text-center mt-5">
@@ -114,5 +166,42 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const suggestionsBox = document.getElementById('suggestions');
+
+            searchInput.addEventListener('input', function () {
+                const query = searchInput.value.trim();
+                if (query.length > 2) {
+                    fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data && data.length > 0) {
+                                suggestionsBox.innerHTML = data.map(item => `
+                                    <div class="suggestion-item" data-id="${item.watchmodeId}">
+                                        <img src="${item.poster || 'default-small.jpg'}" alt="${item.title}">
+                                        <span>${item.title} (ID: ${item.watchmodeId})</span>
+                                    </div>
+                                `).join('');
+                                suggestionsBox.classList.remove('d-none');
+                            } else {
+                                suggestionsBox.classList.add('d-none');
+                            }
+                        });
+                } else {
+                    suggestionsBox.classList.add('d-none');
+                }
+            });
+
+            suggestionsBox.addEventListener('click', function (event) {
+                const target = event.target.closest('.suggestion-item');
+                if (target) {
+                    const watchmodeId = target.dataset.id;
+                    window.location.href = `show.php?watchmodeId=${watchmodeId}`;
+                }
+            });
+        });
+    </script>
 </body>
 </html>

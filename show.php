@@ -58,7 +58,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
             <div class="row g-3">
                 <!-- Available On Section -->
                 <div class="col-12 col-sm-4 col-md-3 col-lg-3">
-                    <div class="card h-100">
+                    <div class="card">
                         <div class="card-header bg-info text-white">Available On</div>
                         <div class="card-body p-0" id="availableOnContainer" style="max-height: 300px; overflow-y: auto;">
                             <ul class="list-unstyled mb-0">
@@ -114,7 +114,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                                     $similarDetails = fetchDetailsByWatchmodeId($similarId);
                                     if ($similarDetails): ?>
                                         <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none mx-2 my-2" style="width: 120px;">
-                                            <div class="card text-center">
+                                            <div class="card card-custom text-center">
                                                 <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100px; object-fit: cover;">
                                                 <div class="card-body p-1">
                                                     <h6 class="card-title text-truncate" style="font-size: 0.85em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>

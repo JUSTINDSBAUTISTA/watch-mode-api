@@ -16,8 +16,8 @@
     </style>
 </head>
 <body>
-    <div class="container my-3">
-        <h1 class="text-center mb-4">Search Titles</h1>
+    <div class="container my-4">
+        <h1 class="text-center mb-4 text-light">WATCHMODE API</h1>
         <form id="searchForm" class="mb-4">
             <div class="input-group">
                 <input type="text" id="searchInput" class="form-control" placeholder="Enter title keyword or Watchmode ID..." required>

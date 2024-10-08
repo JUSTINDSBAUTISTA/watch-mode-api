@@ -1,48 +1,37 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
     const yearFilter = document.getElementById('yearFilter');
     const resultsContainer = document.getElementById('resultsContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');
+    const paginationControls = document.getElementById('paginationControls');
     const resultsCountDiv = document.querySelector('.results');
 
-    if (localStorage.getItem('searchResults')) {
-        const savedKeyword = localStorage.getItem('searchKeyword');
-        const savedYear = localStorage.getItem('searchYear');
-        const savedResults = JSON.parse(localStorage.getItem('searchResults'));
+    const itemsPerPage = 20; // Number of items per page
+    let currentPage = 1;
+    let totalPages = 1;
 
-        searchInput.value = savedKeyword || '';
-        yearFilter.value = savedYear || '';
-
-        displayResults(savedResults);
-    }
-
-    document.getElementById('searchForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
+    // Function to fetch and display results with pagination
+    async function fetchResults(page = 1) {
         const keyword = searchInput.value.trim();
         const year = yearFilter.value;
 
         loadingSpinner.style.display = 'block';
         resultsContainer.innerHTML = '';
         resultsCountDiv.textContent = ''; // Clear previous count
+        paginationControls.innerHTML = ''; // Clear pagination controls
 
-        const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&year=${year}`);
-        const results = await response.json();
+        const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&year=${year}&page=${page}&itemsPerPage=${itemsPerPage}`);
+        const { results, totalResults } = await response.json(); // Assuming `api.php` returns results and totalResults
 
         loadingSpinner.style.display = 'none';
         displayResults(results);
+        updatePagination(totalResults);
+    }
 
-        // Save search data to local storage
-        localStorage.setItem('searchKeyword', keyword);
-        localStorage.setItem('searchYear', year);
-        localStorage.setItem('searchResults', JSON.stringify(results));
-    });
-
+    // Function to display results on the page
     function displayResults(results) {
         resultsContainer.innerHTML = '';
-
-        // Display the count of results
-        const resultsCount = results.length;
-        resultsCountDiv.textContent = `Found ${resultsCount} result${resultsCount !== 1 ? 's' : ''}`;
 
         results.forEach(result => {
             const imageUrl = result.poster || 'default.jpg';
@@ -63,15 +52,47 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
             `;
-
             resultsContainer.appendChild(card);
         });
 
+        // Attach event listeners to "View Details" buttons
         document.querySelectorAll('.view-details').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 window.location.href = `show.php?watchmodeId=${id}`;
             });
         });
+    }
+
+    // Function to update pagination controls based on total results
+    function updatePagination(totalResults) {
+        totalPages = Math.ceil(totalResults / itemsPerPage);
+        paginationControls.innerHTML = ''; // Clear existing controls
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = 'btn btn-outline-primary mx-1';
+            pageButton.textContent = i;
+            if (i === currentPage) {
+                pageButton.classList.add('active');
+            }
+            pageButton.addEventListener('click', function () {
+                currentPage = i;
+                fetchResults(currentPage);
+            });
+            paginationControls.appendChild(pageButton);
+        }
+    }
+
+    // Event listener for the search form
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        currentPage = 1; // Reset to the first page
+        fetchResults(currentPage);
+    });
+
+    // Fetch initial results if there’s any initial query
+    if (searchInput.value) {
+        fetchResults(currentPage);
     }
 });

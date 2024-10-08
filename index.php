@@ -43,12 +43,16 @@
             <p>Loading results...</p>
         </div>
         
-        <div class="results">
-
-        </div>
+        <div class="results"></div>
+        
         <!-- Search Results -->
         <div id="resultsContainer" class="row">
             <!-- Search results will be displayed here as responsive cards -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginationControls" class="d-flex justify-content-center mt-4">
+            <!-- Pagination buttons will be dynamically added here by JavaScript -->
         </div>
     </div>
     

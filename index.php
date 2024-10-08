@@ -6,6 +6,7 @@
     <title>Watchmode API</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
     <link rel="stylesheet" href="css/index/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <style>
         /* Loading spinner styling */
         #loadingSpinner {
@@ -14,7 +15,7 @@
         }
     </style>
 </head>
-<body class="bg-light">
+<body>
     <div class="container my-3">
         <h1 class="text-center mb-4">Search Titles</h1>
         <form id="searchForm" class="mb-4">

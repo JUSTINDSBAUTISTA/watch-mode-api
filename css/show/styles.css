@@ -8,11 +8,6 @@
     align-items: center;
     justify-content: center;
 }
-
-.container-custom { 
-    margin: 2%; 
-}
-
 .suggestions {
     position: absolute;
     top: 100%;

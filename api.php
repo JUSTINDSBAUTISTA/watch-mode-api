@@ -11,6 +11,33 @@ function isWatchmodeId($input) {
     return ctype_digit($input);
 }
 
+// Fetch suggestions based on partial keyword
+if (isset($_GET['suggestion'])) {
+    $keyword = $_GET['suggestion'];
+    $matches = [];
+
+    if (($handle = fopen(CSV_FILE, "r")) !== FALSE) {
+        fgetcsv($handle); // Skip header row
+        while (($data = fgetcsv($handle)) !== FALSE) {
+            $title = $data[4];
+            $watchmodeId = $data[0];
+            $posterUrl = $data[6] ?? 'default-small.jpg'; // Adjust index as needed
+
+            if (stripos($title, $keyword) !== false || stripos($watchmodeId, $keyword) !== false) {
+                $matches[] = [
+                    'title' => $title,
+                    'watchmodeId' => $watchmodeId,
+                    'poster' => $posterUrl,
+                ];
+            }
+            if (count($matches) >= 5) break; // Limit suggestions to 5
+        }
+        fclose($handle);
+    }
+    echo json_encode($matches);
+    exit;
+}
+
 // Search function for title and Watchmode ID with pagination
 function searchCsvForTitleAndYear($keyword, $year, $page, $itemsPerPage) {
     $watchmodeIds = [];

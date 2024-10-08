@@ -50,6 +50,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                 </form>
             </div>
         </div>
+        
     </nav>
 
     <!-- Backdrop Banner -->

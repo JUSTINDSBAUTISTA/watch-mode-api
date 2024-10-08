@@ -5,14 +5,14 @@ document.addEventListener('DOMContentLoaded', function () {
     searchInput.addEventListener('input', function () {
         const query = searchInput.value.trim();
         if (query.length > 2) {
-            fetch(`https://api.watchmode.com/v1/autocomplete-search/?apiKey=<?php echo API_KEY; ?>&search_value=${encodeURIComponent(query)}&search_type=1`)
+            fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.results && data.results.length > 0) {
-                        suggestionsBox.innerHTML = data.results.map(item => `
-                            <div class="suggestion-item" data-id="${item.id}">
-                                <img src="${item.image_url || 'default-small.jpg'}" alt="${item.name}">
-                                <span>${item.name} (ID: ${item.id})</span>
+                    if (data && data.length > 0) {
+                        suggestionsBox.innerHTML = data.map(item => `
+                            <div class="suggestion-item" data-id="${item.watchmodeId}">
+                                <img src="${item.poster || 'default-small.jpg'}" alt="${item.title}">
+                                <span>${item.title} (ID: ${item.watchmodeId})</span>
                             </div>
                         `).join('');
                         suggestionsBox.classList.remove('d-none');

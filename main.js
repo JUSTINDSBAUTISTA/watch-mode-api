@@ -7,9 +7,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const paginationControls = document.getElementById('paginationControls');
     const resultsCountDiv = document.querySelector('.results');
 
-    const itemsPerPage = 20; // Number of items per page
-    let currentPage = 1;
-    let totalPages = 1;
+    const itemsPerPage = 20;
+    let currentPage = parseInt(localStorage.getItem('currentPage'), 10) || 1;
+
+    // Load saved search data if available
+    if (localStorage.getItem('searchResults')) {
+        loadSavedSearch();
+    } else if (searchInput.value) {
+        fetchResults(currentPage); // Fetch initial results if there's a query
+    }
 
     // Function to fetch and display results with pagination
     async function fetchResults(page = 1) {
@@ -18,15 +24,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         loadingSpinner.style.display = 'block';
         resultsContainer.innerHTML = '';
-        resultsCountDiv.textContent = ''; // Clear previous count
-        paginationControls.innerHTML = ''; // Clear pagination controls
+        resultsCountDiv.textContent = '';
+        paginationControls.innerHTML = '';
 
         const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&year=${year}&page=${page}&itemsPerPage=${itemsPerPage}`);
-        const { results, totalResults } = await response.json(); // Assuming `api.php` returns results and totalResults
+        const { results, totalResults } = await response.json();
 
         loadingSpinner.style.display = 'none';
         displayResults(results);
         updatePagination(totalResults);
+
+        // Save search state
+        localStorage.setItem('searchKeyword', keyword);
+        localStorage.setItem('searchYear', year);
+        localStorage.setItem('currentPage', page);
+        localStorage.setItem('searchResults', JSON.stringify(results));
+        localStorage.setItem('totalResults', totalResults);
     }
 
     // Function to display results on the page
@@ -66,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to update pagination controls based on total results
     function updatePagination(totalResults) {
-        totalPages = Math.ceil(totalResults / itemsPerPage);
-        paginationControls.innerHTML = ''; // Clear existing controls
+        const totalPages = Math.ceil(totalResults / itemsPerPage);
+        paginationControls.innerHTML = '';
 
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
@@ -84,15 +97,31 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Load saved search data if it exists
+    function loadSavedSearch() {
+        const savedKeyword = localStorage.getItem('searchKeyword');
+        const savedYear = localStorage.getItem('searchYear');
+        const savedResults = JSON.parse(localStorage.getItem('searchResults'));
+        const totalResults = parseInt(localStorage.getItem('totalResults'), 10) || 0;
+
+        searchInput.value = savedKeyword || '';
+        yearFilter.value = savedYear || '';
+
+        displayResults(savedResults);
+        updatePagination(totalResults);
+    }
+
     // Event listener for the search form
     searchForm.addEventListener('submit', function (event) {
         event.preventDefault();
-        currentPage = 1; // Reset to the first page
+        currentPage = 1;
         fetchResults(currentPage);
     });
 
-    // Fetch initial results if there’s any initial query
-    if (searchInput.value) {
-        fetchResults(currentPage);
-    }
+    // Event listener to clear saved search data on hard refresh (CMD + SHIFT + R)
+    document.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.code === 'KeyR') {
+            localStorage.clear();
+        }
+    });
 });

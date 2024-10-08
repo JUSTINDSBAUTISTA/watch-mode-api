@@ -6,7 +6,12 @@ define("CSV_FILE", "titles.csv");
 
 header('Content-Type: application/json');
 
-// Fetch paginated data from CSV
+// Check if the input is numeric (i.e., a Watchmode ID)
+function isWatchmodeId($input) {
+    return ctype_digit($input);
+}
+
+// Search function for title and Watchmode ID with pagination
 function searchCsvForTitleAndYear($keyword, $year, $page, $itemsPerPage) {
     $watchmodeIds = [];
     $totalResults = 0;
@@ -21,16 +26,26 @@ function searchCsvForTitleAndYear($keyword, $year, $page, $itemsPerPage) {
         while (($data = fgetcsv($handle)) !== FALSE) {
             $title = $data[4];
             $titleYear = $data[5]; // Assuming year is in the 6th column (index 5)
-            
-            // Match title keyword and year if specified
-            if (stripos($title, $keyword) !== false && (!$year || $titleYear == $year)) {
-                $totalResults++;
-                
-                // Only add rows within the current page range
-                if ($index >= $start && $index < $end) {
-                    $watchmodeIds[] = $data[0];
+            $watchmodeId = $data[0]; // Assuming Watchmode ID is in the 1st column
+
+            // Check if we're searching by Watchmode ID
+            if (isWatchmodeId($keyword)) {
+                // If the Watchmode ID matches the keyword, add it directly
+                if ($watchmodeId === $keyword) {
+                    $watchmodeIds[] = $watchmodeId;
+                    $totalResults = 1;
+                    break; // No need to continue if we found an exact ID match
                 }
-                $index++;
+            } else {
+                // Perform a title search if the keyword is not a Watchmode ID
+                if (stripos($title, $keyword) !== false && (!$year || $titleYear == $year)) {
+                    $totalResults++;
+                    // Only add rows within the current page range
+                    if ($index >= $start && $index < $end) {
+                        $watchmodeIds[] = $watchmodeId;
+                    }
+                    $index++;
+                }
             }
         }
         fclose($handle);
@@ -59,7 +74,7 @@ function fetchDetailsByWatchmodeId($watchmodeId) {
     return json_decode($response, true);
 }
 
-// Main logic for handling title searches and pagination
+// Main logic for handling title or Watchmode ID searches with pagination
 if (isset($_GET['title'])) {
     $keyword = $_GET['title'];
     $year = $_GET['year'] ?? null;
@@ -70,9 +85,8 @@ if (isset($_GET['title'])) {
     echo json_encode($data);
 }
 
-// Fetch details by Watchmode ID
+// Fetch details by Watchmode ID for show.php
 if (isset($_GET['details'])) {
     $watchmodeId = $_GET['details'];
     echo json_encode(fetchDetailsByWatchmodeId($watchmodeId));
 }
-?>

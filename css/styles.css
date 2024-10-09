@@ -1,14 +1,10 @@
-/* Ensures each card has the same height and width */
-.card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+body {
+    background-color: #000000;
+    font-family: Georgia,Times,Times New Roman,serif;
 }
-/* Fix image height and center/crop it */
-.card-img-top {
-    height: 350px; /* Set a consistent height for images */
-    object-fit: cover; /* Crop images to fill the height */
+h4 {
+    font: 28px / 1.231 arial, helvetica, clean, sans;
 }
-
-
-/* From SHOW.php */
+h1 {
+    font-family: Roboto Condensed, sans-serif;
+}

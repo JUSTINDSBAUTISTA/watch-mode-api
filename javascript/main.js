@@ -5,26 +5,30 @@ document.addEventListener('DOMContentLoaded', function () {
     const resultsContainer = document.getElementById('resultsContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');
     const paginationControls = document.getElementById('paginationControls');
-    const resultsCountDiv = document.querySelector('.results');
+    const resetButton = document.getElementById('resetButton');
+
+    function resetSearch() {
+        searchInput.value = '';
+        yearFilter.value = '';
+        resultsContainer.innerHTML = '';
+        paginationControls.innerHTML = '';
+        localStorage.clear();
+    }
+    resetButton.addEventListener('click', resetSearch);
 
     const itemsPerPage = 20;
-    let currentPage = parseInt(localStorage.getItem('currentPage'), 10) || 1;
+    let currentPage = 1;
 
-    // Load saved search data if available
     if (localStorage.getItem('searchResults')) {
         loadSavedSearch();
-    } else if (searchInput.value) {
-        fetchResults(currentPage); // Fetch initial results if there's a query
     }
 
-    // Function to fetch and display results with pagination
     async function fetchResults(page = 1) {
         const keyword = searchInput.value.trim();
         const year = yearFilter.value;
 
         loadingSpinner.style.display = 'block';
         resultsContainer.innerHTML = '';
-        resultsCountDiv.textContent = '';
         paginationControls.innerHTML = '';
 
         const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&year=${year}&page=${page}&itemsPerPage=${itemsPerPage}`);
@@ -34,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
         displayResults(results);
         updatePagination(totalResults);
 
-        // Save search state
         localStorage.setItem('searchKeyword', keyword);
         localStorage.setItem('searchYear', year);
         localStorage.setItem('currentPage', page);
@@ -42,35 +45,39 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('totalResults', totalResults);
     }
 
-    // Function to display results on the page
     function displayResults(results) {
+        const keyword = searchInput.value.trim().toLowerCase();
+        const selectedYear = yearFilter.value;
+    
         resultsContainer.innerHTML = '';
-
         results.forEach(result => {
-            if (!result || result.success === false) return; // Skip invalid results
+            const titleMatches = result.title.toLowerCase().includes(keyword);
+            const yearMatches = !selectedYear || result.year == selectedYear;
 
-            const imageUrl = result.poster || 'default.jpg';
-            const card = document.createElement('div');
-            card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
-
-            card.innerHTML = `
-                <div class="card h-100">
-                    <img src="${imageUrl}" class="card-img-top" alt="${result.title}">
-                    <div class="card-body d-flex flex-column">
-                        <h4 class="card-id text-center mb-0">ID: ${result.id}</h4>
-                        <hr class="hr my-1">
-                        <h5 class="card-title mb-2 text-center text-success">${result.title}</h5>
-                        <p class="card-text mb-0 text-muted"><strong>Ratings: </strong>${result.user_rating || 'No ratings.'}</p>
-                        <p class="card-text mb-0 text-muted"><strong>IMDB_ID: </strong>${result.imdb_id}</p>
-                        <p class="card-text mb-0 text-muted"><strong>TMDB_ID: </strong>${result.tmdb_id}</p>
-                        <button data-id="${result.id}" class="btn btn-primary mt-auto view-details">View Details</button>
+            if (titleMatches && yearMatches) {
+                const imageUrl = result.poster || 'default.jpg';
+                const card = document.createElement('div');
+                card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
+    
+                card.innerHTML = `
+                    <div class="card h-100 bg-dark">
+                        <img src="${imageUrl}" class="card-img-top" alt="${result.title}">
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
+                            <hr class="hr my-1">
+                            <h5 class="card-title mb-2 text-center text-warning">${result.title}</h5>
+                            <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
+                            <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
+                            <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
+                            <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
+                            <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
+                        </div>
                     </div>
-                </div>
-            `;
-            resultsContainer.appendChild(card);
+                `;
+                resultsContainer.appendChild(card);
+            }
         });
 
-        // Attach event listeners to "View Details" buttons
         document.querySelectorAll('.view-details').forEach(button => {
             button.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
@@ -79,12 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Function to update pagination controls based on total results
     function updatePagination(totalResults) {
         const totalPages = Math.ceil(totalResults / itemsPerPage);
         paginationControls.innerHTML = '';
-
-        // Create "Previous" button
+        
         if (currentPage > 1) {
             const prevButton = document.createElement('button');
             prevButton.className = 'btn btn-outline-primary mx-1';
@@ -96,25 +101,10 @@ document.addEventListener('DOMContentLoaded', function () {
             paginationControls.appendChild(prevButton);
         }
 
-        // Display numbered page buttons (e.g., 1, 2, ..., 15, 16)
-        const maxPageButtons = 5; // Number of visible page buttons at once
-        const halfMaxButtons = Math.floor(maxPageButtons / 2);
-        let startPage = Math.max(1, currentPage - halfMaxButtons);
-        let endPage = Math.min(totalPages, currentPage + halfMaxButtons);
-
-        if (currentPage <= halfMaxButtons) {
-            endPage = Math.min(totalPages, maxPageButtons);
-        } else if (currentPage + halfMaxButtons >= totalPages) {
-            startPage = Math.max(1, totalPages - maxPageButtons + 1);
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
+        for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
             pageButton.className = 'btn btn-outline-primary mx-1';
             pageButton.textContent = i;
-            if (i === currentPage) {
-                pageButton.classList.add('active');
-            }
             pageButton.addEventListener('click', function () {
                 currentPage = i;
                 fetchResults(currentPage);
@@ -122,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
             paginationControls.appendChild(pageButton);
         }
 
-        // Create "Next" button
         if (currentPage < totalPages) {
             const nextButton = document.createElement('button');
             nextButton.className = 'btn btn-outline-primary mx-1';
@@ -135,8 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-
-    // Load saved search data if it exists
     function loadSavedSearch() {
         const savedKeyword = localStorage.getItem('searchKeyword');
         const savedYear = localStorage.getItem('searchYear');
@@ -150,17 +137,15 @@ document.addEventListener('DOMContentLoaded', function () {
         updatePagination(totalResults);
     }
 
-    // Event listener for the search form
     searchForm.addEventListener('submit', function (event) {
         event.preventDefault();
-        currentPage = 1;
-        fetchResults(currentPage);
-    });
+        const keyword = searchInput.value.trim();
 
-    // Event listener to clear saved search data on hard refresh (CMD + SHIFT + R)
-    document.addEventListener('keydown', function(event) {
-        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.code === 'KeyR') {
-            localStorage.clear();
+        if (/^\d+$/.test(keyword)) {
+            window.location.href = `show.php?watchmodeId=${keyword}`;
+        } else {
+            currentPage = 1;
+            fetchResults(currentPage);
         }
     });
 });

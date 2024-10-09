@@ -1,0 +1,48 @@
+.backdrop {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 750px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 32%;
+    background: #fff;
+    width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 1000;
+    margin-top: 1px;
+}
+
+.suggestion-item { 
+    display: flex; 
+    align-items: center; 
+    padding: 8px; 
+    cursor: pointer; 
+}
+
+.suggestion-item img { 
+    height: 30px; 
+    width: 30px; 
+    margin-right: 10px; 
+    border-radius: 3px; 
+}
+
+.suggestion-item:hover { 
+    background-color: #f1f1f1; 
+}
+
+#availableOnContainer { 
+    max-height: 750px; 
+    overflow-y: auto; 
+}
+
+.card-custom:hover { 
+    background-color: #f1f1f1a7; 
+}

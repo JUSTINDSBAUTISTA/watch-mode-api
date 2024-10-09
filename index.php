@@ -18,20 +18,17 @@
 <body>
     <div class="container my-4">
         <h1 class="text-center mb-4 text-light">WATCHMODE API</h1>
-        <form id="searchForm" class="mb-4">
+        <form id="searchForm" class="mb-4 d-flex align-items-center">
+            <button id="resetButton" class="btn btn-secondary me-3" type="button">Reset</button>
             <div class="input-group">
                 <input type="text" id="searchInput" class="form-control" placeholder="Enter title keyword or Watchmode ID..." required>
-                <!-- Specific Year Dropdown -->
                 <select id="yearFilter" class="form-select" style="max-width: 120px;">
                     <option value="">Select Year</option>
                     <?php for ($year = 1939; $year <= 2045; $year++): ?>
                         <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
                     <?php endfor; ?>
                 </select>
-
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </div>
+                <button class="btn btn-primary" type="submit">Search</button>
             </div>
         </form>
 

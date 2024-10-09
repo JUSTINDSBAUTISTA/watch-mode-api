@@ -6,7 +6,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const loadingSpinner = document.getElementById('loadingSpinner');
     const paginationControls = document.getElementById('paginationControls');
     const resultsCountDiv = document.querySelector('.results');
-    const suggestionsBox = document.getElementById('suggestions');
+    const resetButton = document.getElementById('resetButton');
+
+    // Function to clear all search data and reset fields
+    function resetSearch() {
+        searchInput.value = '';
+        yearFilter.value = '';
+        resultsContainer.innerHTML = '';
+        paginationControls.innerHTML = '';
+        localStorage.removeItem('searchKeyword');
+        localStorage.removeItem('searchYear');
+        localStorage.removeItem('searchResults');
+        localStorage.removeItem('totalResults');
+    }
+
+    // Event listener for Reset button
+    resetButton.addEventListener('click', resetSearch);
 
     const itemsPerPage = 20;
     let currentPage = parseInt(localStorage.getItem('currentPage'), 10) || 1;
@@ -14,8 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Load saved search data if available
     if (localStorage.getItem('searchResults')) {
         loadSavedSearch();
-    } else if (searchInput.value) {
-        fetchResults(currentPage); // Fetch initial results if there's a query
     }
 
     // Fetch results with pagination
@@ -64,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
                         <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
                         <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
-                        <p class="card-text mb-0 text-light"><strong>TMDB Type: </strong>${result.tmdb_type || 'N/A'}</p>
                         <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
                         <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
                     </div>
@@ -150,48 +162,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     searchForm.addEventListener('submit', function (event) {
         event.preventDefault();
-        currentPage = 1;
-        fetchResults(currentPage);
-    });
+        const keyword = searchInput.value.trim();
 
-    // Event listener for search suggestions
-    searchInput.addEventListener('input', function () {
-        const query = searchInput.value.trim();
-        if (query.length > 2) {
-            fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (suggestionsBox && data && data.length > 0) {
-                        suggestionsBox.innerHTML = data.map(item => `
-                            <div class="suggestion-item" data-id="${item.watchmodeId}">
-                                <img src="${item.poster || 'default-small.jpg'}" alt="${item.title}">
-                                <span>${item.title} (ID: ${item.watchmodeId})</span>
-                            </div>
-                        `).join('');
-                        suggestionsBox.classList.remove('d-none');
-                    } else if (suggestionsBox) {
-                        suggestionsBox.classList.add('d-none');
-                    }
-                });
-        } else if (suggestionsBox) {
-            suggestionsBox.classList.add('d-none');
-        }
-    });
-
-    // Navigate to show.php for selected suggestion
-    suggestionsBox.addEventListener('click', function (event) {
-        const target = event.target.closest('.suggestion-item');
-        if (target) {
-            const watchmodeId = target.dataset.id; // Retrieve the ID from data attribute
-            if (watchmodeId) {
-                window.location.href = `show.php?watchmodeId=${watchmodeId}`; // Navigate with valid ID
-            }
-        }
-    });
-
-    document.addEventListener('keydown', function(event) {
-        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.code === 'KeyR') {
-            localStorage.clear();
+        // Check if the input is a numeric Watchmode ID
+        if (/^\d+$/.test(keyword)) {
+            window.location.href = `show.php?watchmodeId=${keyword}`;
+        } else {
+            currentPage = 1;
+            fetchResults(currentPage);
         }
     });
 });

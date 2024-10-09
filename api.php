@@ -1,9 +1,8 @@
 <?php
-require_once 'functions.php'; // Include the reusable functions
-
+require_once 'functions.php';
 header('Content-Type: application/json');
 
-// Fetch suggestions dynamically from the Watchmode API
+// Fetch suggestions dynamically
 if (isset($_GET['suggestion'])) {
     $keyword = urlencode($_GET['suggestion']);
     $url = "https://api.watchmode.com/v1/autocomplete-search/?apiKey=" . API_KEY . "&search_value=$keyword&search_type=1";
@@ -11,10 +10,9 @@ if (isset($_GET['suggestion'])) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     $response = curl_exec($ch);
     curl_close($ch);
-    
+
     $data = json_decode($response, true);
     $suggestions = [];
 
@@ -32,7 +30,7 @@ if (isset($_GET['suggestion'])) {
     exit;
 }
 
-// Main search logic with pagination
+// Main search logic
 if (isset($_GET['title'])) {
     $keyword = urlencode($_GET['title']);
     $year = $_GET['year'] ?? null;
@@ -43,3 +41,4 @@ if (isset($_GET['title'])) {
     echo json_encode($data);
     exit;
 }
+?>

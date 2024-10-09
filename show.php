@@ -181,7 +181,7 @@ require_once 'show/genres.php'; // Include genre classes
                         </p>
                         
                         <p><strong>Language:</strong> 
-                            <?php echo !empty($details['original_language']) ? htmlspecialchars($details['original_language']) : 'Not available'; ?>
+                            <?php echo !empty($details['original_language']) ? htmlspecialchars(strtoupper($details['original_language'])) : 'Not available'; ?>
                         </p>
 
                         <!-- Trailer Button -->
@@ -198,23 +198,25 @@ require_once 'show/genres.php'; // Include genre classes
             <?php if (!empty($details['similar_titles'])): ?>
                 <div class="mt-4">
                     <div class="h-100">
-                        <div class="card-header bg-warning text-white text-center">
-                            Similar Titles
-                        </div>
                         <div class="card-body">
-                            <div id="similarTitlesContainer" class="d-flex flex-wrap justify-content-center">
+                            <div class="card-header">
+                                <h1 class="text-center text-light mb-4" style="font-size: 3em">Similar Titles</h1>
+                            </div>
+                            <div id="similarTitlesContainer" class="row row-cols-2 row-cols-md-6 row-cols-lg-12 g-2 mx-0">
                                 <?php foreach ($details['similar_titles'] as $similarId): 
                                     $similarDetails = fetchDetailsByWatchmodeId($similarId);
                                     if ($similarDetails): ?>
-                                        <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none mx-2 my-2" style="width: 120px;">
-                                            <div class="card card-custom text-center">
-                                                <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100px; object-fit: cover;">
-                                                <div class="card-body p-1">
-                                                    <h6 class="card-title text-truncate" style="font-size: 0.85em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
-                                                    <p class="card-text" style="font-size: 0.8em;"><small>ID: <?php echo htmlspecialchars($similarDetails['id']); ?></small></p>
+                                        <div class="col">
+                                            <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none">
+                                                <div class="card card-custom text-center">
+                                                    <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100px; object-fit: cover;">
+                                                    <div class="card-body p-1">
+                                                        <h6 class="card-title text-truncate" style="font-size: 0.85em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
+                                                        <p class="card-text" style="font-size: 0.8em;"><small>ID: <?php echo htmlspecialchars($similarDetails['id']); ?></small></p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
+                                            </a>
+                                        </div>
                                     <?php endif;
                                 endforeach; ?>
                             </div>

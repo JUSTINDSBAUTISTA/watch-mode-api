@@ -19,6 +19,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/show/styles.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/show/genre.css">
 </head>
 <body>
@@ -54,10 +55,10 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
 
     <!-- Backdrop Banner -->
     <?php if ($details): ?>
-        <div class="backdrop d-flex justify-content-center align-items-center text-center position-relative" style="background-image: url('<?php echo !empty($details['backdrop']) ? htmlspecialchars($details['backdrop']) : 'default.jpg'; ?>'); background-size: cover; background-position: center;">
-            
+        <div class="backdrop d-flex justify-content-center align-items-center text-center position-relative" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url('<?php echo !empty($details['backdrop']) ? htmlspecialchars($details['backdrop']) : 'default.jpg'; ?>'); background-size: cover; background-position: center;">
+
             <!-- Overlay for background opacity -->
-            <div class="position-absolute w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); top: 0; left: 0;"></div>
+            <div class="position-absolute w-100 h-100" style="background-color: rgba(0, 0, 0, 0); top: 0; left: 0;"></div>
             
             <!-- Content on top of the overlay -->
             <h1 class="display-4 bg-dark p-3 rounded text-warning shadow-lg position-relative bg-opacity-75">
@@ -70,7 +71,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
         </div>
     <?php endif; ?>
 
-    <div class="container mt-3" id="detailsContainer">
+    <div class="container" id="detailsContainer">
         <?php if ($details): ?>
             <div class="row g-3">
                 <!-- Available On Section -->
@@ -166,11 +167,18 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
                     </p>
                     
                     <p><strong>Runtime:</strong> 
-                        <?php echo isset($details['runtime_minutes']) ? htmlspecialchars($details['runtime_minutes']) . ' minutes' : 'Not available'; ?>
+                        <?php 
+                            echo isset($details['runtime_minutes']) 
+                                ? htmlspecialchars($details['runtime_minutes']) . ' minutes <i class="far fa-clock"></i>' 
+                                : 'Not available'; 
+                        ?> 
                     </p>
                     
                     <p><strong>TV Rating:</strong> 
-                        <?php echo !empty($details['us_rating']) ? htmlspecialchars($details['us_rating']) : 'Not available'; ?>
+                        <?php 
+                            echo !empty($details['us_rating']) 
+                                ? htmlspecialchars($details['us_rating'])
+                                : 'Not available'; ?>
                     </p>
                     
                     <p><strong>Language:</strong> 

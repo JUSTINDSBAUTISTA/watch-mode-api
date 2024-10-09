@@ -14,3 +14,14 @@ p {
     object-fit: cover; /* Crop images to fill the height */
 }
 
+/* Loading spinner styling */
+#loadingSpinner {
+    display: none;
+    text-align: center;
+    font-size: 5em;
+    color: white;
+}
+.spinner-border {
+    width: 5rem;
+    height: 5rem;
+}

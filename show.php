@@ -54,8 +54,19 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
 
     <!-- Backdrop Banner -->
     <?php if ($details): ?>
-        <div class="backdrop d-flex justify-content-center align-items-center text-center" style="background-image: url('<?php echo !empty($details['backdrop']) ? htmlspecialchars($details['backdrop']) : 'default.jpg'; ?>');">
-            <h1 class="display-4 bg-dark bg-opacity-75 p-3 rounded text-white"><?php echo htmlspecialchars($details['title']); ?> "<?php echo htmlspecialchars($details['id']); ?>"</h1>
+        <div class="backdrop d-flex justify-content-center align-items-center text-center position-relative" style="background-image: url('<?php echo !empty($details['backdrop']) ? htmlspecialchars($details['backdrop']) : 'default.jpg'; ?>'); background-size: cover; background-position: center;">
+            
+            <!-- Overlay for background opacity -->
+            <div class="position-absolute w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); top: 0; left: 0;"></div>
+            
+            <!-- Content on top of the overlay -->
+            <h1 class="display-4 bg-dark p-3 rounded text-warning shadow-lg position-relative bg-opacity-75">
+                <?php echo htmlspecialchars($details['title']); ?> 
+                <br>
+                <span class="text-light">
+                    id#<?php echo htmlspecialchars($details['id']); ?>
+                </span>
+            </h1>
         </div>
     <?php endif; ?>
 

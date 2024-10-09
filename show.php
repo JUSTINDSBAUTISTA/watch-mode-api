@@ -22,6 +22,7 @@ $castCrew = fetchCastAndCrewByWatchmodeId($watchmodeId);
     <link rel="stylesheet" href="css/show/styles.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/show/genre.css">
+    <link rel="stylesheet" href="css/show/components/cards.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>

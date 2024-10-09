@@ -8,11 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     if (data && data.length > 0) {
                         suggestionsBox.innerHTML = data.map(item => `
                             <div class="suggestion-item" data-id="${item.watchmodeId}">
-                                <img src="${item.poster || 'default-small.jpg'}" alt="${item.title}">
-                                <span>${item.title} (ID: ${item.watchmodeId})</span>
+                                <img src="${item.poster || 'default-small.jpg'}" alt="${item.name}">
+                                <span>${item.name} (ID: ${item.watchmodeId})</span>
                             </div>
                         `).join('');
                         suggestionsBox.classList.remove('d-none');

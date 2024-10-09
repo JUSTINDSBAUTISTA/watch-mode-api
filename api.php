@@ -19,7 +19,7 @@ if (isset($_GET['suggestion'])) {
     if (!empty($data['results'])) {
         foreach ($data['results'] as $result) {
             $suggestions[] = [
-                'title' => $result['title'],
+                'name' => $result['name'],
                 'watchmodeId' => $result['id'],
                 'poster' => $result['image_url'] ?? 'default-small.jpg',
             ];

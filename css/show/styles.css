@@ -11,14 +11,13 @@
 .suggestions {
     position: absolute;
     top: 100%;
-    left: 25%;
-    right: 25%;
+    left: 32%;
     background: #fff;
-    width: 100%;
+    width: 50%;
     border: 1px solid #ccc;
     border-radius: 4px;
     z-index: 1000;
-    margin-top: 2px;
+    margin-top: 1px;
 }
 
 .suggestion-item { 

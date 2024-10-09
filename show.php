@@ -61,7 +61,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
             <div class="position-absolute w-100 h-100" style="background-color: rgba(0, 0, 0, 0); top: 0; left: 0;"></div>
             
             <!-- Content on top of the overlay -->
-            <h1 class="display-4 bg-dark p-3 rounded text-warning shadow-lg position-relative bg-opacity-75">
+            <h1 class="text-warning position-relative" style="font-size: 5em; text-shadow: 5px 3px 2px black">
                 <?php echo htmlspecialchars($details['title']); ?> 
                 <br>
                 <span class="text-light">
@@ -71,7 +71,7 @@ $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
         </div>
     <?php endif; ?>
 
-    <div class="container" id="detailsContainer">
+    <div class="container mt-3" id="detailsContainer">
         <?php if ($details): ?>
             <div class="row g-3">
                 <!-- Available On Section -->

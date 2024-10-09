@@ -1,5 +1,5 @@
 <div class="col-12 col-sm-12 col-md-12 col-lg-2">
-    <div class="row text-center">
+    <div class="row">
         <!-- Streaming Sources (Scrollable) -->
         <div class="col-12 mb-3">
             <div class="card h-100">

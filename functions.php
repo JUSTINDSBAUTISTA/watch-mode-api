@@ -87,3 +87,47 @@ function fetchCastAndCrewByWatchmodeId($watchmodeId) {
 
     return null;
 }
+
+function getGenreClass($genreName) {
+    $genreClasses = [
+        'Action' => 'genre-action',
+        'Action & Adventure' => 'genre-action-adventure',
+        'Adult' => 'genre-adult',
+        'Adventure' => 'genre-adventure',
+        'Animation' => 'genre-animation',
+        'Anime' => 'genre-anime',
+        'Biography' => 'genre-biography',
+        'Comedy' => 'genre-comedy',
+        'Crime' => 'genre-crime',
+        'Documentary' => 'genre-documentary',
+        'Drama' => 'genre-drama',
+        'Family' => 'genre-family',
+        'Fantasy' => 'genre-fantasy',
+        'Food' => 'genre-food',
+        'Game Show' => 'genre-game-show',
+        'History' => 'genre-history',
+        'Horror' => 'genre-horror',
+        'Kids' => 'genre-kids',
+        'Music' => 'genre-music',
+        'Musical' => 'genre-musical',
+        'Mystery' => 'genre-mystery',
+        'Nature' => 'genre-nature',
+        'News' => 'genre-news',
+        'Reality' => 'genre-reality',
+        'Romance' => 'genre-romance',
+        'Sci-Fi & Fantasy' => 'genre-sci-fi-fantasy',
+        'Science Fiction' => 'genre-science-fiction',
+        'Soap' => 'genre-soap',
+        'Sports' => 'genre-sports',
+        'Supernatural' => 'genre-supernatural',
+        'Talk' => 'genre-talk',
+        'Thriller' => 'genre-thriller',
+        'Travel' => 'genre-travel',
+        'TV Movie' => 'genre-tv-movie',
+        'War' => 'genre-war',
+        'War & Politics' => 'genre-war-politics',
+        'Western' => 'genre-western',
+    ];
+
+    return $genreClasses[$genreName] ?? 'default-genre';
+}

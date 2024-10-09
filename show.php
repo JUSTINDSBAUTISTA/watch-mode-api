@@ -1,15 +1,12 @@
 <?php
 require_once 'functions.php'; // Include reusable functions
 
-// Validate the provided watchmodeId
+// GO TO functions.php
 $watchmodeId = isset($_GET['watchmodeId']) && ctype_digit($_GET['watchmodeId']) ? $_GET['watchmodeId'] : null;
 $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
 $castCrew = fetchCastAndCrewByWatchmodeId($watchmodeId);
+$genreClasses = getGenreClass($genreName);
 
-?>
-
-<?php 
-    require_once 'show_layouts/genres.php'; // Include genre classes
 ?>
 
 <!DOCTYPE html>

@@ -11,23 +11,14 @@ $genreClasses = getGenreClass($genreName);
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($details['title'] ?? 'Title Details'); ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/show/styles.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/show/genre.css">
-    <link rel="stylesheet" href="css/show/components/cards.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
+    <!-- Head Section -->
+     <?php require 'view/layouts/header.php'; ?>
 <body>
     <!-- Navbar Section -->
-     <?php require 'show_layouts/navbar.php'; ?>
+     <?php require 'view/show/navbar.php'; ?>
 
     <!-- Backdrop Section with Title and ID -->
-    <?php require 'show_layouts/backdrop-section.php'; ?>
+    <?php require 'view/show/backdrop-section.php'; ?>
 
     <div class="container" id="detailsContainer">
         <?php if ($details): ?>
@@ -39,17 +30,17 @@ $genreClasses = getGenreClass($genreName);
                     </div>
 
                     <!-- Details Section -->
-                    <?php require 'show_layouts/details-section.php'; ?>    
+                    <?php require 'view/show/details-section.php'; ?>    
                        
                 </div>
 
                 <!-- Available On & Cast Section -->
-                <?php require 'show_layouts/cast-&-available-section.php'; ?>
+                <?php require 'view/show/cast-&-available-section.php'; ?>
 
             </div>
 
             <!-- Similar Titles Section -->
-            <?php require 'show_layouts/similar-titles-section.php'; ?>
+            <?php require 'view/show/similar-titles-section.php'; ?>
 
         <?php else: ?>
             <!-- Title Not Found Message -->

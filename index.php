@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watchmode API</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index/styles.css">
-    <link rel="stylesheet" href="css/styles.css">
-</head>
+    <!-- Head Section -->
+    <?php require 'view/layouts/header.php'; ?>
 <body>
     <div class="container my-4">
         <h1 class="text-center mb-4 text-light">WATCHMODE API</h1>

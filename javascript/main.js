@@ -45,16 +45,25 @@ document.addEventListener('DOMContentLoaded', function () {
         const { results, totalResults } = await response.json();
 
         loadingSpinner.style.display = 'none';
-        displayResults(results);
-        updatePagination(totalResults);
 
+        // Filter results by matching both keyword and year if year is specified
+        const filteredResults = results.filter(result => {
+            const keywordMatch = result.title.toLowerCase().includes(keyword.toLowerCase());
+            const yearMatch = year ? result.year == year : true; // Match year only if selected
+            return keywordMatch && yearMatch;
+        });
+
+        displayResults(filteredResults);
+        updatePagination(totalResults);
+        
         // Save search state
         localStorage.setItem('searchKeyword', keyword);
         localStorage.setItem('searchYear', year);
         localStorage.setItem('currentPage', page);
-        localStorage.setItem('searchResults', JSON.stringify(results));
+        localStorage.setItem('searchResults', JSON.stringify(filteredResults));
         localStorage.setItem('totalResults', totalResults);
     }
+
 
     // Display results
     function displayResults(results) {

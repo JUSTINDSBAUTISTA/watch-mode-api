@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         if (currentPage > 1) {
             const prevButton = document.createElement('button');
-            prevButton.className = 'btn btn-outline-primary mx-1';
+            prevButton.className = 'btn btn-outline-light mx-1';
             prevButton.textContent = 'Previous';
             prevButton.addEventListener('click', function () {
                 currentPage--;
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
-            pageButton.className = 'btn btn-outline-primary mx-1';
+            pageButton.className = 'btn btn-outline-light mx-1';
             pageButton.textContent = i;
             pageButton.addEventListener('click', function () {
                 currentPage = i;
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (currentPage < totalPages) {
             const nextButton = document.createElement('button');
-            nextButton.className = 'btn btn-outline-primary mx-1';
+            nextButton.className = 'btn btn-outline-light mx-1';
             nextButton.textContent = 'Next';
             nextButton.addEventListener('click', function () {
                 currentPage++;

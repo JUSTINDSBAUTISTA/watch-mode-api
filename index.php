@@ -38,8 +38,9 @@
             <!-- Pagination buttons will be dynamically added here by JavaScript -->
         </div>
     </div>
+
+    <!-- Footer Section -->
+    <?php require 'view/layouts/footer.php'; ?>
     
-    <script src="javascript/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
 </body>
 </html>

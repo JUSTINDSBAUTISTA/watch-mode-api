@@ -185,7 +185,7 @@ require_once 'show/genres.php'; // Include genre classes
                                     <ul class="list-unstyled mb-0">
                                         <?php foreach ($details['sources'] as $source): ?>
                                             <li class="p-2">
-                                                <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none">
+                                                <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none available-on-link">
                                                     <?php echo htmlspecialchars($source['name']); ?>
                                                 </a>
                                                 <span class="text-muted">(<?php echo htmlspecialchars($source['format']); ?>, <?php echo htmlspecialchars($source['type']); ?>, <?php echo htmlspecialchars($source['region']); ?>)</span>
@@ -205,9 +205,11 @@ require_once 'show/genres.php'; // Include genre classes
                                         <?php if (!empty($castCrew)): ?>
                                             <?php foreach ($castCrew as $person): ?>
                                                 <li class="p-2">
-                                                    <a href="<?php echo htmlspecialchars($person['headshot_url']); ?>" target="_blank" class="text-decoration-none">
+                                                    <a href="<?php echo htmlspecialchars($person['headshot_url']); ?>" target="_blank" class="text-decoration-none cast-link">
                                                         <?php echo htmlspecialchars($person['full_name']); ?>
                                                     </a>
+                                                        <br>
+                                                        <?php echo !empty($person['role']) ? '<span class="text-muted">(' . htmlspecialchars($person['role']) . ')</span>' : ''; ?>
                                                 </li>
                                             <?php endforeach; ?>
                                         <?php else: ?>
@@ -238,8 +240,9 @@ require_once 'show/genres.php'; // Include genre classes
                                                 <div class="card card-custom text-center">
                                                     <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100px; object-fit: cover;">
                                                     <div class="card-body p-1">
-                                                        <h6 class="card-title text-truncate" style="font-size: 0.85em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
-                                                        <p class="card-text" style="font-size: 0.8em;"><small>ID: <?php echo htmlspecialchars($similarDetails['id']); ?></small></p>
+                                                        <h6 class="card-title text-truncate" style="font-size: 1em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
+                                                        <hr class="hr my-0">
+                                                        <p class="card-text" style="font-size: 2em;"><small>ID: <?php echo htmlspecialchars($similarDetails['id']); ?></small></p>
                                                     </div>
                                                 </div>
                                             </a>

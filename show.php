@@ -4,6 +4,8 @@ require_once 'functions.php'; // Include reusable functions
 // Validate the provided watchmodeId
 $watchmodeId = isset($_GET['watchmodeId']) && ctype_digit($_GET['watchmodeId']) ? $_GET['watchmodeId'] : null;
 $details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
+$castCrew = fetchCastAndCrewByWatchmodeId($watchmodeId);
+
 ?>
 
 <?php 
@@ -70,49 +72,29 @@ require_once 'show/genres.php'; // Include genre classes
 
     <div class="container" id="detailsContainer">
         <?php if ($details): ?>
-            <div class="row g-3">
-                
-                <!-- "Available On" Section -->
-                <div class="col-12 col-sm-4 col-md-3 col-lg-3">
-                    <div class="card">
-                        <div class="card-header bg-info text-white">Available On</div>
-                        <div class="card-body p-0" id="availableOnContainer" style="max-height: 300px; overflow-y: auto;">
-                            <ul class="list-unstyled mb-0">
-                                <?php foreach ($details['sources'] as $source): ?>
-                                    <li class="p-2">
-                                        <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none">
-                                            <?php echo htmlspecialchars($source['name']); ?>
-                                        </a>
-                                        <span class="text-muted">(<?php echo htmlspecialchars($source['format']); ?>, <?php echo htmlspecialchars($source['type']); ?>, <?php echo htmlspecialchars($source['region']); ?>)</span>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
+            <div class="row g-3">               
+                <!-- Poster Image Section -->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="poster-image" style="background-image: url('<?php echo !empty($details['poster']) ? htmlspecialchars($details['poster']) : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 100%; min-height: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                         </div>
                     </div>
-                </div>
-
-                <!-- Poster Image Section -->
-                <div class="col-12 col-sm-8 col-md-9 col-lg-5">
-                    <div class="poster-image" style="background-image: url('<?php echo !empty($details['poster']) ? htmlspecialchars($details['poster']) : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 100%; min-height: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-                    </div>
-                </div>
-
-                <!-- Details Section -->
-                <div class="bg-light col-12 col-md-12 col-lg-4">
-                    <div class="p-3">
-                        <h4 class="text-success">
-                            <?php echo htmlspecialchars($details['title'] ?? 'Not available'); ?> 
-                            <?php echo !empty($details['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($details['year']) . '</span>' : ''; ?>
-                        </h4>
-                        <hr class="hr">
-                        
-                        <p class="lead">
-                            <?php echo !empty($details['plot_overview']) ? htmlspecialchars($details['plot_overview']) : 'Plot overview not available'; ?>
-                        </p>
-                        <hr class="hr">
-                        
-                        <!-- Genres -->
-                        <p><strong>Genres:</strong> 
+                    
+                    <!-- Details Section -->
+                    <div class="bg-light col-12 col-md-12 col-lg-4">
+                        <div class="p-3">
+                            <h4 class="text-success">
+                                <?php echo htmlspecialchars($details['title'] ?? 'Not available'); ?> 
+                                <?php echo !empty($details['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($details['year']) . '</span>' : ''; ?>
+                            </h4>
+                            <hr class="hr">
+                            
+                            <p class="lead">
+                                <?php echo !empty($details['plot_overview']) ? htmlspecialchars($details['plot_overview']) : 'Plot overview not available'; ?>
+                            </p>
+                            <hr class="hr">
+                            
+                            <!-- Genres -->
+                            <p><strong>Genres:</strong> 
                             <?php 
                             if (!empty($details['genre_names'])) {
                                 foreach ($details['genre_names'] as $genre) {
@@ -124,15 +106,15 @@ require_once 'show/genres.php'; // Include genre classes
                             }
                             ?>
                         </p>
-
+                        
                         <!-- User Rating -->
                         <p class="mb-0"><strong>User Rating:</strong> 
-                            <?php 
+                        <?php 
                                 $userRating = isset($details['user_rating']) ? $details['user_rating'] : null;
                                 echo $userRating ? htmlspecialchars($userRating) . ' / 10' : 'Not available'; 
                             ?>
                         </p>
-
+                        
                         <!-- Star Rating Display -->
                         <div class="rating mb-2 text-warning">
                             <?php
@@ -162,11 +144,11 @@ require_once 'show/genres.php'; // Include genre classes
                         </div>
                         
                         <p><strong>Critic Score:</strong> 
-                            <?php echo isset($details['critic_score']) ? htmlspecialchars($details['critic_score']) . '%' : 'Not available'; ?>
-                        </p>
-                        
-                        <p><strong>Runtime:</strong> 
-                            <?php 
+                        <?php echo isset($details['critic_score']) ? htmlspecialchars($details['critic_score']) . '%' : 'Not available'; ?>
+                    </p>
+                    
+                    <p><strong>Runtime:</strong> 
+                    <?php 
                                 echo isset($details['runtime_minutes']) 
                                     ? htmlspecialchars($details['runtime_minutes']) . ' minutes <i class="far fa-clock"></i>' 
                                     : 'Not available'; 
@@ -174,7 +156,7 @@ require_once 'show/genres.php'; // Include genre classes
                         </p>
                         
                         <p><strong>TV Rating:</strong> 
-                            <?php 
+                        <?php 
                                 echo !empty($details['us_rating']) 
                                     ? htmlspecialchars($details['us_rating'])
                                     : 'Not available'; ?>
@@ -190,6 +172,51 @@ require_once 'show/genres.php'; // Include genre classes
                         <?php else: ?>
                             <p class="text-muted mt-3">Trailer not available</p>
                         <?php endif; ?>
+                    </div>
+                </div>
+                <!-- Available On Section with Scroll -->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-2">
+                    <div class="row">
+                        <!-- Streaming Sources (Scrollable) -->
+                        <div class="col-12 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header bg-info text-white">Available On</div>
+                                <div class="card-body p-0" id="availableOnContainer" style="max-height: 250px; overflow-y: auto;">
+                                    <ul class="list-unstyled mb-0">
+                                        <?php foreach ($details['sources'] as $source): ?>
+                                            <li class="p-2">
+                                                <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none">
+                                                    <?php echo htmlspecialchars($source['name']); ?>
+                                                </a>
+                                                <span class="text-muted">(<?php echo htmlspecialchars($source['format']); ?>, <?php echo htmlspecialchars($source['type']); ?>, <?php echo htmlspecialchars($source['region']); ?>)</span>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cast Names (Scrollable) -->
+                        <div class="col-12">
+                            <div class="card h-100">
+                                <div class="card-header bg-secondary text-white">Cast & Crew</div>
+                                <div class="card-body p-0" id="castCrewContainer" style="max-height: 250px; overflow-y: auto;">
+                                    <ul class="list-unstyled mb-0">
+                                        <?php if (!empty($castCrew)): ?>
+                                            <?php foreach ($castCrew as $person): ?>
+                                                <li class="p-2">
+                                                    <a href="<?php echo htmlspecialchars($person['headshot_url']); ?>" target="_blank" class="text-decoration-none">
+                                                        <?php echo htmlspecialchars($person['full_name']); ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <li class="p-2 text-muted">Cast & Crew information not available</li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

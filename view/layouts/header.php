@@ -15,6 +15,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/index/styles.css">
+    <link rel="stylesheet" href="css/index/components/cards.css">
     <link rel="stylesheet" href="css/show/styles.css">
     <link rel="stylesheet" href="css/show/genre.css">
     <link rel="stylesheet" href="css/show/components/cards.css">

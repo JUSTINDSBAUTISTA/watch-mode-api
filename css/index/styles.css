@@ -1,19 +1,15 @@
-p {
-    font-size: 1em;
+h1, p {
     font-family: Roboto Condensed, sans-serif;
 }
-/* Ensures each card has the same height and width */
-.card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+h1 {
+    font-size: 6em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    color: #333;
 }
-/* Fix image height and center/crop it */
-.card-img-top {
-    height: 380px; /* Set a consistent height for images */
-    object-fit: cover; /* Crop images to fill the height */
+p {
+    font-size: 1em;
 }
-
 /* Loading spinner styling */
 #loadingSpinner {
     display: none;
@@ -22,6 +18,6 @@ p {
     color: white;
 }
 .spinner-border {
-    width: 5rem;
-    height: 5rem;
+    width: 3rem;
+    height: 3rem;
 }

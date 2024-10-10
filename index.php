@@ -6,8 +6,12 @@
     <!-- Head Section -->
     <?php require 'view/layouts/header.php'; ?>
 <body>
-    <div class="container my-4">
-        <h1 class="text-center mb-4 text-light">WATCHMODE<span class="text-warning">API</span></h1>
+    <div class="backdrop d-flex justify-content-center align-items-center" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url('background.jpg'); background-size: cover; background-position: center; height: 250px;">
+    </div>  
+    <div class="container mt-0 mb-5">
+        <h1 class="text-center mb-4 text-light">
+            WATCHMODE<span class="text-warning">API</span>
+        </h1>
         <form id="searchForm" class="mb-4 d-flex align-items-center" role="search">
             <button id="resetButton" class="btn btn-secondary me-3" type="button">Reset</button>
             <div class="input-group">

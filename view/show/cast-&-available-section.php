@@ -6,15 +6,20 @@
                 <div class="card-header bg-info text-white">Available On</div>
                 <div class="card-body p-0" id="availableOnContainer" style="max-height: 250px; overflow-y: auto;">
                     <ul class="list-unstyled mb-0">
-                        <?php foreach ($details['sources'] as $source): ?>
-                            <li class="p-2">
-                                <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none available-on-link">
-                                    <?php echo htmlspecialchars($source['name']); ?>
-                                </a>
-                                <br>
-                                <span class="text-muted">(<?php echo htmlspecialchars($source['format']); ?>, <?php echo htmlspecialchars($source['type']); ?>, <?php echo htmlspecialchars($source['region']); ?>)</span>
-                            </li>
-                        <?php endforeach; ?>
+                        <?php if (!empty($details['sources'])): ?>
+
+                            <?php foreach ($details['sources'] as $source): ?>
+                                <li class="p-2">
+                                    <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none available-on-link">
+                                        <?php echo htmlspecialchars($source['name']); ?>
+                                    </a>
+                                    <br>
+                                    <span class="text-muted">(<?php echo htmlspecialchars($source['format']); ?>, <?php echo htmlspecialchars($source['type']); ?>, <?php echo htmlspecialchars($source['region']); ?>)</span>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <li class="p-2 text-muted">Sources are not available</li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>

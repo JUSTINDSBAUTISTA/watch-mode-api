@@ -1,7 +1,7 @@
 <!-- Navbar Section -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="/watch-mode-api/">WATCHMODE-API</a>
+        <a class="navbar-brand fw-bold" href="/watch-mode-api/">WATCHMODE<span class="text-warning">API</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,7 +12,7 @@
                     class="form-control me-2" 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Search by Title" 
+                    placeholder="Search by Title..." 
                     aria-label="Search" 
                     style="width: 100%;"
                 >

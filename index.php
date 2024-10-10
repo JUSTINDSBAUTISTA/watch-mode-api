@@ -4,7 +4,7 @@
     <?php require 'view/layouts/header.php'; ?>
 <body>
     <div class="container my-4">
-        <h1 class="text-center mb-4 text-light">WATCHMODE API</h1>
+        <h1 class="text-center mb-4 text-light">WATCHMODE<span class="text-warning">API</span></h1>
         <form id="searchForm" class="mb-4 d-flex align-items-center">
             <button id="resetButton" class="btn btn-secondary me-3" type="button">Reset</button>
             <div class="input-group">

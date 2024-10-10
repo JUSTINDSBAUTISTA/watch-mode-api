@@ -60,20 +60,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
     
                 card.innerHTML = `
-                    <div class="card h-100 bg-dark">
-                        <img src="${imageUrl}" class="card-img-top" alt="${result.title}">
-                        <div class="card-body d-flex flex-column">
-                            <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
-                            <hr class="hr my-1">
-                            <h5 class="card-title mb-2 text-center text-warning">${result.title}</h5>
-                            <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
-                            <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
-                            <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
-                            <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
-                            <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
-                        </div>
-                    </div>
-                `;
+                                <div class="card h-100 bg-dark">
+                                    <img src="${imageUrl}" class="card-img-top position-relative" alt="${result.title}">
+                                    
+                                    <!-- Download and YouTube buttons -->
+                                    <div class="icon-container">
+                                        <a href="download-link-${result.id}" download class="btn btn-download">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                        ${
+                                            !result.trailer
+                                                ? ''
+                                                : 
+                                                `
+                                                 <a href="${result.trailer}" target="_blank" class="btn btn-youtube">
+                                                    <i class="fab fa-youtube"></i>
+                                                </a>
+                                                `
+                                        }
+                                    </div>
+                                    
+                                    <div class="card-body d-flex flex-column">
+                                        <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
+                                        <hr class="hr my-1">
+                                        <h5 class="card-title mb-2 text-center text-warning">${result.title}</h5>
+                                        <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
+                                        <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
+                                        <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
+                                        <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
+                                        <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
+                                    </div>
+                                </div>
+                                `;
                 resultsContainer.appendChild(card);
             }
         });

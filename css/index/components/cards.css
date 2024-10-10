@@ -9,3 +9,35 @@
     height: 380px; /* Set a consistent height for images */
     object-fit: cover; /* Crop images to fill the height */
 }
+
+.icon-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.btn-download, .btn-youtube {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.btn-download {
+    background-color: #28a745; /* Green for download */
+}
+
+.btn-youtube {
+    background-color: #FF0000; /* Red for YouTube */
+}
+
+.btn-download i, .btn-youtube i {
+    color: rgb(255, 255, 255);
+}

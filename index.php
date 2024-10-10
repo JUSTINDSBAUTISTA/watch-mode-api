@@ -1,3 +1,6 @@
+<?php
+    require_once 'functions.php'; // Include reusable functions
+?>
 <!DOCTYPE html>
 <html lang="en">
     <!-- Head Section -->
@@ -5,19 +8,31 @@
 <body>
     <div class="container my-4">
         <h1 class="text-center mb-4 text-light">WATCHMODE<span class="text-warning">API</span></h1>
-        <form id="searchForm" class="mb-4 d-flex align-items-center">
+        <form id="searchForm" class="mb-4 d-flex align-items-center" role="search">
             <button id="resetButton" class="btn btn-secondary me-3" type="button">Reset</button>
             <div class="input-group">
-                <input type="text" id="searchInput" class="form-control" placeholder="Enter title keyword or Watchmode ID... (Year is Optional)" required>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="form-control" 
+                    placeholder="Enter title keyword or Watchmode ID... (Year is Optional)" 
+                    aria-label="Search" 
+                    required
+                >
+                <div id="suggestions" class="suggestions d-none">
+                    
+                    <!-- Suggestions content will be dynamically added here -->
+                </div>
+
                 <select id="yearFilter" class="form-select" style="max-width: 120px;">
                     <option value="">Select Year</option>
                     <?php for ($year = 1939; $year <= 2045; $year++): ?>
                         <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
-                        <?php endfor; ?>
-                    </select>
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </div>
-            </form>
+                    <?php endfor; ?>
+                </select>
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
         <!-- Loading Spinner -->
         <div id="loadingSpinner" class="my-4">
             <div class="spinner-border text-warning" role="status">
@@ -26,9 +41,6 @@
             <p>Loading results...</p>
         </div>
         
-        <div class="results"></div>
-        
-        <!-- Search Results -->
         <div id="resultsContainer" class="row">
             <!-- Search results will be displayed here as responsive cards -->
         </div>

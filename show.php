@@ -37,16 +37,17 @@ $genreClasses = getGenreClass($genreName);
 
             </div>
 
-            <!-- Similar Titles Section -->
-            <?php require 'view/show/similar-titles-section.php'; ?>
+                <!-- Similar Titles Section -->
+                <?php require 'view/show/similar-titles-section.php'; ?>
 
-            <!-- Title Not Found Message -->
-            <?php else: ?>
-                <div class="alert alert-warning text-center mt-5">
-                    <h4>Title Not Found</h4>
-                    <p>The title you are looking for does not exist in API. Please try a different title.</p>
-                </div>
-            <?php endif; ?>
+
+        <!-- Title Not Found Message -->
+        <?php else: ?>
+            <div class="alert alert-warning text-center mt-5">
+                <h4>Title Not Found</h4>
+                <p>The title you are looking for does not exist in API. Please try a different title.</p>
+            </div>
+        <?php endif; ?>
     </div>
 
     <!-- Footer Section -->

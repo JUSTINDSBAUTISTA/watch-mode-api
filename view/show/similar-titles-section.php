@@ -14,7 +14,8 @@
                                     <div class="card card-custom text-center">
                                         <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100%; object-fit: cover;">
                                         <div class="card-body p-1">
-                                            <h6 class="card-title text-truncate" style="font-size: 1em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
+                                            <h6 class="card-title text-truncate" style="font-size: 1.35em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
+                                            <h6 class="card-title text-truncate text-muted" style="font-size: 1em;"><?php echo htmlspecialchars($similarDetails['release_date']); ?></h6>
                                             <hr class="hr my-0">
                                             <p class="card-text text-success" style="font-size: 1.8em;"><small>ID: <?php echo htmlspecialchars($similarDetails['id']); ?></small></p>
                                         </div>

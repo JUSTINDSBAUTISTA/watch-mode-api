@@ -10,7 +10,7 @@
     </div>  
     <div class="container mt-0 mb-5">
         <h1 class="text-center mb-4 text-light">
-            WATCHMODE<span class="text-warning">API</span>
+            WATCHMODE<span class="text-warning">API</span><i class="text-warning fas fa-video"></i>
         </h1>
         <form id="searchForm" class="mb-4 d-flex align-items-center" role="search">
             <button id="resetButton" class="btn btn-secondary me-3" type="button">Reset</button>

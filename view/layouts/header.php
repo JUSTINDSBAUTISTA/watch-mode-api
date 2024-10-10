@@ -19,4 +19,9 @@
     <link rel="stylesheet" href="css/show/styles.css">
     <link rel="stylesheet" href="css/show/genre.css">
     <link rel="stylesheet" href="css/show/components/cards.css">
+
+    <script async src="javascript/header.js"></script>
+    <script>
+        const detailsData = <?php echo json_encode($details, JSON_PRETTY_PRINT); ?>;
+    </script>
 </head>

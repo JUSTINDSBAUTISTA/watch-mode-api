@@ -65,9 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
                                     
                                     <!-- Download and YouTube buttons -->
                                     <div class="icon-container">
-                                        <a href="download-link-${result.id}" download class="btn btn-download">
-                                            <i class="fas fa-download"></i>
-                                        </a>
+                                        <button class="btn btn-download" data-json="${encodeURIComponent(JSON.stringify(result))}">
+                                            <i class="fas fa-download" style="cursor: pointer;"></i>
+                                        </button>
+                                        
                                         ${
                                             !result.trailer
                                                 ? ''
@@ -95,7 +96,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 resultsContainer.appendChild(card);
             }
         });
-
+        document.querySelectorAll('.btn-download').forEach(button => {
+            button.addEventListener('click', function () {
+                downloadJson(this.getAttribute('data-json'));
+            });
+        });
         document.querySelectorAll('.view-details').forEach(button => {
             button.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');

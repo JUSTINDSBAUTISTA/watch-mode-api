@@ -31,11 +31,11 @@
 }
 
 .btn-download {
-    background-color: #28a745; /* Green for download */
+    background-color: #069a77;
 }
 
 .btn-youtube {
-    background-color: #FF0000; /* Red for YouTube */
+    background-color: #FF0000;
 }
 
 .btn-download i, .btn-youtube i {

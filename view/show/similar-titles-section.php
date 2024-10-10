@@ -12,7 +12,7 @@
                             <div class="col">
                                 <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none">
                                     <div class="card card-custom text-center">
-                                        <img src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100%; object-fit: cover;">
+                                        <img async loading="lazy" src="<?php echo $similarDetails['poster'] ?? 'default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100%; object-fit: cover;">
                                         <div class="card-body p-1">
                                             <h6 class="card-title text-truncate" style="font-size: 1.35em;"><?php echo htmlspecialchars($similarDetails['title']); ?></h6>
                                             <h6 class="card-title text-truncate text-muted" style="font-size: 1em;"><?php echo htmlspecialchars($similarDetails['release_date']); ?></h6>

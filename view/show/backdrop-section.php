@@ -12,7 +12,7 @@
             <span class="text-light">
                 id#<?php echo htmlspecialchars($details['id']); ?>
                 <!-- Download Icon with onclick to trigger download -->
-                <i class="fas fa-download ms-2" style="cursor: pointer;" onclick="downloadJson()"></i>
+                <i class="fas fa-download ms-2 text-light" style="cursor: pointer;" onclick="downloadJson()"></i>
             </span>
         </h1>
     </div>

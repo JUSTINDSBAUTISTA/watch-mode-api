@@ -34,7 +34,7 @@
                         <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
                     <?php endfor; ?>
                 </select>
-                <button class="btn btn-primary" type="submit">Search</button>
+                <button class="btn btn-outline-light" type="submit">Search</button>
             </div>
         </form>
         

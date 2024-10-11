@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (loadingSpinner) {
                 loadingSpinner.style.display = 'none';
             }
-           
         }
     }
 
@@ -90,10 +89,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
                         <hr class="hr my-1">
                         <h5 class="card-title mb-2 text-center text-warning">${result.title}</h5>
+                        <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
                         <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
                         <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
                         <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
-                        <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
                         <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
                     </div>
                 </div>`;
@@ -209,10 +208,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const keyword = searchInput.value.trim();
 
         if (/^\d+$/.test(keyword)) {
+            console.log('Redirecting to show.php...');
             window.location.href = `show.php?watchmodeId=${keyword}`;
         } else {
             currentPage = 1;
             fetchResults(currentPage);
         }
     });
+    
+    setTimeout(() => {
+        let searchParams = new URLSearchParams(window.location.search);
+        if (searchParams.has('search')) {
+            searchInput.value = searchParams.get('search');
+            fetchResults();
+        }
+    }, 0);
 });

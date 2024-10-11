@@ -12,7 +12,7 @@
         <h1 class="text-center mb-4 text-light">
             WATCHMODE<span class="text-warning">API</span><i class="text-warning fas fa-video"></i>
         </h1>
-        <form id="searchForm" class="mb-4 d-flex align-items-center" role="search">
+        <form id="searchForm" class="mb-4 d-flex align-items-center" role="search" autocomplete="off">
             <button id="resetButton" class="btn btn-secondary me-3" type="button">Reset</button>
             <div class="input-group">
                 <input 
@@ -34,17 +34,23 @@
                         <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
                     <?php endfor; ?>
                 </select>
-                <button class="btn btn-primary" type="submit">Search</button>
+                <button class="btn btn-outline-light" type="submit">Search</button>
             </div>
         </form>
-        <!-- Loading Spinner -->
+        
+        <!-- Sort buttons -->
+        <div id="sortButtons" class="mb-3 d-flex gap-2 d-none">
+            <button class="btn btn-dark" id="sortTitle" data-order="asc">Sort by Title (A-Z)</button>
+            <button class="btn btn-dark" id="sortYear" data-order="asc">Sort by Year (Latest-Oldest)</button>
+        </div>
+                    
         <div id="loadingSpinner" class="my-4">
             <div class="spinner-border text-warning" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
             <p>Loading results...</p>
         </div>
-        
+
         <div id="resultsContainer" class="row">
             <!-- Search results will be displayed here as responsive cards -->
         </div>

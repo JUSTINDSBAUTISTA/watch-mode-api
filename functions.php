@@ -53,6 +53,10 @@ function searchTitles($keyword, $year = null, $page = 1, $itemsPerPage = 20) {
     
     if (!empty($data['results'])) {
         foreach ($data['results'] as $result) {
+            // Check if the year filter is set and if it matches the result's year
+            if ($year && $result['year'] != $year) {
+                continue; // Skip this result if it doesn't match the year filter
+            }
             $details = fetchDetailsByWatchmodeId($result['id']);
             if ($details) {
                 $results[] = $details;
@@ -62,6 +66,7 @@ function searchTitles($keyword, $year = null, $page = 1, $itemsPerPage = 20) {
     
     return ['results' => $results, 'totalResults' => count($results)];
 }
+
 
 /**
  * Fetch cast and crew by Watchmode ID.

@@ -7,7 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <!-- Search Form in Navbar -->
-            <form class="d-flex mx-auto w-75" id="searchForm" role="search">
+            <form class="d-flex mx-auto w-75" id="searchForm" role="search" autocomplete="off">
                 <input 
                     class="form-control me-2" 
                     type="text" 

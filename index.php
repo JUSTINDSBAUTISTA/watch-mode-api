@@ -12,7 +12,7 @@
         <h1 class="text-center mb-4 text-light">
             WATCHMODE<span class="text-warning">API</span><i class="text-warning fas fa-video"></i>
         </h1>
-        <form id="searchForm" class="mb-4 d-flex align-items-center" role="search">
+        <form id="searchForm" class="mb-4 d-flex align-items-center" role="search" autocomplete="off">
             <button id="resetButton" class="btn btn-secondary me-3" type="button">Reset</button>
             <div class="input-group">
                 <input 

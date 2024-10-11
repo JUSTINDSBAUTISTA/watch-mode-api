@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
             results = savedResults;
             displayResults(savedResults);
             updatePagination(totalResults);
-        }
+        } 
     }
 
     // Sorting functions

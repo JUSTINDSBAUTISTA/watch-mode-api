@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const keyword = searchInputMain.value.trim();
         const year = yearFilter.value;
 
-        let url = '/watch-mode-api/?';
+        let url = '?';
         if (keyword) url += `search=${encodeURIComponent(keyword)}`;
         if (year) url += `${keyword ? '&' : ''}year=${encodeURIComponent(year)}`;
 
@@ -157,8 +157,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (fetchedResults.length === 0) {
         // Display "No results" message if there are no matches
         resultsContainer.innerHTML = `
-            <div class="col-12 text-center my-4 bg-warning bg-gradient p-5 rounded-pill">
-                <h3 class="text-light">Sorry, try another title / id...</h3>
+            <div class="col-12 text-center mt-5">
+                <h2 class="text-light">Sorry, please try again!</h2>
             </div>`;
         return;
     }

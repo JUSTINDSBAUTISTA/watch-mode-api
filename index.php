@@ -1,17 +1,21 @@
 <?php
-    require_once 'functions.php';
+require_once 'functions.php'; // Include reusable functions
 
-    // Check if there’s a search query or year filter
-    $searchQuery = isset($_GET['search']) ? $_GET['search'] : null;
-    $yearQuery = isset($_GET['year']) ? $_GET['year'] : null;
-    $showNewReleases = empty($searchQuery) && empty($yearQuery);
+// Check if there’s a search query or year filter
+$searchQuery = isset($_GET['search']) ? $_GET['search'] : null;
+$yearQuery = isset($_GET['year']) ? $_GET['year'] : null;
+$showNewReleases = empty($searchQuery) && empty($yearQuery);
 
-    // Fetch new releases only if there’s no search
-    $newReleases = $showNewReleases ? fetchNewReleases() : [];
+// Set startDate and endDate for fetching releases
+$startDate = date('Ymd'); // Current date in the format YYYYMMDD
+$endDate = date('Ymd', strtotime('+30 days')); // 30 days from current date
+
+// Fetch new releases only if there’s no search
+$newReleases = $showNewReleases ? fetchNewReleases($startDate, $endDate) : [];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <!-- Head Section -->
     <?php require 'view/layouts/header.php'; ?>
 <body>
     <div class="backdrop d-flex justify-content-center align-items-center" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url('background.jpg'); background-size: cover; background-position: center; height: 250px;">
@@ -90,6 +94,12 @@
                                         <h6 class="card-title text-light mb-1" style="font-size: 1em;">
                                             <?php echo htmlspecialchars($release['title']); ?>
                                         </h6>
+                                        <p class="card-type text-secondary mt-auto mb-0" style="font-size: 0.9em;">
+                                            <?php echo ucfirst(str_replace('_', ' ', htmlspecialchars($release['source_release_date']))); ?>
+                                        </p>
+                                        <p class="card-type text-secondary mb-0" style="font-size: 0.9em;">
+                                            (Release date)
+                                        </p>
                                         <!-- Type fixed at the bottom -->
                                         <p class="card-type text-secondary mt-auto mb-0" style="font-size: 0.9em;">
                                             <?php echo ucfirst(str_replace('_', ' ', htmlspecialchars($release['type']))); ?>
@@ -102,7 +112,6 @@
                 </div>
             </div>
         <?php endif; ?>
-
     </div>
 
     <!-- Footer Section -->

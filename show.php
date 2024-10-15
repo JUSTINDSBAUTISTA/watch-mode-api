@@ -20,7 +20,7 @@ $genreClasses = getGenreClass($genreName);
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-    
+
     <!-- Navbar Section -->
      <?php require 'view/show/navbar.php'; ?>
 
@@ -32,9 +32,8 @@ $genreClasses = getGenreClass($genreName);
             <div class="row g-3">               
                 <!-- Poster Image Section -->
                 <div class="col-12 col-sm-12 col-md-12 col-lg-6">
-                    <div class="poster-image" style="background-image: url('<?php echo !empty($details['posterLarge']) ? htmlspecialchars($details['posterLarge']) : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 100%; min-height: 900px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                    <div class="poster-image rounded" style="background-image: url('<?php echo !empty($details['posterLarge']) ? htmlspecialchars($details['posterLarge']) : 'default.jpg'; ?>'); background-size: cover; background-position: center; height: 100%; min-height: 900px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                     </div>
-
                 </div>
 
                 <!-- Details Section -->

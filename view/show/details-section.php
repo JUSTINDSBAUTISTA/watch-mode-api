@@ -1,4 +1,4 @@
-<div class="bg-light col-12 col-md-12 col-lg-4">
+<div class="bg-light col-12 col-md-12 col-lg-4 rounded">
     <div class="p-3">
         <h4 class="text-success">
             <?php echo htmlspecialchars($details['title'] ?? 'Not available'); ?> 

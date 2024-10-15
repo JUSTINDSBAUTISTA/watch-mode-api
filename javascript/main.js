@@ -136,19 +136,26 @@ document.addEventListener('DOMContentLoaded', function () {
         this.textContent = order === 'asc' ? 'Sort by Year (Oldest-Latest)' : 'Sort by Year (Latest-Oldest)';
     });
     
-    // Form submission to reload the page with parameters
+    // Form submission to reload the page with parameters or redirect if ID
     searchFormMain.addEventListener('submit', function (event) {
         event.preventDefault();
         
         const keyword = searchInputMain.value.trim();
         const year = yearFilter.value;
 
-        let url = '?';
-        if (keyword) url += `search=${encodeURIComponent(keyword)}`;
-        if (year) url += `${keyword ? '&' : ''}year=${encodeURIComponent(year)}`;
-
-        window.location.href = url;
+        if (/^\d+$/.test(keyword)) {
+            // If the keyword is numeric, assume it's a Watchmode ID and redirect to show.php
+            window.location.href = `show.php?watchmodeId=${keyword}`;
+        } else {
+            // Otherwise, build the URL with title and year search parameters
+            let url = '?';
+            if (keyword) url += `search=${encodeURIComponent(keyword)}`;
+            if (year) url += `${keyword ? '&' : ''}year=${encodeURIComponent(year)}`;
+            
+            window.location.href = url;
+        }
     });
+
 
    // Display results
    function displayResults(fetchedResults) {

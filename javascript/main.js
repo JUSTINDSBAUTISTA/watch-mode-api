@@ -24,10 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const itemsPerPage = 20;
     let currentPage = 1;
 
-    if (localStorage.getItem('searchResults')) {
-        loadSavedSearch();
-    }
-
     async function fetchResults(page = 1) {
         console.log('Fetching results...');
         const keyword = searchInput.value.trim();
@@ -41,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         paginationControls.innerHTML = '';
     
         try {
-            const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&year=${year}&page=${page}&itemsPerPage=${itemsPerPage}`);
+            const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&year=${encodeURIComponent(year)}&page=${page}&itemsPerPage=${itemsPerPage}`);
             const { results, totalResults } = await response.json();
     
             displayResults(results);
@@ -68,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Test');
         resultsContainer.innerHTML = '';
         results.forEach(result => {
-            const imageUrl = result.poster || 'default.jpg';
+            const imageUrl = result.posterLarge || 'default.jpg';
             const card = document.createElement('div');
             card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
 
@@ -147,23 +143,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             paginationControls.appendChild(nextButton);
         }
-    }
-
-    function loadSavedSearch() {
-        console.log('im here');
-        const savedKeyword = localStorage.getItem('searchKeyword');
-        const savedYear = localStorage.getItem('searchYear');
-        const savedResults = JSON.parse(localStorage.getItem('searchResults'));
-        const totalResults = parseInt(localStorage.getItem('totalResults'), 10) || 0;
-
-        searchInput.value = savedKeyword || '';
-        yearFilter.value = savedYear || '';
-
-        if (savedResults) {
-            results = savedResults;
-            displayResults(savedResults);
-            updatePagination(totalResults);
-        } 
     }
 
     // Sorting functions

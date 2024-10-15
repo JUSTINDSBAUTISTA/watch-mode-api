@@ -33,12 +33,13 @@ if (isset($_GET['suggestion'])) {
 // Main search logic
 if (isset($_GET['title'])) {
     $keyword = urlencode($_GET['title']);
-    $year = $_GET['year'] ?? null;
+    $year = isset($_GET['year']) ? (int)$_GET['year'] : null; // Cast year to integer
     $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-    $itemsPerPage = isset($_GET['itemsPerPage']) ? (int) $_GET['itemsPerPage'] : 20;
+    $itemsPerPage = isset($_GET['itemsPerPage']) ? (int) $_GET['itemsPerPage'] : 8;
 
     $data = searchTitles($keyword, $year, $page, $itemsPerPage);
     echo json_encode($data);
     exit;
 }
+
 ?>

@@ -1,0 +1,26 @@
+/* Base style for large screens */
+.title-responsive {
+    font-size: 5vw; /* Adjusts the font size to 5% of the viewport width */
+    text-shadow: 5px 3px 2px black;
+}
+
+/* Medium screens */
+@media (max-width: 992px) {
+    .title-responsive {
+        font-size: 6vw; /* Slightly larger for smaller screens */
+    }
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+    .title-responsive {
+        font-size: 7vw; /* Larger font size for better readability on small screens */
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 576px) {
+    .title-responsive {
+        font-size: 8vw; /* Further increase for very small screens */
+    }
+}

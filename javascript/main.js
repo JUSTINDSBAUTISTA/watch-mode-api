@@ -9,6 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const sortButtons = document.getElementById('sortButtons');
     const sortTitleButton = document.getElementById('sortTitle');
     const sortYearButton = document.getElementById('sortYear');
+    const newReleasesSection = document.querySelector('.new-releases-carousel');
+
+    if (newReleasesSection) {
+        searchFormMain.addEventListener('submit', function () {
+            newReleasesSection.style.display = 'none';
+        });
+    }
 
     function resetSearch() {
         searchInputMain.value = '';

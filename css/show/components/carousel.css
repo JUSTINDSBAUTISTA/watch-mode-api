@@ -1,0 +1,46 @@
+/* Carousel Container */
+.new-releases-carousel {
+    max-width: 100%;
+    overflow: hidden;
+    padding: 10px 0;
+}
+
+/* Scrolling Container */
+.scroll-container {
+    display: flex;
+    animation: scrollLeft 20s linear infinite;
+}
+
+/* Individual Card */
+.release-card {
+    flex: 0 0 auto;
+    width: 150px;
+    transition: transform 0.2s ease;
+}
+
+/* Image Styling */
+.release-card img {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+}
+
+/* Scale effect on hover */
+.release-card:hover {
+    transform: scale(1.05);
+}
+
+/* Pause scrolling on hover */
+.scroll-container:hover {
+    animation-play-state: paused;
+}
+
+/* Scroll animation */
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

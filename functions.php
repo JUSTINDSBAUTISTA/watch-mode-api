@@ -137,3 +137,43 @@ function getGenreClass($genreName) {
 
     return $genreClasses[$genreName] ?? 'default-genre';
 }
+
+/**
+ * Fetches the latest releases from the Watchmode API.
+ *
+ * @return array|null
+ */
+function fetchNewReleases() {
+    $url = "https://api.watchmode.com/v1/releases/?apiKey=" . API_KEY;
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    
+    $response = curl_exec($ch);
+    
+    if (curl_errno($ch)) {
+        error_log("cURL Error: " . curl_error($ch));
+        curl_close($ch);
+        return []; // Return an empty array if there's an error
+    }
+    
+    curl_close($ch);
+    
+    $decodedResponse = json_decode($response, true);
+
+    // Ensure we have a valid response and access the 'releases' array
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        error_log("JSON Decode Error: " . json_last_error_msg());
+        return [];
+    }
+
+    if (isset($decodedResponse['releases'])) {
+        return $decodedResponse['releases']; // Return the releases array directly
+    } else {
+        error_log("Missing 'releases' in API response.");
+        return [];
+    }
+}
+

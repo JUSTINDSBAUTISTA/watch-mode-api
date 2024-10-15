@@ -1,10 +1,10 @@
-const searchInput = document.getElementById('searchInput');
+const searchInputHeader = document.getElementById('searchInput');
 const suggestions = document.getElementById('suggestions');
-const searchForm = document.getElementById('searchForm');
+const searchFormHeader = document.getElementById('searchForm');
 document.addEventListener('DOMContentLoaded', function () {
     // Show suggestions when typing in the search input
-    searchInput.addEventListener('input', function () {
-        const query = searchInput.value.trim();
+    searchInputHeader.addEventListener('input', function () {
+        const query = searchInputHeader.value.trim();
         if (query.length > 2) {
             fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
                 .then(response => response.json())
@@ -36,9 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Hide suggestions when form is submitted
-    searchForm.addEventListener('submit', function (event) {
+    searchFormHeader.addEventListener('submit', function (event) {
         event.preventDefault();
-        let url = '/watch-mode-api?search=' + encodeURIComponent(searchInput.value);
+        let url = '/watch-mode-api?search=' + encodeURIComponent(searchInputHeader.value);
 
         //  suggestions.classList.add('d-none');
         window.location.href = url;

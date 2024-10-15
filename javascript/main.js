@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const searchForm = document.getElementById('searchForm');
-    const searchInput = document.getElementById('searchInput');
+    const searchFormMain = document.getElementById('searchForm');
+    const searchInputMain = document.getElementById('searchInput');
     const yearFilter = document.getElementById('yearFilter');
     const resultsContainer = document.getElementById('resultsContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');
@@ -11,13 +11,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const sortYearButton = document.getElementById('sortYear');
 
     function resetSearch() {
-        searchInput.value = '';
+        searchInputMain.value = '';
         yearFilter.value = '';
         resultsContainer.innerHTML = '';
         paginationControls.innerHTML = '';
         sortButtons.classList.add('d-none');
         localStorage.clear();
+
+        // Reload the page without parameters
+        window.location.href = '/watch-mode-api/';
     }
+
     resetButton.addEventListener('click', resetSearch);
 
     let results = [];
@@ -26,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function fetchResults(page = 1) {
         console.log('Fetching results...');
-        const keyword = searchInput.value.trim();
+        const keyword = searchInputMain.value.trim();
         const year = yearFilter.value;
     
         // Show loading spinner if it exists
@@ -60,53 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function displayResults(results) {
-        console.log('Test');
-        resultsContainer.innerHTML = '';
-        results.forEach(result => {
-            const imageUrl = result.posterLarge || 'default.jpg';
-            const card = document.createElement('div');
-            card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
-
-            card.innerHTML = `
-                <div class="card h-100 bg-dark">
-                    <img src="${imageUrl}" class="card-img-top position-relative" alt="${result.title}">
-                    <div class="icon-container">
-                        <button class="btn btn-download" data-json="${encodeURIComponent(JSON.stringify(result))}">
-                            <i class="fas fa-download" style="cursor: pointer;"></i>
-                        </button>
-                        ${
-                            result.trailer
-                                ? `<a href="${result.trailer}" target="_blank" class="btn btn-youtube"><i class="fab fa-youtube"></i></a>`
-                                : ''
-                        }
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
-                        <hr class="hr my-1">
-                        <h5 class="card-title mb-2 text-center text-warning">${result.title}</h5>
-                        <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
-                        <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
-                        <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
-                        <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
-                        <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
-                    </div>
-                </div>`;
-            resultsContainer.appendChild(card);
-        });
-        
-        document.querySelectorAll('.btn-download').forEach(button => {
-            button.addEventListener('click', function () {
-                downloadJson(this.getAttribute('data-json'));
-            });
-        });
-        document.querySelectorAll('.view-details').forEach(button => {
-            button.addEventListener('click', function () {
-                const id = this.getAttribute('data-id');
-                window.location.href = `show.php?watchmodeId=${id}`;
-            });
-        });
-    }
 
     function updatePagination(totalResults) {
         const totalPages = Math.ceil(totalResults / itemsPerPage);
@@ -182,24 +139,81 @@ document.addEventListener('DOMContentLoaded', function () {
         this.textContent = order === 'asc' ? 'Sort by Year (Oldest-Latest)' : 'Sort by Year (Latest-Oldest)';
     });
 
-    searchForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const keyword = searchInput.value.trim();
+    // Update form submission to reload the page with parameters
+    searchFormMain.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        const keyword = searchInputMain.value.trim();
+        const year = yearFilter.value;
 
-        if (/^\d+$/.test(keyword)) {
-            console.log('Redirecting to show.php...');
-            window.location.href = `show.php?watchmodeId=${keyword}`;
-        } else {
-            currentPage = 1;
-            fetchResults(currentPage);
-        }
+        // Construct the URL with the search and year parameters
+        let url = '/watch-mode-api/index.php?';
+        if (keyword) url += `search=${encodeURIComponent(keyword)}`;
+        if (year) url += `${keyword ? '&' : ''}year=${encodeURIComponent(year)}`;
+
+        // Use `location.href` to reload with parameters
+        window.location.href = url;
     });
-    
+
+    function displayResults(results) {
+        console.log('Displaying results...');
+        resultsContainer.innerHTML = '';
+        results.forEach(result => {
+            const imageUrl = result.posterLarge || 'default.jpg';
+            const card = document.createElement('div');
+            card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
+
+            card.innerHTML = `
+                <div class="card h-100 bg-dark">
+                    <img src="${imageUrl}" class="card-img-top position-relative" alt="${result.title}">
+                    <div class="icon-container">
+                        <button class="btn btn-download" data-json="${encodeURIComponent(JSON.stringify(result))}">
+                            <i class="fas fa-download" style="cursor: pointer;"></i>
+                        </button>
+                        ${
+                            result.trailer
+                                ? `<a href="${result.trailer}" target="_blank" class="btn btn-youtube"><i class="fab fa-youtube"></i></a>`
+                                : ''
+                        }
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
+                        <hr class="hr my-1">
+                        <h5 class="card-title mb-2 text-center text-warning">${result.title}</h5>
+                        <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
+                        <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
+                        <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
+                        <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
+                        <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
+                    </div>
+                </div>`;
+            resultsContainer.appendChild(card);
+        });
+        
+        document.querySelectorAll('.btn-download').forEach(button => {
+            button.addEventListener('click', function () {
+                downloadJson(this.getAttribute('data-json'));
+            });
+        });
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                window.location.href = `show.php?watchmodeId=${id}`;
+            });
+        });
+    }
+
     setTimeout(() => {
-        let searchParams = new URLSearchParams(window.location.search);
-        if (searchParams.has('search')) {
-            searchInput.value = searchParams.get('search');
+        const searchParams = new URLSearchParams(window.location.search);
+        const searchQuery = searchParams.get('search');
+        const yearQuery = searchParams.get('year');
+        
+        // Only fetch results if there is a non-empty search query or a year filter
+        if ((searchQuery && searchQuery.trim() !== "") || (yearQuery && yearQuery.trim() !== "")) {
+            if (searchQuery) searchInputMain.value = searchQuery;
+            if (yearQuery) yearFilter.value = yearQuery;
             fetchResults();
         }
     }, 0);
+    
 });

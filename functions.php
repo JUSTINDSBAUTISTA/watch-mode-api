@@ -50,11 +50,11 @@ function searchTitles($keyword, $year = null, $page = 1, $itemsPerPage = 20) {
 
     $data = json_decode($response, true);
     $results = [];
-    
+
     if (!empty($data['results'])) {
         foreach ($data['results'] as $result) {
-            // Check if the year filter is set and if it matches the result's year
-            if ($year && $result['year'] != $year) {
+            // Apply the year filter to the results if specified
+            if ($year && isset($result['year']) && $result['year'] != $year) {
                 continue; // Skip this result if it doesn't match the year filter
             }
             $details = fetchDetailsByWatchmodeId($result['id']);
@@ -63,9 +63,10 @@ function searchTitles($keyword, $year = null, $page = 1, $itemsPerPage = 20) {
             }
         }
     }
-    
+
     return ['results' => $results, 'totalResults' => count($results)];
 }
+
 
 
 /**

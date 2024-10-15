@@ -17,7 +17,7 @@
             <div class="input-group">
                 <input 
                     type="text" 
-                    id="searchInput" 
+                    id="searchInputMain" 
                     class="form-control" 
                     placeholder="Enter title keyword or Watchmode ID... (Year is Optional)" 
                     aria-label="Search" 

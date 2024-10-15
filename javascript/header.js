@@ -1,4 +1,4 @@
-const searchInputHeader = document.getElementById('searchInput');
+const searchInputHeader = document.getElementById('searchInputHeader');
 const suggestions = document.getElementById('suggestions');
 const searchFormHeader = document.getElementById('searchForm');
 document.addEventListener('DOMContentLoaded', function () {

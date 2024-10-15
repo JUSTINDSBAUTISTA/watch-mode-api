@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const searchFormMain = document.getElementById('searchForm');
-    const searchInputMain = document.getElementById('searchInput');
+    const searchInputMain = document.getElementById('searchInputMain');
     const yearFilter = document.getElementById('yearFilter');
     const resultsContainer = document.getElementById('resultsContainer');
     const loadingSpinner = document.getElementById('loadingSpinner');

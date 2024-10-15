@@ -11,9 +11,9 @@
             <div class="input-group">
                 <input 
                     type="text" 
-                    id="SearchInputHeader" 
+                    id="searchInputHeader" 
                     class="form-control" 
-                    placeholder="Enter title keyword or Watchmode ID... (Year is Optional)" 
+                    placeholder="Enter Title keyword or Watchmode ID" 
                     aria-label="Search" 
                     required
                 >

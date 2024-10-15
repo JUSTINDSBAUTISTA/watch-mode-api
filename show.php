@@ -14,6 +14,13 @@ $genreClasses = getGenreClass($genreName);
     <!-- Head Section -->
      <?php require 'view/layouts/header.php'; ?>
 <body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    
     <!-- Navbar Section -->
      <?php require 'view/show/navbar.php'; ?>
 

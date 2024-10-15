@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/show/styles.css">
     <link rel="stylesheet" href="css/show/genre.css">
     <link rel="stylesheet" href="css/show/components/cards.css">
+    <link rel="stylesheet" href="css/show/components/spinner.css">
 
     <script async src="javascript/header.js"></script>
     <script>

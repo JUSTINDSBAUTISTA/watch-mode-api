@@ -16,12 +16,12 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/index/styles.css">
     <link rel="stylesheet" href="css/index/components/cards.css">
+    <link rel="stylesheet" href="css/index/components/carousel.css">
     <link rel="stylesheet" href="css/show/styles.css">
     <link rel="stylesheet" href="css/show/genre.css">
     <link rel="stylesheet" href="css/show/components/cards.css">
     <link rel="stylesheet" href="css/show/components/spinner.css">
     <link rel="stylesheet" href="css/show/components/responsive-title.css">
-    <link rel="stylesheet" href="css/show/components/carousel.css">
 
     <script async src="javascript/header.js"></script>
     <script>

@@ -1,10 +1,10 @@
 <div class="col-12 col-sm-12 col-md-12 col-lg-2">
     <div class="row">
         <!-- Streaming Sources (Scrollable) -->
-        <div class="col-sm-6 col-lg-12 mb-3">
+        <div class="col-6 col-sm-6 col-lg-12 mb-2">
             <div class="card">
                 <div class="card-header bg-info text-white">Available On</div>
-                <div class="card-body p-0" id="availableOnContainer" style="max-height: 250px; overflow-y: auto;">
+                <div class="card-body p-0" id="availableOnContainer" style="max-height: 450px; overflow-y: auto;">
                     <ul class="list-unstyled mb-0">
                         <?php if (!empty($details['sources'])): ?>
                             <?php foreach ($details['sources'] as $source): ?>
@@ -23,12 +23,11 @@
                 </div>
             </div>
         </div>
-
         <!-- Cast Names (Scrollable) -->
-        <div class="col-sm-6 col-lg-12 ">
+        <div class="col-6 col-sm-6 col-lg-12 mb-auto">
             <div class="card">
                 <div class="card-header bg-secondary text-white">Cast & Crew</div>
-                <div class="card-body p-0" id="castCrewContainer" style="max-height: 250px; overflow-y: auto;">
+                <div class="card-body p-0" id="castCrewContainer" style="max-height: 450px; overflow-y: auto;">
                     <ul class="list-unstyled mb-0">
                         <?php if (!empty($castCrew)): ?>
                             <?php foreach ($castCrew as $person): ?>

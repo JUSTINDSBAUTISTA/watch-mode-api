@@ -32,5 +32,8 @@ $genreClasses = getGenreClass($genreName);
 
     <!-- Footer Section -->
      <?php require 'view/layouts/footer.php'; ?>
+
+    <!-- JavaScript for Show Page -->
+    <script src="javascript/show_page/show.js" ></script>
 </body>
 </html>

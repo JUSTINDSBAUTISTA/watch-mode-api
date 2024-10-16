@@ -28,6 +28,8 @@ $newReleases = $showNewReleases ? fetchNewReleases($startDate, $endDate) : [];
 
     <!-- Footer Section -->
     <?php require 'view/layouts/footer.php'; ?>
-    
+
+    <!-- JavaScript for Main Page -->
+    <script src="javascript/main.js" ></script>
 </body>
 </html>

@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="css/show/components/spinner.css">
     <link rel="stylesheet" href="css/show/components/responsive.css">
 
-    <script async src="javascript/header.js"></script>
     <script>
         const detailsData = <?php echo json_encode($details, JSON_PRETTY_PRINT); ?>;
     </script>

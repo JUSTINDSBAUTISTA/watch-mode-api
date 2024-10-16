@@ -1,5 +1,6 @@
 <main class="container" id="detailsContainer">
     <?php if ($details): ?>
+
         <div class="row g-3">               
             <!-- Poster Image Section -->
             <div class="poster col-12 col-sm-12 col-md-12 col-lg-6">
@@ -14,9 +15,8 @@
             <?php require 'view/show/cast-&-available-section.php'; ?>
 
         </div>
-
-            <!-- Similar Titles Section -->
-            <?php require 'view/show/similar-titles-section.php'; ?>
+        <!-- Similar Titles Section -->
+        <?php require 'view/show/similar-titles-section.php'; ?>
 
     <!-- Title Not Found Message -->
     <?php else: ?>

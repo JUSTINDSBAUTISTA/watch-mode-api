@@ -100,11 +100,27 @@
             ?>
         </p>
 
-        <!-- Trailer Button -->
         <?php if (!empty($details['trailer'])): ?>
-            <a href="<?php echo htmlspecialchars($details['trailer']); ?>" target="_blank" class="btn btn-danger mt-3">Watch Trailer</a>
+            <?php
+                // Parse the URL to get the video ID from the query parameter
+                $trailerUrl = $details['trailer'];
+                parse_str(parse_url($trailerUrl, PHP_URL_QUERY), $queryParams);
+                $videoId = $queryParams['v'] ?? ''; // Get the 'v' parameter if it exists
+            ?>
+            <!-- YouTube Trailer Embed -->
+            <?php if ($videoId): ?>
+                <iframe width="380" height="225" 
+                    src="https://www.youtube.com/embed/<?php echo htmlspecialchars($videoId); ?>" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            <?php else: ?>
+                <p class="text-muted mt-3">Trailer link is invalid</p>
+            <?php endif; ?>
         <?php else: ?>
             <p class="text-muted mt-3">Trailer not available</p>
         <?php endif; ?>
+
     </div>
 </div>

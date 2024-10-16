@@ -1,7 +1,7 @@
 <div class="col-12 col-sm-12 col-md-12 col-lg-2">
     <div class="row">
         <!-- Streaming Sources (Scrollable) -->
-        <div class="col-12 mb-3">
+        <div class="col-sm-6 col-lg-12 mb-3">
             <div class="card">
                 <div class="card-header bg-info text-white">Available On</div>
                 <div class="card-body p-0" id="availableOnContainer" style="max-height: 250px; overflow-y: auto;">
@@ -25,7 +25,7 @@
         </div>
 
         <!-- Cast Names (Scrollable) -->
-        <div class="col-12">
+        <div class="col-sm-6 col-lg-12 ">
             <div class="card">
                 <div class="card-header bg-secondary text-white">Cast & Crew</div>
                 <div class="card-body p-0" id="castCrewContainer" style="max-height: 250px; overflow-y: auto;">

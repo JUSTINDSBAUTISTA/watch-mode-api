@@ -5,13 +5,25 @@
     padding: 10px 0;
 }
 
-/* Scrolling Container */
+/* Scrolling Container with dynamic duration */
 .scroll-container {
     display: flex;
-    animation: scrollLeft 20s linear infinite;
+    animation-name: scrollLeft;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 
-/* Individual Card */
+/* Keyframes for scroll animation */
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Individual Card Styling */
 .release-card {
     flex: 0 0 auto;
     width: 150px;
@@ -35,12 +47,26 @@
     animation-play-state: paused;
 }
 
-/* Scroll animation */
-@keyframes scrollLeft {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+/* Customize Scrollbar Styling */
+.new-releases-carousel::-webkit-scrollbar {
+    height: 1rem;
+}
+
+.new-releases-carousel::-webkit-scrollbar-track {
+    background: linear-gradient(
+        to right,
+        linen 25%,
+        lightsalmon 25%,
+        lightsalmon 50%,
+        lightblue 50%,
+        lightblue 75%,
+        gainsboro 75%
+    );
+    padding: 0.625rem;
+    margin: 0 5rem;
+}
+
+.new-releases-carousel::-webkit-scrollbar-thumb {
+    background-color: slategrey;
+    border: 0.5rem solid gainsboro;
 }

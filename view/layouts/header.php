@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="css/show/genre.css">
     <link rel="stylesheet" href="css/show/components/cards.css">
     <link rel="stylesheet" href="css/show/components/spinner.css">
-    <link rel="stylesheet" href="css/show/components/responsive-title.css">
+    <link rel="stylesheet" href="css/show/components/responsive.css">
 
     <script async src="javascript/header.js"></script>
     <script>

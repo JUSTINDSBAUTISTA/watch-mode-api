@@ -1,0 +1,62 @@
+/* Backdrop styles */
+.backdrop {
+    min-height: calc(50vh + 10vw); /* Dynamic height based on viewport */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+/* Title responsive styles */
+.title-responsive {
+    font-size: 5vw; /* Adjusts the font size to 5% of the viewport width */
+    text-shadow: 5px 3px 2px black;
+}
+
+/* Medium screens */
+@media (max-width: 992px) {
+    .title-responsive {
+        font-size: 6vw; /* Slightly larger for smaller screens */
+    }
+    .backdrop {
+        min-height: calc(45vh + 12vw); /* Adjust backdrop height for medium screens */
+    }
+    .poster {
+        height: 50vh; /* Decrease height for medium screens */
+        min-height: 500px;
+    }
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+    .title-responsive {
+        font-size: 7vw; /* Larger font size for better readability on small screens */
+    }
+    .backdrop {
+        min-height: calc(40vh + 15vw); /* Adjust backdrop height for small screens */
+    }
+    .poster {
+        height: 45vh; /* Slightly smaller for smaller screens */
+        min-height: 400px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 576px) {
+    .title-responsive {
+        font-size: 8vw; /* Further increase for very small screens */
+    }
+    .backdrop {
+        min-height: calc(35vh + 20vw); /* Adjust backdrop height for extra small screens */
+        background-size: contain; /* Contain image on very small screens */
+    }
+    .poster {
+        height: 40vh; /* Further reduce height for very small screens */
+        min-height: 300px;
+        background-size: cover; /* Adjust background scaling for very small screens */
+    }
+}

@@ -17,16 +17,30 @@
     text-shadow: 5px 3px 2px black;
 }
 
+/* Large screens */
+@media (max-width: 2560px) {
+    .title-responsive {
+        font-size: 3vw; /* Smaller font size for larger screens */
+    }
+    .backdrop {
+        min-height: calc(60vh + 27vw); /* Adjust backdrop height for large screens */
+    }
+    .poster {
+        height: 50vh; /* Set poster height for large screens */
+        min-height: 500px;
+    }
+}
+
 /* Medium screens */
 @media (max-width: 992px) {
     .title-responsive {
-        font-size: 6vw; /* Slightly larger for smaller screens */
+        font-size: 5vw; /* Font size adjusts to 5% of viewport width */
     }
     .backdrop {
-        min-height: calc(45vh + 12vw); /* Adjust backdrop height for medium screens */
+        min-height: calc(45vh + 12vw); /* Decrease backdrop height for medium screens */
     }
     .poster {
-        height: 50vh; /* Decrease height for medium screens */
+        height: 50vh; /* Set poster height for medium screens */
         min-height: 500px;
     }
 }
@@ -34,13 +48,13 @@
 /* Small screens */
 @media (max-width: 768px) {
     .title-responsive {
-        font-size: 7vw; /* Larger font size for better readability on small screens */
+        font-size: 7vw; /* Increase font size for better readability */
     }
     .backdrop {
         min-height: calc(40vh + 15vw); /* Adjust backdrop height for small screens */
     }
     .poster {
-        height: 45vh; /* Slightly smaller for smaller screens */
+        height: 45vh; /* Set poster height for small screens */
         min-height: 400px;
     }
 }
@@ -48,15 +62,15 @@
 /* Extra small screens */
 @media (max-width: 576px) {
     .title-responsive {
-        font-size: 8vw; /* Further increase for very small screens */
+        font-size: 8vw; /* Further increase font size for readability */
     }
     .backdrop {
-        min-height: calc(35vh + 20vw); /* Adjust backdrop height for extra small screens */
-        background-size: contain; /* Contain image on very small screens */
+        min-height: calc(35vh + 20vw); /* Further adjust backdrop height */
+        background-size: contain; /* Contain background on extra small screens */
     }
     .poster {
-        height: 40vh; /* Further reduce height for very small screens */
+        height: 40vh; /* Decrease height for extra small screens */
         min-height: 300px;
-        background-size: cover; /* Adjust background scaling for very small screens */
+        background-size: cover; /* Ensure background covers poster area */
     }
 }

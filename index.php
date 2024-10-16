@@ -19,8 +19,8 @@ $newReleases = $showNewReleases ? fetchNewReleases($startDate, $endDate) : [];
     <?php require 'view/layouts/header.php'; ?>
 <body>
 
-    <!-- Backdrop Section -->
-    <div class="backdrop d-flex justify-content-center align-items-center" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url('images/background.jpg'); background-size: cover; background-position: center; height: 250px;">
+    <!-- Background Section -->
+    <div class="main-background d-flex justify-content-center align-items-center" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url('images/background.jpg'); background-size: cover; background-position: center; height: 250px;">
     </div>  
         
     <!-- Main Section -->

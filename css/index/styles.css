@@ -21,3 +21,13 @@ p {
     width: 3rem;
     height: 3rem;
 }
+.main-background {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 750px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

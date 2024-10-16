@@ -2,7 +2,7 @@
 <?php if ($details): ?>
     <div class="backdrop d-flex justify-content-center align-items-center text-center position-relative" 
          style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), 
-                url('<?php echo !empty($details['backdrop']) ? htmlspecialchars($details['backdrop']) : 'default.jpg'; ?>'); 
+                url('<?php echo !empty($details['backdrop']) ? htmlspecialchars($details['backdrop']) : 'images/default.jpg'; ?>'); 
                 background-size: cover; background-position: center;">
 
         <!-- Overlay for Background Opacity -->

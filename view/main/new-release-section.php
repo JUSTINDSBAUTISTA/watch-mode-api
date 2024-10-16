@@ -8,7 +8,7 @@
                 <?php foreach ($newReleases as $release): ?>
                     <a href="show.php?watchmodeId=<?php echo htmlspecialchars($release['id']); ?>" class="release-card text-decoration-none mx-2" title="<?php echo htmlspecialchars($release['title']); ?>">
                         <div class="card bg-dark text-white">
-                        <img src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'default.jpg'; ?>" 
+                        <img src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/default.jpg'; ?>" 
                                 class="card-img-top" 
                                 alt="<?php echo htmlspecialchars($release['title']); ?>">
                                 

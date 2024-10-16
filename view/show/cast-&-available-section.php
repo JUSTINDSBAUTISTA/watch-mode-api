@@ -1,4 +1,4 @@
-<div class="col-12 col-sm-12 col-md-12 col-lg-2">
+<div class="available-cast col-12 col-sm-12 col-md-12 col-lg-2">
     <div class="row">
         <!-- Streaming Sources (Scrollable) -->
         <div class="col-6 col-sm-6 col-lg-12 mb-2">

@@ -13,6 +13,9 @@ $endDate = date('Ymd', strtotime('+30 days')); // 30 days from current date
 // Fetch new releases only if there’s no search
 $newReleases = $showNewReleases ? fetchNewReleases($startDate, $endDate) : [];
 
+// Fetch sources regions
+$sources_by_type = fetchSources([], 'US'); 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -6,7 +6,7 @@ $scrollDuration = $itemCount * .25; // 0.25s per item
 
 <!-- Display the New Releases Carousel if there are results -->
 <?php if ($showNewReleases && !empty($newReleases)): ?>
-    <div class="container">
+    <div class="container mb-5">
         <h2 class="text-center text-warning">New Release!</h2>
         <p class="text-light text-center">" This endpoint will return release dates from the current date through the next 30 days. "</p>
         

@@ -1,11 +1,11 @@
-/* Carousel Container */
+/* Carousel Container for New Releases */
 .new-releases-carousel {
     max-width: 100%;
     overflow: hidden;
     padding: 10px 0;
 }
 
-/* Scrolling Container with dynamic duration */
+/* Scrolling container for New Releases with dynamic duration */
 .scroll-container {
     display: flex;
     animation-name: scrollLeft;
@@ -13,7 +13,7 @@
     animation-iteration-count: infinite;
 }
 
-/* Keyframes for scroll animation */
+/* Keyframes for scrolling New Releases */
 @keyframes scrollLeft {
     0% {
         transform: translateX(0);
@@ -23,21 +23,19 @@
     }
 }
 
-/* Individual Card Styling */
+/* New Releases Card Styling */
 .release-card {
     flex: 0 0 auto;
     width: 150px;
     transition: transform 0.2s ease;
 }
 
-/* Image Styling */
 .release-card img {
     object-fit: cover;
     height: 200px;
     width: 100%;
 }
 
-/* Scale effect on hover */
 .release-card:hover {
     transform: scale(1.05);
 }
@@ -69,4 +67,52 @@
 .new-releases-carousel::-webkit-scrollbar-thumb {
     background-color: slategrey;
     border: 0.5rem solid gainsboro;
+}
+
+/* Source carousel container */
+.source-carousel-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Scrolling container for source logos */
+.source-scroll-container {
+    display: flex;
+    animation: scroll 20s linear infinite; /* Adjust speed as needed */
+}
+
+/* Pause scrolling on hover */
+.source-scroll-container:hover {
+    animation-play-state: paused;
+}
+
+/* Infinite scroll animation for source logos */
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Source card */
+.source-card {
+    flex: 0 0 auto;
+    margin-right: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.source-card:hover {
+    transform: scale(1.1);
+}
+
+/* Source logo styling */
+.source-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.8;
+}
+
+.source-logo:hover {
+    opacity: 1;
+    filter: none;
 }

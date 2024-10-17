@@ -13,3 +13,5 @@ require_once 'functions/fetch-cast-and-crew-by-watchmodeid.php';
 require_once 'functions/get-genre.php';
 
 require_once 'functions/fetch-new-release.php';
+
+require_once 'functions/fetch-sources.php';

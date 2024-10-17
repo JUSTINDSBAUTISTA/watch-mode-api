@@ -12,12 +12,28 @@ document.addEventListener('DOMContentLoaded', function () {
         const sortTitleButton = document.getElementById('sortTitle');
         const sortYearButton = document.getElementById('sortYear');
         const newReleasesSection = document.querySelector('.new-releases-carousel');
+        const carousels = document.querySelectorAll('.source-carousel-container');
 
-        if (newReleasesSection) {
-            searchFormMain.addEventListener('submit', function () {
-                newReleasesSection.style.display = 'none';
-            });
-        }
+        carousels.forEach(carousel => {
+            const scrollContainer = carousel.querySelector('.source-scroll-container');
+    
+            // Calculate scroll speed based on item count
+            const itemCount = scrollContainer.children.length;
+            const scrollSpeed = itemCount <= 5 ? 50 : Math.max(30 - itemCount, 10);
+    
+            let scrollAmount = 0;
+    
+            function scrollItems() {
+                scrollAmount += 1;
+                if (scrollAmount >= scrollContainer.scrollWidth / 2) {
+                    scrollAmount = 0; // Reset to start to make it seamless
+                }
+                scrollContainer.scrollLeft = scrollAmount;
+            }
+    
+            // Start the interval-based scrolling
+            setInterval(scrollItems, scrollSpeed);
+        });
 
         function resetSearch() {
             searchInputMain.value = '';
@@ -277,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.location.href = `show.php?watchmodeId=${watchmodeId}`;
                 }
             });
-            
+
         } else {
             console.error("searchInputMain or searchFormMain not found in the DOM.");
         }

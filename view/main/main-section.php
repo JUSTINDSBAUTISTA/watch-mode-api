@@ -34,5 +34,8 @@
     
     <!-- Sources Section -->
     <?php require 'view/main/sources-section.php'; ?>
+
+    <!-- Worldwide Flags Section -->
+    <?php require 'view/main/flags-section.php'; ?>
     
 </main>

@@ -13,6 +13,25 @@ document.addEventListener('DOMContentLoaded', function () {
         const sortYearButton = document.getElementById('sortYear');
         const sourcesSection = document.getElementById('sourcesSection');
         const carousels = document.querySelectorAll('.source-carousel-container');
+        const flagItems = document.querySelectorAll('.flag-item');
+
+        function slideInOnScroll() {
+            const windowHeight = window.innerHeight;
+            
+            flagItems.forEach(flag => {
+                const flagTop = flag.getBoundingClientRect().top;
+                
+                if (flagTop < windowHeight * 0.9) {
+                    flag.classList.add('visible');
+                }
+            });
+        }
+    
+        // Initial check in case items are already in view
+        slideInOnScroll();
+    
+        // Event listener for scrolling
+        window.addEventListener('scroll', slideInOnScroll);
 
 
         // Add event listener for form submission

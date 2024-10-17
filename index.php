@@ -16,6 +16,8 @@ $newReleases = $showNewReleases ? fetchNewReleases($startDate, $endDate) : [];
 // Fetch sources regions
 $sources_by_type = fetchSources([], 'US'); 
 
+$flags = fetchFlags(); // Fetch flags data
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

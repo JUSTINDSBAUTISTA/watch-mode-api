@@ -15,3 +15,5 @@ require_once 'functions/get-genre.php';
 require_once 'functions/fetch-new-release.php';
 
 require_once 'functions/fetch-sources.php';
+
+require_once 'functions/fetch-flags.php';

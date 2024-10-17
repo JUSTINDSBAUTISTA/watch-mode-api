@@ -11,8 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const sortButtons = document.getElementById('sortButtons');
         const sortTitleButton = document.getElementById('sortTitle');
         const sortYearButton = document.getElementById('sortYear');
-        const newReleasesSection = document.querySelector('.new-releases-carousel');
+        const sourcesSection = document.getElementById('sourcesSection');
         const carousels = document.querySelectorAll('.source-carousel-container');
+
+
+        // Add event listener for form submission
+        searchFormMain.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevents the default form submission
+        });
 
         carousels.forEach(carousel => {
             const scrollContainer = carousel.querySelector('.source-scroll-container');
@@ -41,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
             resultsContainer.innerHTML = '';
             paginationControls.innerHTML = '';
             sortButtons.classList.add('d-none');
+            sourcesSection.style.display = 'none';
             localStorage.clear();
 
             // Reload the page without parameters
@@ -60,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Show loading spinner
             if (loadingSpinner) loadingSpinner.style.display = 'block';
+            if (sourcesSection) sourcesSection.style.display = 'none';
             
             resultsContainer.innerHTML = '';
             paginationControls.innerHTML = '';
@@ -185,6 +193,10 @@ document.addEventListener('DOMContentLoaded', function () {
         function displayResults(fetchedResults) {
             resultsContainer.innerHTML = '';
 
+            if (sourcesSection) {
+                sourcesSection.style.display = '';
+            }
+
             if (fetchedResults.length === 0) {
                 // Display "No results" message if there are no matches
                 resultsContainer.innerHTML = `
@@ -251,14 +263,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetchResults();
             }
         }, 0);
-
-        // Add event listener for form submission
-        searchFormMain.addEventListener('submit', function () {
-            if (newReleasesSection) {
-                newReleasesSection.style.display = 'none';
-            }
-        });
-
 
         if (searchInputMain && searchFormMain) {
             // Show suggestions when typing in the search input

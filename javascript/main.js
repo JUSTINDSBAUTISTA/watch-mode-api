@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+
         if (searchInputMain && searchFormMain) {
             // Show suggestions when typing in the search input
             searchInputMain.addEventListener('input', function () {
@@ -276,22 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.location.href = `show.php?watchmodeId=${watchmodeId}`;
                 }
             });
-
-            // Handle form submission to differentiate between title and ID search
-            searchFormMain.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                const query = searchInputMain.value.trim();
-
-                if (/^\d+$/.test(query)) {
-                    // If the query is all digits, assume it's an ID and redirect to show.php
-                    window.location.href = `show.php?watchmodeId=${query}`;
-                } else {
-                    // If it's a title, redirect to index.php with search parameter for title
-                    let url = '/watch-mode-api/?search=' + encodeURIComponent(query);
-                    window.location.href = url;
-                }
-            });
+            
         } else {
             console.error("searchInputMain or searchFormMain not found in the DOM.");
         }

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const searchInputHeader = document.getElementById('searchInputHeader');
     const suggestions = document.getElementById('suggestions');
-    const searchFormHeader = document.getElementById('searchForm');
+    const searchFormHeader = document.getElementById('searchFormHeader');
 
     if (searchInputHeader && searchFormHeader) {
         // Show suggestions when typing in the search input

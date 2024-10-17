@@ -13,6 +13,7 @@ $genreClasses = getGenreClass($genreName);
 <html lang="en">
     <!-- Head Section -->
      <?php require 'view/layouts/header.php'; ?>
+    <script async src="javascript/show_page/show.js" ></script>
 <body>
     <!-- Loading Overlay -->
     <div id="loadingOverlay">
@@ -34,6 +35,6 @@ $genreClasses = getGenreClass($genreName);
      <?php require 'view/layouts/footer.php'; ?>
 
     <!-- JavaScript for Show Page -->
-    <script src="javascript/show_page/show.js" ></script>
+
 </body>
 </html>

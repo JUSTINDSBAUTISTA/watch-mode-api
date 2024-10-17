@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const sortYearButton = document.getElementById('sortYear');
         const sourcesSection = document.getElementById('sourcesSection');
         const carousels = document.querySelectorAll('.source-carousel-container');
+        const flagSection = document.querySelector('#flagsSection');
         const flagItems = document.querySelectorAll('.flag-item');
 
         function slideInOnScroll() {
@@ -87,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Show loading spinner
             if (loadingSpinner) loadingSpinner.style.display = 'block';
             if (sourcesSection) sourcesSection.style.display = 'none';
+            if (flagSection) flagSection.style.display = 'none';
             
             resultsContainer.innerHTML = '';
             paginationControls.innerHTML = '';
@@ -109,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error fetching results:', error);
             } finally {
                 if (loadingSpinner) loadingSpinner.style.display = 'none';
+                if (flagSection) flagSection.style.display = 'none';
             }
         }
 

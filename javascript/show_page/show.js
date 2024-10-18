@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = `show.php?watchmodeId=${query}`;
             } else {
                 // If it's a title, redirect to index.php with search parameter for title
-                let url = '/watch-mode-api/?search=' + encodeURIComponent(query);
+                let url = '/?search=' + encodeURIComponent(query);
                 window.location.href = url;
             }
         });

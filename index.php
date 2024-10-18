@@ -36,5 +36,7 @@ $flags = fetchFlags(); // Fetch flags data
 
     <!-- JavaScript for Main Page -->
     <script src="javascript/main.js" ></script>
+    <script src="javascript/main/flag_slide.js" ></script>
+    <script src="javascript/main/source_carousels.js" ></script>
 </body>
 </html>

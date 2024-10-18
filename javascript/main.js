@@ -12,53 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const sortTitleButton = document.getElementById('sortTitle');
         const sortYearButton = document.getElementById('sortYear');
         const sourcesSection = document.getElementById('sourcesSection');
-        const carousels = document.querySelectorAll('.source-carousel-container');
         const flagSection = document.querySelector('#flagsSection');
-        const flagItems = document.querySelectorAll('.flag-item');
-
-        function slideInOnScroll() {
-            const windowHeight = window.innerHeight;
-            
-            flagItems.forEach(flag => {
-                const flagTop = flag.getBoundingClientRect().top;
-                
-                if (flagTop < windowHeight * 0.9) {
-                    flag.classList.add('visible');
-                }
-            });
-        }
-    
-        // Initial check in case items are already in view
-        slideInOnScroll();
-    
-        // Event listener for scrolling
-        window.addEventListener('scroll', slideInOnScroll);
-
 
         // Add event listener for form submission
         searchFormMain.addEventListener('submit', function (event) {
             event.preventDefault(); // Prevents the default form submission
-        });
-
-        carousels.forEach(carousel => {
-            const scrollContainer = carousel.querySelector('.source-scroll-container');
-    
-            // Calculate scroll speed based on item count
-            const itemCount = scrollContainer.children.length;
-            const scrollSpeed = itemCount <= 5 ? 50 : Math.max(30 - itemCount, 10);
-    
-            let scrollAmount = 0;
-    
-            function scrollItems() {
-                scrollAmount += 1;
-                if (scrollAmount >= scrollContainer.scrollWidth / 2) {
-                    scrollAmount = 0; // Reset to start to make it seamless
-                }
-                scrollContainer.scrollLeft = scrollAmount;
-            }
-    
-            // Start the interval-based scrolling
-            setInterval(scrollItems, scrollSpeed);
         });
 
         function resetSearch() {
@@ -71,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.clear();
 
             // Reload the page without parameters
-            window.location.href = '/watch-mode-api/';
+            window.location.href = '/';
         }
 
         resetButton.addEventListener('click', resetSearch);

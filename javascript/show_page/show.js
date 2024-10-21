@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(data => {
                         if (data && data.length > 0) {
                             suggestions.innerHTML = data.map(item => `
-                                <div class="suggestion-item" data-id="${item.watchmodeId}">
+                                <div class="suggestion-item" data-id="${item.titleId}">
                                     <img src="${item.poster || 'default-small.jpg'}" alt="${item.name}">
-                                    <span>${item.name} (ID: ${item.watchmodeId})</span>
+                                    <span>${item.name} (ID: ${item.titleId})</span>
                                 </div>
                             `).join('');
                             suggestions.classList.remove('d-none');
@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
         suggestions.addEventListener('click', function (event) {
             const target = event.target.closest('.suggestion-item');
             if (target) {
-                const watchmodeId = target.dataset.id;
-                window.location.href = `show.php?watchmodeId=${watchmodeId}`;
+                const titleId = target.dataset.id;
+                window.location.href = `show.php?titleId=${titleId}`;
             }
         });
 
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (/^\d+$/.test(query)) {
                 // If the query is all digits, assume it's an ID and redirect to show.php
-                window.location.href = `show.php?watchmodeId=${query}`;
+                window.location.href = `show.php?titleId=${query}`;
             } else {
                 // If it's a title, redirect to index.php with search parameter for title
                 let url = '/?search=' + encodeURIComponent(query);

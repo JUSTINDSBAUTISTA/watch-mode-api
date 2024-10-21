@@ -14,7 +14,7 @@ $scrollDuration = $itemCount * .25; // 0.25s per item
         <div class="new-releases-carousel overflow-hidden position-relative">
             <div class="scroll-container d-flex" style="animation-duration: <?php echo $scrollDuration; ?>s;">
                 <?php foreach ($newReleases as $release): ?>
-                    <a href="show.php?watchmodeId=<?php echo htmlspecialchars($release['id']); ?>" class="release-card text-decoration-none mx-2" title="<?php echo htmlspecialchars($release['title']); ?>">
+                    <a href="show.php?titleId=<?php echo htmlspecialchars($release['id']); ?>" class="release-card text-decoration-none mx-2" title="<?php echo htmlspecialchars($release['title']); ?>">
                         <div class="card bg-dark text-white">
                             <img src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/default.jpg'; ?>" 
                                  class="card-img-top" 

@@ -6,8 +6,8 @@
                 <div class="card-header bg-info text-white">Available On</div>
                 <div class="card-body p-0" id="availableOnContainer" style="max-height: 450px; overflow-y: auto;">
                     <ul class="list-unstyled mb-0">
-                        <?php if (!empty($details['sources'])): ?>
-                            <?php foreach ($details['sources'] as $source): ?>
+                        <?php if (!empty($titleDetails['sources'])): ?>
+                            <?php foreach ($titleDetails['sources'] as $source): ?>
                                 <li class="p-2">
                                     <a href="<?php echo htmlspecialchars($source['web_url']); ?>" target="_blank" class="text-decoration-none available-on-link">
                                         <?php echo htmlspecialchars($source['name']); ?>

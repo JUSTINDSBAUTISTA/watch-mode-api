@@ -2,8 +2,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?php if (!empty($details['title'])): ?>
-            <?php echo htmlspecialchars($details['title']); ?>
+        <?php if (!empty($titleDetails['title'])): ?>
+            <?php echo htmlspecialchars($titleDetails['title']); ?>
+        <?php elseif (!empty($personDetails['full_name'])): ?>
+            <?php echo htmlspecialchars($personDetails['full_name']); ?>
         <?php else: ?>
             Watchmode Api
         <?php endif; ?>
@@ -25,6 +27,6 @@
     <link rel="stylesheet" href="css/show/components/responsive.css">
 
     <script>
-        const detailsData = <?php echo json_encode($details, JSON_PRETTY_PRINT); ?>;
+        const detailsData = <?php echo json_encode($titleDetails, JSON_PRETTY_PRINT); ?>;
     </script>
 </head>

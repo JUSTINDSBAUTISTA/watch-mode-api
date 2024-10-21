@@ -5,7 +5,7 @@
  * @param int $titleId
  * @return array|null
  */
-function fetchCastAndCrewByWatchmodeId($titleId) {
+function fetchCastAndCrewByTitleId($titleId) {
     $url = "https://api.watchmode.com/v1/title/$titleId/cast-crew/?apiKey=" . API_KEY;
     
     $ch = curl_init();

@@ -1,10 +1,16 @@
 <?php
 require_once 'functions.php'; // Include reusable functions
 
-// GO TO functions.php
+// TITLE SECTION
 $titleId = isset($_GET['titleId']) && ctype_digit($_GET['titleId']) ? $_GET['titleId'] : null;
-$details = $titleId ? fetchDetailsByWatchmodeId($titleId) : null;
-$castCrew = fetchCastAndCrewByWatchmodeId($titleId);
+$titleDetails = $titleId ? fetchDetailsByTitleId($titleId) : null;
+$castCrew = fetchCastAndCrewByTitleId($titleId);
+
+// PERSON SECTION
+$personId = isset($_GET['personId']) && ctype_digit($_GET['personId']) ? $_GET['personId'] : null;
+$personDetails = $personId ? fetchDetailByPersonId($personId) : null;
+
+// Get genre classes
 $genreClasses = getGenreClass($genreName);
 
 ?>
@@ -23,18 +29,24 @@ $genreClasses = getGenreClass($genreName);
     </div>
 
     <!-- Navbar Section -->
-     <?php require 'view/show/navbar.php'; ?>
+    <?php require 'view/show/navbar.php'; ?>
 
-    <!-- Backdrop Section with Title and ID -->
-    <?php require 'view/show/backdrop-section.php'; ?>
+    <!------- THIS IS THE TITLE SECTION --------->
+    <?php if(!empty($titleDetails)): ?>
+        <?php require 'view/show/title/title.php'; ?>
+    <?php endif; ?>
+    <!-- ------------------------------------- -->
+    
 
-    <!-- Main Content Section -->
-    <?php require 'view/show/main-show.php'; ?>
+    <!------ THIS IS THE PERSON SECTION --------->
+    <?php if(!empty($personDetails)): ?>
+        <?php require 'view/show/person/person.php'; ?>
+    <?php endif; ?>
+    <!-- ------------------------------------- -->
+
 
     <!-- Footer Section -->
-     <?php require 'view/layouts/footer.php'; ?>
-
-    <!-- JavaScript for Show Page -->
+    <?php require 'view/layouts/footer.php'; ?>
 
 </body>
 </html>

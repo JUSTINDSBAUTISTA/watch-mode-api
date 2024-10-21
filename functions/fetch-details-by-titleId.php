@@ -5,7 +5,7 @@
  * @param int $titleId
  * @return array|null
  */
-function fetchDetailsByWatchmodeId($titleId) {
+function fetchDetailsByTitleId($titleId) {
     $url = "https://api.watchmode.com/v1/title/$titleId/details/?apiKey=" . API_KEY . "&append_to_response=sources";
     
     $ch = curl_init();

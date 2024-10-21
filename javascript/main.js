@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
             this.setAttribute('data-order', order === 'asc' ? 'desc' : 'asc');
             this.textContent = order === 'asc' ? 'Sort by Year (Oldest-Latest)' : 'Sort by Year (Latest-Oldest)';
         });
-        
+                
         // Form submission to reload the page with parameters or redirect if ID
         searchFormMain.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -159,10 +159,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const year = yearFilter.value;
 
             if (/^\d+$/.test(keyword)) {
-                // If the keyword is numeric, assume it's a Watchmode ID and redirect to show.php
-                window.location.href = `show.php?titleId=${keyword}`;
+                // If the keyword is numeric, assume it's an ID (either title or person) and redirect accordingly
+                if (searchTypeValue === 'person') {
+                    // Redirect to person details page if search type is person
+                    window.location.href = `show.php?personId=${keyword}`;
+                } else {
+                    // Redirect to title details page if search type is title
+                    window.location.href = `show.php?titleId=${keyword}`;
+                }
             } else {
-                // Otherwise, build the URL with title, year, and searchType parameters
+                // Otherwise, build the URL with title, year, and searchType parameters for a text-based search
                 let url = '?';
                 if (keyword) url += `search=${encodeURIComponent(keyword)}`;
                 if (year) url += `${keyword ? '&' : ''}year=${encodeURIComponent(year)}`;
@@ -171,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = url;  // Redirect with the correct parameters
             }
         });
-
 
         // Display results
         function displayResults(fetchedResults) {
@@ -220,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
                                 <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
                                 <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
-                                <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
+                                <button data-id="${result.id}" data-result-type="${result.result_type}" class="btn btn-success mt-auto view-details">View Details</button>
                             </div>
                         </div>`;
                     resultsContainer.appendChild(card);
@@ -234,10 +239,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
+            // Add event listeners for view details buttons, handle dynamic redirection
             document.querySelectorAll('.view-details').forEach(button => {
                 button.addEventListener('click', function () {
                     const id = this.getAttribute('data-id');
-                    window.location.href = `show.php?titleId=${id}`;
+                    const resultType = this.getAttribute('data-result-type');
+
+                    // Check the result type and redirect accordingly
+                    if (resultType === 'person') {
+                        window.location.href = `show.php?personId=${id}`;
+                    } else {
+                        window.location.href = `show.php?titleId=${id}`;
+                    }
                 });
             });
         }

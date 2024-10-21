@@ -10,6 +10,8 @@ require_once 'functions/search-titles.php';
 
 require_once 'functions/fetch-cast-and-crew-by-titleId.php';
 
+require_once 'functions/fetch-detail-by-personId.php';
+
 require_once 'functions/get-genre.php';
 
 require_once 'functions/fetch-new-release.php';

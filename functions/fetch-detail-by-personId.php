@@ -5,8 +5,8 @@
  * @param int $personId
  * @return array|null
  */
-function fetchDetailsByWatchmodeId($personId) {
-    $url = "https://api.watchmode.com/v1/title/$personId/details/?apiKey=" . API_KEY . "&append_to_response=sources";
+function fetchDetailByPersonId($personId) {
+    $url = "https://api.watchmode.com/v1/person/$personId?apiKey=" . API_KEY;
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -16,10 +16,6 @@ function fetchDetailsByWatchmodeId($personId) {
     curl_close($ch);
 
     $decodedResponse = json_decode($response, true);
-
-    if (isset($decodedResponse['success']) && $decodedResponse['success'] === false) {
-        return null; // Title not found, return null to indicate failure
-    }
 
     return $decodedResponse;
 }

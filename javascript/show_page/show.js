@@ -1,53 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
     const searchInputHeader = document.getElementById('searchInputHeader');
-    const suggestions = document.getElementById('suggestions');
     const searchFormHeader = document.getElementById('searchFormHeader');
 
     if (searchInputHeader && searchFormHeader) {
-        // Show suggestions when typing in the search input
-        searchInputHeader.addEventListener('input', function () {
-            const query = searchInputHeader.value.trim();
-            if (query.length > 2) {
-                fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.length > 0) {
-                            suggestions.innerHTML = data.map(item => `
-                                <div class="suggestion-item" data-id="${item.titleId}">
-                                    <img src="${item.poster || 'default-small.jpg'}" alt="${item.name}">
-                                    <span>${item.name} (ID: ${item.titleId})</span>
-                                </div>
-                            `).join('');
-                            suggestions.classList.remove('d-none');
-                        } else {
-                            suggestions.classList.add('d-none');
-                        }
-                    });
-            } else {
-                suggestions.classList.add('d-none');
-            }
-        });
-
-        // Hide suggestions when a suggestion item is clicked
-        suggestions.addEventListener('click', function (event) {
-            const target = event.target.closest('.suggestion-item');
-            if (target) {
-                const titleId = target.dataset.id;
-                window.location.href = `show.php?titleId=${titleId}`;
-            }
-        });
-
-        // Handle form submission to differentiate between title and ID search
+        // Handle form submission to differentiate between titleId, personId, and regular search
         searchFormHeader.addEventListener('submit', function (event) {
             event.preventDefault();
 
             const query = searchInputHeader.value.trim();
 
+            // Check if query is numeric, assuming it's either a titleId or personId
             if (/^\d+$/.test(query)) {
-                // If the query is all digits, assume it's an ID and redirect to show.php
-                window.location.href = `show.php?titleId=${query}`;
+                // Redirect based on selection for title or person
+                const searchType = document.querySelector('input[name="searchType"]:checked').value; // Assuming you have radio buttons for title/person
+                if (searchType === 'person') {
+                    window.location.href = `show.php?personId=${query}`;
+                } else {
+                    window.location.href = `show.php?titleId=${query}`;
+                }
             } else {
-                // If it's a title, redirect to index.php with search parameter for title
+                // If it's a title or person name, redirect to index.php with search parameter
                 let url = '/watchmode/?search=' + encodeURIComponent(query);
                 console.log('this is the response' + url);
                 window.location.href = url;

@@ -1,15 +1,15 @@
 <div class="show-details bg-light col-12 col-md-12 col-lg-4 rounded">
     <div class="p-3">
         <h4 class="text-success">
-            <?php echo htmlspecialchars($details['title'] ?? 'Not available'); ?> 
-            <?php echo !empty($details['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($details['year']) . '</span>' : ''; ?>
+            <?php echo htmlspecialchars($titleDetails['title'] ?? 'Not available'); ?> 
+            <?php echo !empty($titleDetails['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($titleDetails['year']) . '</span>' : ''; ?>
         </h4>
 
         <hr class="hr">
         
         <!-- Plot Overview -->
         <p class="lead">
-            <?php echo !empty($details['plot_overview']) ? htmlspecialchars($details['plot_overview']) : 'Plot overview not available'; ?>
+            <?php echo !empty($titleDetails['plot_overview']) ? htmlspecialchars($titleDetails['plot_overview']) : 'Plot overview not available'; ?>
         </p>
 
         <hr class="hr">
@@ -17,8 +17,8 @@
         <!-- Genres -->
         <p><strong>Genres:</strong> 
             <?php 
-                if (!empty($details['genre_names'])) {
-                    foreach ($details['genre_names'] as $genre) {
+                if (!empty($titleDetails['genre_names'])) {
+                    foreach ($titleDetails['genre_names'] as $genre) {
                         $class = getGenreClass($genre);
                         echo '<span class="badge ' . $class . '">' . htmlspecialchars($genre) . '</span> ';
                     }
@@ -31,7 +31,7 @@
         <!-- User Rating -->
         <p class="mb-0"><strong>User Rating:</strong> 
             <?php 
-                $userRating = isset($details['user_rating']) ? $details['user_rating'] : null;
+                $userRating = isset($titleDetails['user_rating']) ? $titleDetails['user_rating'] : null;
                 echo $userRating ? htmlspecialchars($userRating) . ' / 10' : 'Not available'; 
             ?>
         </p>
@@ -67,8 +67,8 @@
         <!-- Critic Score -->
         <p><strong>Critic Score:</strong> 
             <?php 
-                echo isset($details['critic_score']) 
-                    ? htmlspecialchars($details['critic_score']) . '%' 
+                echo isset($titleDetails['critic_score']) 
+                    ? htmlspecialchars($titleDetails['critic_score']) . '%' 
                     : 'Not available'; 
             ?>
         </p>
@@ -76,8 +76,8 @@
         <!-- Runtime -->
         <p><strong>Runtime:</strong> 
             <?php 
-                echo isset($details['runtime_minutes']) 
-                    ? htmlspecialchars($details['runtime_minutes']) . ' minutes <i class="far fa-clock"></i>' 
+                echo isset($titleDetails['runtime_minutes']) 
+                    ? htmlspecialchars($titleDetails['runtime_minutes']) . ' minutes <i class="far fa-clock"></i>' 
                     : 'Not available'; 
             ?> 
         </p>
@@ -85,8 +85,8 @@
         <!-- TV Rating -->
         <p><strong>TV Rating:</strong> 
             <?php 
-                echo !empty($details['us_rating']) 
-                    ? htmlspecialchars($details['us_rating'])
+                echo !empty($titleDetails['us_rating']) 
+                    ? htmlspecialchars($titleDetails['us_rating'])
                     : 'Not available'; 
             ?>
         </p>
@@ -94,16 +94,16 @@
         <!-- Language -->
         <p><strong>Language:</strong> 
             <?php 
-                echo !empty($details['original_language']) 
-                    ? htmlspecialchars(strtoupper($details['original_language'])) 
+                echo !empty($titleDetails['original_language']) 
+                    ? htmlspecialchars(strtoupper($titleDetails['original_language'])) 
                     : 'Not available'; 
             ?>
         </p>
 
-        <?php if (!empty($details['trailer'])): ?>
+        <?php if (!empty($titleDetails['trailer'])): ?>
             <?php
                 // Parse the URL to get the video ID from the query parameter
-                $trailerUrl = $details['trailer'];
+                $trailerUrl = $titleDetails['trailer'];
                 parse_str(parse_url($trailerUrl, PHP_URL_QUERY), $queryParams);
                 $videoId = $queryParams['v'] ?? ''; // Get the 'v' parameter if it exists
             ?>

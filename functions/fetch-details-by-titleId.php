@@ -2,11 +2,11 @@
 /**
  * Fetch details by Watchmode ID.
  *
- * @param int $watchmodeId
+ * @param int $titleId
  * @return array|null
  */
-function fetchDetailsByWatchmodeId($watchmodeId) {
-    $url = "https://api.watchmode.com/v1/title/$watchmodeId/details/?apiKey=" . API_KEY . "&append_to_response=sources";
+function fetchDetailsByWatchmodeId($titleId) {
+    $url = "https://api.watchmode.com/v1/title/$titleId/details/?apiKey=" . API_KEY . "&append_to_response=sources";
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);

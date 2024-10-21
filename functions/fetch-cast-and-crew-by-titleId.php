@@ -2,11 +2,11 @@
 /**
  * Fetch cast and crew by Watchmode ID.
  *
- * @param int $watchmodeId
+ * @param int $titleId
  * @return array|null
  */
-function fetchCastAndCrewByWatchmodeId($watchmodeId) {
-    $url = "https://api.watchmode.com/v1/title/$watchmodeId/cast-crew/?apiKey=" . API_KEY;
+function fetchCastAndCrewByWatchmodeId($titleId) {
+    $url = "https://api.watchmode.com/v1/title/$titleId/cast-crew/?apiKey=" . API_KEY;
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);

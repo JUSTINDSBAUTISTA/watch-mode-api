@@ -10,7 +10,7 @@
                         $similarDetails = fetchDetailsByWatchmodeId($similarId);
                         if ($similarDetails): ?>
                             <div class="col">
-                                <a href="show.php?watchmodeId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none">
+                                <a href="show.php?titleId=<?php echo htmlspecialchars($similarDetails['id']); ?>" class="text-decoration-none">
                                     <div class="card card-custom text-center">
                                         <img async loading="lazy" src="<?php echo $similarDetails['posterLarge'] ?? 'images/default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($similarDetails['title']); ?>" style="height: 100%; object-fit: cover;">
                                         <div class="card-body p-1">

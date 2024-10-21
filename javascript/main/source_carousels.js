@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const sourceCarousels = document.querySelectorAll('.source-carousel-container');
 
-    sourchCarousels.forEach(carousel => {
+    sourceCarousels.forEach(carousel => {
         const scrollContainer = carousel.querySelector('.source-scroll-container');
 
         // Calculate scroll speed based on item count

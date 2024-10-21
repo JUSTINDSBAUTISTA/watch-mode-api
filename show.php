@@ -2,9 +2,9 @@
 require_once 'functions.php'; // Include reusable functions
 
 // GO TO functions.php
-$watchmodeId = isset($_GET['watchmodeId']) && ctype_digit($_GET['watchmodeId']) ? $_GET['watchmodeId'] : null;
-$details = $watchmodeId ? fetchDetailsByWatchmodeId($watchmodeId) : null;
-$castCrew = fetchCastAndCrewByWatchmodeId($watchmodeId);
+$titleId = isset($_GET['titleId']) && ctype_digit($_GET['titleId']) ? $_GET['titleId'] : null;
+$details = $titleId ? fetchDetailsByWatchmodeId($titleId) : null;
+$castCrew = fetchCastAndCrewByWatchmodeId($titleId);
 $genreClasses = getGenreClass($genreName);
 
 ?>

@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchFormMain = document.getElementById('searchFormMain');
     if (searchFormMain) {
         const searchInputMain = document.getElementById('searchInputMain');
-        const suggestions = document.getElementById('suggestions');
+        const searchType = document.getElementById('searchType');
+        console.log(searchType.value);
         const yearFilter = document.getElementById('yearFilter');
         const resultsContainer = document.getElementById('resultsContainer');
         const loadingSpinner = document.getElementById('loadingSpinner');
@@ -14,13 +15,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const sourcesSection = document.getElementById('sourcesSection');
         const flagSection = document.querySelector('#flagsSection');
 
-        // Add event listener for form submission
-        searchFormMain.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevents the default form submission
-        });
-
         function resetSearch() {
             searchInputMain.value = '';
+            searchType.value = '';
             yearFilter.value = '';
             resultsContainer.innerHTML = '';
             paginationControls.innerHTML = '';
@@ -29,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.clear();
 
             // Reload the page without parameters
-            window.location.href = '/';
+            window.location.href = '/watchmode/';
         }
 
         resetButton.addEventListener('click', resetSearch);
@@ -41,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // Fetch results based on page number and search/year parameters
         async function fetchResults(page = 1) {
             const keyword = searchInputMain.value.trim();
+            const searchTypeValue = searchType.value;
+            console.log(searchTypeValue);
             const year = yearFilter.value;
 
             // Show loading spinner
@@ -52,7 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
             paginationControls.innerHTML = '';
 
             try {
-                const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&year=${encodeURIComponent(year)}&page=${page}&itemsPerPage=${itemsPerPage}`);
+                const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&searchType=${encodeURIComponent(searchTypeValue)}&year=${encodeURIComponent(year)}&page=${page}&itemsPerPage=${itemsPerPage}`);
+                console.log(response);
                 const { results: fetchedResults, totalResults } = await response.json();
 
                 displayResults(fetchedResults);
@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Save search state to localStorage
                 localStorage.setItem('searchKeyword', keyword);
+                localStorage.setItem('searchType', searchTypeValue);
                 localStorage.setItem('searchYear', year);
                 localStorage.setItem('currentPage', page);
                 localStorage.setItem('searchResults', JSON.stringify(fetchedResults));
@@ -152,22 +153,26 @@ document.addEventListener('DOMContentLoaded', function () {
         // Form submission to reload the page with parameters or redirect if ID
         searchFormMain.addEventListener('submit', function (event) {
             event.preventDefault();
-            
+            console.log('im here');
             const keyword = searchInputMain.value.trim();
+            const searchTypeValue = searchType.value;  // Capture the searchType value correctly
+            console.log(searchTypeValue);
             const year = yearFilter.value;
 
             if (/^\d+$/.test(keyword)) {
                 // If the keyword is numeric, assume it's a Watchmode ID and redirect to show.php
-                window.location.href = `show.php?watchmodeId=${keyword}`;
+                window.location.href = `show.php?titleId=${keyword}`;
             } else {
-                // Otherwise, build the URL with title and year search parameters
+                // Otherwise, build the URL with title, year, and searchType parameters
                 let url = '?';
                 if (keyword) url += `search=${encodeURIComponent(keyword)}`;
                 if (year) url += `${keyword ? '&' : ''}year=${encodeURIComponent(year)}`;
+                if (searchTypeValue) url += `${keyword || year ? '&' : ''}searchType=${encodeURIComponent(searchTypeValue)}`;  // Ensure searchType is correctly appended to the URL
                 
-                window.location.href = url;
+                window.location.href = url;  // Redirect with the correct parameters
             }
         });
+
 
         // Display results
         function displayResults(fetchedResults) {
@@ -187,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             fetchedResults.forEach(result => {
-                const imageUrl = result.posterLarge || 'images/default.jpg';
+                const imageUrl = result.image_url || 'images/default.jpg';
                 const card = document.createElement('div');
                 card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
 
@@ -207,9 +212,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="card-body d-flex flex-column">
                             <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
                             <hr class="hr my-1">
-                            <h5 class="card-title mb-2 text-center text-warning">${result.title}</h5>
+                            <h5 class="card-title mb-2 text-center text-warning">${result.type}</h5>
                             <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
-                            <p class="card-text mb-0 text-light"><strong>Ratings: </strong>${result.user_rating || 'No ratings'}</p>
                             <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
                             <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
                             <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
@@ -227,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.view-details').forEach(button => {
                 button.addEventListener('click', function () {
                     const id = this.getAttribute('data-id');
-                    window.location.href = `show.php?watchmodeId=${id}`;
+                    window.location.href = `show.php?titleId=${id}`;
                 });
             });
         }
@@ -235,7 +239,10 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             const searchParams = new URLSearchParams(window.location.search);
             const searchQuery = searchParams.get('search');
+            const searchTypeValue = searchParams.get('searchType');
             const yearQuery = searchParams.get('year');
+
+            if (searchTypeValue) searchType.value = searchTypeValue;
             
             if ((searchQuery && searchQuery.trim() !== "") || (yearQuery && yearQuery.trim() !== "")) {
                 if (searchQuery) searchInputMain.value = searchQuery;
@@ -243,44 +250,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetchResults();
             }
         }, 0);
-
-        if (searchInputMain && searchFormMain) {
-            // Show suggestions when typing in the search input
-            searchInputMain.addEventListener('input', function () {
-                const query = searchInputMain.value.trim();
-                if (query.length > 2) {
-                    fetch(`api.php?suggestion=${encodeURIComponent(query)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data && data.length > 0) {
-                                suggestions.innerHTML = data.map(item => `
-                                    <div class="suggestion-item" data-id="${item.watchmodeId}">
-                                        <img src="${item.poster || 'default-small.jpg'}" alt="${item.name}">
-                                        <span>${item.name} (ID: ${item.watchmodeId})</span>
-                                    </div>
-                                `).join('');
-                                suggestions.classList.remove('d-none');
-                            } else {
-                                suggestions.classList.add('d-none');
-                            }
-                        });
-                } else {
-                    suggestions.classList.add('d-none');
-                }
-            });
-
-            // Hide suggestions when a suggestion item is clicked
-            suggestions.addEventListener('click', function (event) {
-                const target = event.target.closest('.suggestion-item');
-                if (target) {
-                    const watchmodeId = target.dataset.id;
-                    window.location.href = `show.php?watchmodeId=${watchmodeId}`;
-                }
-            });
-
-        } else {
-            console.error("searchInputMain or searchFormMain not found in the DOM.");
-        }
 
         // Function to handle JSON download
         function downloadJson(data = null) {
@@ -307,4 +276,3 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Element with id "searchForm" not found in the DOM.');
     }
 });
-

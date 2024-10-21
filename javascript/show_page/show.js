@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = `show.php?titleId=${query}`;
             } else {
                 // If it's a title, redirect to index.php with search parameter for title
-                let url = '/?search=' + encodeURIComponent(query);
+                let url = '/watchmode/?search=' + encodeURIComponent(query);
+                console.log('this is the response' + url);
                 window.location.href = url;
             }
         });

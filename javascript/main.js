@@ -3,14 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (searchFormMain) {
         const searchInputMain = document.getElementById('searchInputMain');
         const searchType = document.getElementById('searchType');
-        console.log(searchType.value);
         const yearFilter = document.getElementById('yearFilter');
         const resultsContainer = document.getElementById('resultsContainer');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const paginationControls = document.getElementById('paginationControls');
         const resetButton = document.getElementById('resetButton');
         const sortButtons = document.getElementById('sortButtons');
-        const sortTitleButton = document.getElementById('sortTitle');
+        const sortNameButton = document.getElementById('sortName');
         const sortYearButton = document.getElementById('sortYear');
         const sourcesSection = document.getElementById('sourcesSection');
         const flagSection = document.querySelector('#flagsSection');
@@ -35,30 +34,35 @@ document.addEventListener('DOMContentLoaded', function () {
         const itemsPerPage = 20;
         let currentPage = 1;
 
-        // Fetch results based on page number and search/year parameters
+        // Fetch results from the API
         async function fetchResults(page = 1) {
             const keyword = searchInputMain.value.trim();
             const searchTypeValue = searchType.value;
-            console.log(searchTypeValue);
             const year = yearFilter.value;
-
+        
             // Show loading spinner
             if (loadingSpinner) loadingSpinner.style.display = 'block';
             if (sourcesSection) sourcesSection.style.display = 'none';
             if (flagSection) flagSection.style.display = 'none';
-            
+        
             resultsContainer.innerHTML = '';
             paginationControls.innerHTML = '';
-
+        
             try {
                 const response = await fetch(`api.php?title=${encodeURIComponent(keyword)}&searchType=${encodeURIComponent(searchTypeValue)}&year=${encodeURIComponent(year)}&page=${page}&itemsPerPage=${itemsPerPage}`);
-                console.log(response);
-                const { results: fetchedResults, totalResults } = await response.json();
+                
+                // Log the full response to debug
+                const responseData = await response.json();
 
+                // Check if the response contains 'results'
+                const fetchedResults = responseData.results || []; // Default to an empty array if 'results' is undefined
+                const totalResults = responseData.totalResults || 0;
+        
+                // Display results and update pagination
                 displayResults(fetchedResults);
                 updatePagination(totalResults);
                 sortButtons.classList.toggle('d-none', fetchedResults.length === 0);
-
+        
                 // Save search state to localStorage
                 localStorage.setItem('searchKeyword', keyword);
                 localStorage.setItem('searchType', searchTypeValue);
@@ -73,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (flagSection) flagSection.style.display = 'none';
             }
         }
+        
 
         // Update pagination controls
         function updatePagination(totalResults) {
@@ -117,15 +122,13 @@ document.addEventListener('DOMContentLoaded', function () {
         function sortResults(criteria, order) {
 
             const savedResults = JSON.parse(localStorage.getItem('searchResults'));
-            console.log(results);
-
             if(!savedResults) {
                 return;
             }
 
             savedResults.sort((a, b) => {
-                if (criteria === 'title') {
-                    return order === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+                if (criteria === 'name') {
+                    return order === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
                 } else if (criteria === 'year') {
                     return order === 'asc' ? a.year - b.year : b.year - a.year;
                 }
@@ -133,17 +136,15 @@ document.addEventListener('DOMContentLoaded', function () {
             displayResults(savedResults);
         }
 
-        // Toggle sorting for Title and Year
-        sortTitleButton.addEventListener('click', function () {
-            console.log('Sorting by title...');
+        // Toggle sorting for Name and Year
+        sortNameButton.addEventListener('click', function () {
             const order = this.getAttribute('data-order');
-            sortResults('title', order);
+            sortResults('name', order);
             this.setAttribute('data-order', order === 'asc' ? 'desc' : 'asc');
-            this.textContent = order === 'asc' ? 'Sort by Title (Z-A)' : 'Sort by Title (A-Z)';
+            this.textContent = order === 'asc' ? 'Sort by Name (Z-A)' : 'Sort by Name (A-Z)';
         });
 
         sortYearButton.addEventListener('click', function () {
-            console.log('Sorting by year...');
             const order = this.getAttribute('data-order');
             sortResults('year', order);
             this.setAttribute('data-order', order === 'asc' ? 'desc' : 'asc');
@@ -153,10 +154,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // Form submission to reload the page with parameters or redirect if ID
         searchFormMain.addEventListener('submit', function (event) {
             event.preventDefault();
-            console.log('im here');
             const keyword = searchInputMain.value.trim();
             const searchTypeValue = searchType.value;  // Capture the searchType value correctly
-            console.log(searchTypeValue);
             const year = yearFilter.value;
 
             if (/^\d+$/.test(keyword)) {
@@ -176,52 +175,59 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Display results
         function displayResults(fetchedResults) {
+            // Clear existing results
             resultsContainer.innerHTML = '';
 
             if (sourcesSection) {
                 sourcesSection.style.display = '';
             }
 
-            if (fetchedResults.length === 0) {
+            // Check if fetchedResults is valid and has data
+            if (!fetchedResults || fetchedResults.length === 0) {
                 // Display "No results" message if there are no matches
                 resultsContainer.innerHTML = `
                     <div class="col-12 text-center mt-5">
-                        <h2 class="text-light">Sorry, please try again!</h2>
+                        <h2 class="text-light mb-5">Sorry, no results found. Please try again!</h2>
                     </div>`;
                 return;
             }
 
+            // Loop through the fetched results
             fetchedResults.forEach(result => {
                 const imageUrl = result.image_url || 'images/default.jpg';
                 const card = document.createElement('div');
                 card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
 
-                card.innerHTML = `
-                    <div class="card h-100 bg-dark">
-                        <img src="${imageUrl}" class="card-img-top position-relative" alt="${result.title}">
-                        <div class="icon-container">
-                            <button class="btn btn-download" data-json="${encodeURIComponent(JSON.stringify(result))}">
-                                <i class="fas fa-download" style="cursor: pointer;"></i>
-                            </button>
-                            ${
-                                result.trailer
-                                    ? `<a href="${result.trailer}" target="_blank" class="btn btn-youtube"><i class="fab fa-youtube"></i></a>`
-                                    : ''
-                            }
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
-                            <hr class="hr my-1">
-                            <h5 class="card-title mb-2 text-center text-warning">${result.type}</h5>
-                            <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
-                            <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
-                            <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
-                            <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
-                        </div>
-                    </div>`;
-                resultsContainer.appendChild(card);
+                // Check if the result exists and if it has a valid 'type'
+                if (result && result.type) {
+                    card.innerHTML = `
+                        <div class="card h-100 bg-dark">
+                            <img src="${imageUrl}" class="card-img-top position-relative" alt="${result.title}">
+                            <div class="icon-container">
+                                <button class="btn btn-download" data-json="${encodeURIComponent(JSON.stringify(result))}">
+                                    <i class="fas fa-download" style="cursor: pointer;"></i>
+                                </button>
+                                ${
+                                    result.trailer
+                                        ? `<a href="${result.trailer}" target="_blank" class="btn btn-youtube"><i class="fab fa-youtube"></i></a>`
+                                        : ''
+                                }
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
+                                <hr class="hr my-1">
+                                <h5 class="card-title mb-2 text-center text-warning">${result.type || 'Unknown'}</h5>
+                                <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
+                                <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
+                                <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
+                                <button data-id="${result.id}" class="btn btn-success mt-auto view-details">View Details</button>
+                            </div>
+                        </div>`;
+                    resultsContainer.appendChild(card);
+                }
             });
 
+            // Add event listeners for download and view details buttons
             document.querySelectorAll('.btn-download').forEach(button => {
                 button.addEventListener('click', function () {
                     downloadJson(this.getAttribute('data-json'));
@@ -235,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
         }
+
 
         setTimeout(() => {
             const searchParams = new URLSearchParams(window.location.search);

@@ -9,7 +9,7 @@
     
     <!-- Sort buttons -->
     <div id="sortButtons" class="mb-3 d-flex gap-2 d-none">
-        <button class="btn btn-dark" id="sortTitle" data-order="asc">Sort by Title (A-Z)</button>
+        <button class="btn btn-dark" id="sortName" data-order="asc">Sort by Name (A-Z)</button>
         <button class="btn btn-dark" id="sortYear" data-order="asc">Sort by Year (Latest-Oldest)</button>
     </div>
     

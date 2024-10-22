@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
             resultsContainer.innerHTML = '';
             paginationControls.innerHTML = '';
             sortButtons.classList.add('d-none');
-            sourcesSection.style.display = 'none';
+            // sourcesSection.style.display = 'none';
             localStorage.clear();
 
             // Reload the page without parameters

@@ -1,7 +1,7 @@
 <?php
 // Calculate the total number of releases
 $totalReleases = count($newReleases);
-$initialDisplayCount = 14; // Display only 10 items initially
+$initialDisplayCount = 7; // Display only 10 items initially
 ?>
 
 <!-- Display the New Releases Carousel if there are results -->

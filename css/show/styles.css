@@ -1,35 +1,17 @@
-.suggestions {
-    position: absolute;
-    top: 100%;
-    left: 32%;
-    background: #fff;
-    width: 50%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    z-index: 1000;
-    margin-top: 1px;
-}
-
-.suggestion-item { 
-    display: flex; 
-    align-items: center; 
-    padding: 8px; 
-    cursor: pointer; 
-}
-
-.suggestion-item img { 
-    height: 30px; 
-    width: 30px; 
-    margin-right: 10px; 
-    border-radius: 3px; 
-}
-
-.suggestion-item:hover { 
-    background-color: #f1f1f1; 
-}
-
 #availableOnContainer { 
     max-height: 750px; 
     overflow-y: auto; 
 }
 
+#titleSearch, #personSearch {
+    margin-right: .5em;
+}
+
+.form-check-label {
+    margin-top: .3em;
+}
+
+.form-check-input:checked {
+    background-color: #e48304;
+    border-color: #ffffff;
+}

@@ -11,17 +11,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Check if query is numeric, assuming it's either a titleId or personId
             if (/^\d+$/.test(query)) {
-                // Redirect based on selection for title or person
-                const searchType = document.querySelector('input[name="searchType"]:checked').value; // Assuming you have radio buttons for title/person
-                if (searchType === 'person') {
-                    window.location.href = `show.php?personId=${query}`;
+                // Try to find the selected search type (title or person)
+                const searchTypeElement = document.querySelector('input[name="searchType"]:checked');
+
+                if (searchTypeElement) {
+                    const searchType = searchTypeElement.value;
+                    console.log("Search Type:", searchType);
+
+                    if (searchType === 'person') {
+                        // Redirect to person details page
+                        window.location.href = `show.php?personId=${query}`;
+                    } else {
+                        // Redirect to title details page
+                        window.location.href = `show.php?titleId=${query}`;
+                    }
                 } else {
-                    window.location.href = `show.php?titleId=${query}`;
+                    console.error("No search type selected. Please select either 'title' or 'person'.");
+                    alert("Please select whether you're searching for a title or a person.");
                 }
             } else {
                 // If it's a title or person name, redirect to index.php with search parameter
                 let url = '/watchmode/?search=' + encodeURIComponent(query);
-                console.log('this is the response' + url);
+                console.log('This is the search URL: ' + url);
                 window.location.href = url;
             }
         });

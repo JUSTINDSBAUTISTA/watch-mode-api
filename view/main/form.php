@@ -4,7 +4,6 @@
         <button id="resetButton" class="btn btn-secondary w-100" type="button">Reset</button>
     </div>
 
-    <!-- Search Input and Suggestions - Full Width -->
     <div class="col-12 col-md order-1 order-md-2">
         <div class="input-group">
             <input 
@@ -16,9 +15,6 @@
                 aria-label="Search" 
                 required
             >
-            <div id="suggestions" class="suggestions d-none">
-                <!-- Suggestions content will be dynamically added here -->
-            </div>
 
             <!-- Dropdown for Search Type -->
             <select id="searchType" name="searchType" class="form-select" style="max-width: 120px;">

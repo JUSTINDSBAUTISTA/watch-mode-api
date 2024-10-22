@@ -1,4 +1,4 @@
-<?php if (!empty($details['similar_titles'])): ?>
+<?php if (!empty($titleDetails['similar_titles'])): ?>
     <div class="mt-4">
         <div class="h-100">
             <div class="card-body">
@@ -6,7 +6,7 @@
                     <h1 class="text-center text-light mb-4" style="font-size: 3em">Similar Titles</h1>
                 </div>
                 <div id="similarTitlesContainer" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 row-cols-xl-6 row-cols-xxl-6 g-2 mx-0">
-                    <?php foreach ($details['similar_titles'] as $similarId): 
+                    <?php foreach ($titleDetails['similar_titles'] as $similarId): 
                         $similarDetails = fetchDetailsByTitleId($similarId);
                         if ($similarDetails): ?>
                             <div class="col">

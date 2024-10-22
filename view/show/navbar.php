@@ -8,22 +8,33 @@
         <div class="collapse navbar-collapse flex-lg-row-reverse" id="navbarNav">
             <!-- Search Form in Navbar -->
             <form id="searchFormHeader" class="d-flex align-items-center w-100" role="search" autocomplete="off">
-            <div class="input-group">
-                <input 
-                    type="text" 
-                    id="searchInputHeader" 
-                    class="form-control" 
-                    placeholder="Enter Title keyword or Watchmode ID" 
-                    aria-label="Search" 
-                    required
-                >
-                <div id="suggestions" class="suggestions d-none">
-                    
-                    <!-- Suggestions content will be dynamically added here -->
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="searchInputHeader" 
+                        class="form-control" 
+                        placeholder="Enter Title keyword or Watchmode ID" 
+                        aria-label="Search" 
+                        required
+                    >
+                    <!-- Radio buttons for search type -->
+                    <div class="ms-3 d-flex justify-content-center align-items-center">
+                        <!-- Radio button for title -->
+                        <div class="form-check form-check-inline d-flex align-items-center">
+                            <input type="radio" id="titleSearch" name="searchType" value="title" class="form-check-input" checked>
+                            <label for="titleSearch" class="form-check-label text-light me-3">Title id</label>
+                        </div>
+
+                        <!-- Radio button for person -->
+                        <div class="form-check form-check-inline d-flex align-items-center">
+                            <input type="radio" id="personSearch" name="searchType" value="person" class="form-check-input">
+                            <label for="personSearch" class="form-check-label text-light">Person id</label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-light ms-2" type="submit">Search</button>
                 </div>
-                <button class="btn btn-outline-light" type="submit">Search</button>
-            </div>
-        </form>
+            </form>
         </div>
     </div>
 </nav>

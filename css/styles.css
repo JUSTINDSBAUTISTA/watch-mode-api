@@ -10,3 +10,7 @@ h1 {
     font-family: Roboto Condensed, sans-serif;
 }
 
+.navbar {
+    background: rgb(4,1,68);
+    background: linear-gradient(90deg, rgba(4,1,68,1) 0%, rgba(37,37,37,1) 50%, rgba(103,0,0,1) 100%);  
+}

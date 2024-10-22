@@ -1,7 +1,7 @@
 <?php if (!empty($titleDetails['similar_titles'])): ?>
     <div class="mt-4">
         <div class="h-100">
-            <div class="card-body">
+            <div class="card-body mb-5">
                 <div class="card-header">
                     <h1 class="text-center text-light mb-4" style="font-size: 3em">Similar Titles</h1>
                 </div>

@@ -1,7 +1,7 @@
 <div class="show-details col-12 col-md-12 col-lg-4 rounded">
     <div class="p-3">
         <h2 class="text-light">
-            <?php echo htmlspecialchars($titleDetails['title'] ?? 'Not available'); ?> 
+            <?php echo htmlspecialchars($titleDetails['title'] ?? '<span class="opacity-50">Not available</span>'); ?> 
             <?php echo !empty($titleDetails['year']) ? '<span>' . htmlspecialchars($titleDetails['year']) . '</span>' : ''; ?>
         </h2>
 
@@ -9,7 +9,7 @@
         
         <!-- Plot Overview -->
         <p class="lead">
-            <?php echo !empty($titleDetails['plot_overview']) ? htmlspecialchars($titleDetails['plot_overview']) : 'Plot overview not available'; ?>
+            <?php echo !empty($titleDetails['plot_overview']) ? htmlspecialchars($titleDetails['plot_overview']) : '<span class="opacity-50">Not available</span>'; ?>
         </p>
 
         <hr class="hr">
@@ -23,7 +23,7 @@
                         echo '<span class="badge ' . $class . '">' . htmlspecialchars($genre) . '</span> ';
                     }
                 } else {
-                    echo 'Not available';
+                    echo '<span class="opacity-50">Not available</span>';
                 }
             ?>
         </p>
@@ -32,7 +32,7 @@
         <p class="mb-0"><strong>User Rating:</strong> 
             <?php 
                 $userRating = isset($titleDetails['user_rating']) ? $titleDetails['user_rating'] : null;
-                echo $userRating ? htmlspecialchars($userRating) . ' / 10' : 'Not available'; 
+                echo $userRating ? htmlspecialchars($userRating) . ' / 10' : ''; 
             ?>
         </p>
         
@@ -69,7 +69,7 @@
             <?php 
                 echo isset($titleDetails['critic_score']) 
                     ? htmlspecialchars($titleDetails['critic_score']) . '%' 
-                    : 'Not available'; 
+                    : '<span class="opacity-50">Not available</span>'; 
             ?>
         </p>
 
@@ -78,7 +78,7 @@
             <?php 
                 echo isset($titleDetails['runtime_minutes']) 
                     ? htmlspecialchars($titleDetails['runtime_minutes']) . ' minutes <i class="far fa-clock"></i>' 
-                    : 'Not available'; 
+                    : '<span class="opacity-50">Not available</span>'; 
             ?> 
         </p>
         
@@ -87,7 +87,7 @@
             <?php 
                 echo !empty($titleDetails['us_rating']) 
                     ? htmlspecialchars($titleDetails['us_rating'])
-                    : 'Not available'; 
+                    : '<span class="opacity-50">Not available</span>'; 
             ?>
         </p>
         
@@ -96,7 +96,7 @@
             <?php 
                 echo !empty($titleDetails['original_language']) 
                     ? htmlspecialchars(strtoupper($titleDetails['original_language'])) 
-                    : 'Not available'; 
+                    : '<span class="opacity-50">Not available</span>'; 
             ?>
         </p>
 
@@ -120,7 +120,7 @@
                 <p class="text-muted mt-3">Trailer link is invalid</p>
             <?php endif; ?>
         <?php else: ?>
-            <p class="text-muted mt-3">Trailer not available</p>
+            <p class="text-light opacity-50 mt-3">Trailer not available</p>
         <?php endif; ?>
         
     </div>

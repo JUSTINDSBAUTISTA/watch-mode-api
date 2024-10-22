@@ -206,29 +206,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Check if the result exists and if it has a valid 'type'
                 if (result && result.type) {
                     card.innerHTML = `
-                        <div class="card h-100 bg-dark">
-                            <img src="${imageUrl}" class="card-img-top position-relative" alt="${result.title}">
-                            <div class="icon-container">
-                                <button class="btn btn-download" data-json="${encodeURIComponent(JSON.stringify(result))}">
-                                    <i class="fas fa-download" style="cursor: pointer;"></i>
-                                </button>
-                                ${
-                                    result.trailer
-                                        ? `<a href="${result.trailer}" target="_blank" class="btn btn-youtube"><i class="fab fa-youtube"></i></a>`
-                                        : ''
-                                }
+                        <a href="show.php?titleId=${result.id}" class="card-link text-decoration-none text-light">
+                            <div class="card-result h-100 bg-transparent">
+                                <img src="${imageUrl}" class="card-img-top position-relative" alt="${result.title}">
+                                <div class="icon-container">
+                                    <button class="btn btn-download" data-json="${encodeURIComponent(JSON.stringify(result))}">
+                                        <i class="fas fa-download" style="cursor: pointer;"></i>
+                                    </button>
+                                    ${
+                                        result.trailer
+                                            ? `<a href="${result.trailer}" target="_blank" class="btn btn-youtube"><i class="fab fa-youtube"></i></a>`
+                                            : ''
+                                    }
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
+                                    <hr class="hr my-1">
+                                    <h5 class="card-title text-center text-light mb-0 text-truncate">${result.name || 'Unknown'}</h5>
+                                    <h6 class="card-title mb-2 text-center text-warning">' ${result.type || 'Unknown'} '</h6>
+                                    <p class="card-text mb-0 text-light text-center mb-2"><strong>Year: </strong>${result.year || 'N/A'}</p>
+                                </div>
                             </div>
-                            <div class="card-body d-flex flex-column">
-                                <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
-                                <hr class="hr my-1">
-                                <h5 class="card-title text-center text-light mb-0">${result.name || 'Unknown'}</h5>
-                                <h6 class="card-title mb-2 text-center text-warning">' ${result.type || 'Unknown'} '</h6>
-                                <p class="card-text mb-0 text-light"><strong>Year: </strong>${result.year || 'N/A'}</p>
-                                <p class="card-text mb-0 text-light"><strong>IMDB_ID: </strong>${result.imdb_id || 'N/A'}</p>
-                                <p class="card-text mb-0 text-light"><strong>TMDB_ID: </strong>${result.tmdb_id || 'N/A'}</p>
-                                <button data-id="${result.id}" data-result-type="${result.result_type}" class="btn btn-success mt-auto view-details">View Details</button>
-                            </div>
-                        </div>`;
+                        </a>`;
                     resultsContainer.appendChild(card);
                 }
             });

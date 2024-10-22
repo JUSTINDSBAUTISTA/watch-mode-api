@@ -17,7 +17,7 @@
                                 </li>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <li class="p-2 text-ligth">Sources are not available</li>
+                            <li class="p-2 text-light opacity-50">Sources are not available</li>
                         <?php endif; ?>
                     </ul>
                 </div>

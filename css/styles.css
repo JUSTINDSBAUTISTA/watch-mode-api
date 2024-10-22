@@ -1,6 +1,6 @@
 body {
     background: rgb(4,1,68);
-    background: linear-gradient(90deg, rgba(4,1,68,1) 0%, rgba(79,78,78,1) 50%, rgba(80,3,3,1) 100%);
+    background: linear-gradient(90deg, rgba(4,1,68,1) 0%, rgba(37,37,37,1) 50%, rgba(103,0,0,1) 100%);
     font-family: Georgia,Times,Times New Roman,serif;
 }
 h4 {

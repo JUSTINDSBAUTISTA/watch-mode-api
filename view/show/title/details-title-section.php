@@ -1,9 +1,9 @@
-<div class="show-details bg-light col-12 col-md-12 col-lg-4 rounded">
+<div class="show-details col-12 col-md-12 col-lg-4 rounded">
     <div class="p-3">
-        <h4 class="text-success">
+        <h2 class="text-light">
             <?php echo htmlspecialchars($titleDetails['title'] ?? 'Not available'); ?> 
-            <?php echo !empty($titleDetails['year']) ? '<span class="bg-warning-subtle">' . htmlspecialchars($titleDetails['year']) . '</span>' : ''; ?>
-        </h4>
+            <?php echo !empty($titleDetails['year']) ? '<span>' . htmlspecialchars($titleDetails['year']) . '</span>' : ''; ?>
+        </h2>
 
         <hr class="hr">
         

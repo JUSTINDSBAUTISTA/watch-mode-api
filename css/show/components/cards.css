@@ -1,7 +1,18 @@
+.card-header {
+    background-color: rgba(198, 198, 198, 0.393);
+}
+.card-custom {
+    transition: all 0.3s ease-out;
+}
+
 .card-custom:hover { 
-    background-color: #f1f1f1a7; 
+    background-color: #534b4b41; 
+    transform: scale(1.1);
+    border-radius: 3px;
 }
 
 .cast-link:hover, .available-on-link:hover {
     background-color: rgb(240, 251, 168);
 }
+
+

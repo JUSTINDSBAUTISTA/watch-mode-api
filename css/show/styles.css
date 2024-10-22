@@ -1,3 +1,7 @@
+p {
+    color: white;
+}
+
 #availableOnContainer { 
     max-height: 750px; 
     overflow-y: auto; 

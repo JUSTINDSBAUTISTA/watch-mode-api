@@ -16,7 +16,7 @@ $scrollDuration = $itemCount * .25; // 0.25s per item
                 <?php foreach ($newReleases as $release): ?>
                     <a href="show.php?titleId=<?php echo htmlspecialchars($release['id']); ?>" class="release-card text-decoration-none mx-2" title="<?php echo htmlspecialchars($release['title']); ?>">
                         <div class="card bg-dark text-white">
-                            <img src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/default.jpg'; ?>" 
+                            <img src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/background.jpg'; ?>" 
                                  class="card-img-top" 
                                  alt="<?php echo htmlspecialchars($release['title']); ?>">
                             <div class="card-body d-flex flex-column justify-content-between p-2 text-center">

@@ -25,8 +25,8 @@ $flags = fetchFlags(); // Fetch flags data
 <body>
 
     <!-- Background Section -->
-    <div class="main-background d-flex justify-content-center align-items-center" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url('images/background.jpg'); background-size: cover; background-position: center; height: 250px;">
-    </div>  
+    <!-- <div class="main-background d-flex justify-content-center align-items-center" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url('images/background.jpg'); background-size: cover; background-position: center; height: 250px;">
+    </div>   -->
         
     <!-- Main Section -->
      <?php require 'view/main/main-section.php'; ?>

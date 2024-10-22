@@ -14,7 +14,7 @@
                             <div class="col">
                                 <a href="show.php?titleId=<?php echo htmlspecialchars($knownDetails['id']); ?>" class="text-decoration-none">
                                     <div class="card bg-dark text-light text-center">
-                                        <img async loading="lazy" src="<?php echo $knownDetails['posterLarge'] ?? 'images/default.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($knownDetails['title']); ?>" style="height: 280px; object-fit: cover;">
+                                        <img async loading="lazy" src="<?php echo $knownDetails['posterLarge'] ?? 'images/background.jpg'; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($knownDetails['title']); ?>" style="height: 280px; object-fit: cover;">
                                         <div class="card-body p-1">
                                             <h6 class="card-title text-truncate" style="font-size: 1.2em;"><?php echo htmlspecialchars($knownDetails['title']); ?></h6>
                                             <h6 class="card-title text-truncate text-light" style="font-size: 1em;"><?php echo htmlspecialchars($knownDetails['release_date'] ?? 'N/A'); ?></h6>

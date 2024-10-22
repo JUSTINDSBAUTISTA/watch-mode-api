@@ -38,6 +38,7 @@
 
 .release-card:hover {
     transform: scale(1.05);
+    border-color: aliceblue;
 }
 
 /* Pause scrolling on hover */

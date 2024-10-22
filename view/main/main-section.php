@@ -1,5 +1,5 @@
 <main class="container mt-0 mb-5">
-    <h1 class="text-center mb-4 text-light">
+    <h1 class="text-center my-4 text-light">
         WATCHMODE<span class="text-warning">API</span><i class="text-warning fas fa-video"></i>
     </h1>
 

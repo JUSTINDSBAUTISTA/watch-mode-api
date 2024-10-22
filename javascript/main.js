@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Loop through the fetched results
             fetchedResults.forEach(result => {
-                const imageUrl = result.image_url || 'images/default.jpg';
+                const imageUrl = result.image_url || 'images/background.jpg';
                 const card = document.createElement('div');
                 card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
 

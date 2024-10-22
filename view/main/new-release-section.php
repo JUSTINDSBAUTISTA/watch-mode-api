@@ -1,7 +1,7 @@
 <?php
-// Calculate duration for scroll animation
-$itemCount = count($newReleases);
-$scrollDuration = $itemCount * .25; // 0.25s per item
+// Calculate the total number of releases
+$totalReleases = count($newReleases);
+$initialDisplayCount = 14; // Display only 10 items initially
 ?>
 
 <!-- Display the New Releases Carousel if there are results -->
@@ -9,13 +9,15 @@ $scrollDuration = $itemCount * .25; // 0.25s per item
     <div class="container mb-5">
         <h2 class="text-center text-warning">New Release!</h2>
         <p class="text-light text-center">" This endpoint will return release dates from the current date through the next 30 days. "</p>
-        
-        <!-- Apply dynamic animation duration -->
+
+        <!-- Static scrollable container -->
         <div class="new-releases-carousel overflow-hidden position-relative">
-            <div class="scroll-container d-flex" style="animation-duration: <?php echo $scrollDuration; ?>s;">
-                <?php foreach ($newReleases as $release): ?>
-                    <a href="show.php?titleId=<?php echo htmlspecialchars($release['id']); ?>" class="release-card text-decoration-none mx-2" title="<?php echo htmlspecialchars($release['title']); ?>">
-                        <div class="card bg-dark text-white">
+            <div class="scroll-container d-flex flex-wrap">
+                <?php foreach ($newReleases as $index => $release): ?>
+                    <a href="show.php?titleId=<?php echo htmlspecialchars($release['id']); ?>"
+                       class="release-card text-decoration-none mx-2 <?php echo $index >= $initialDisplayCount ? 'd-none' : ''; ?>"
+                       title="<?php echo htmlspecialchars($release['title']); ?>">
+                        <div class="card bg-dark text-white mb">
                             <img src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/background.jpg'; ?>" 
                                  class="card-img-top" 
                                  alt="<?php echo htmlspecialchars($release['title']); ?>">
@@ -41,6 +43,13 @@ $scrollDuration = $itemCount * .25; // 0.25s per item
                     </a>
                 <?php endforeach; ?>
             </div>
+            <!-- Expand All and Collapse buttons -->
+            <?php if ($totalReleases > $initialDisplayCount): ?>
+                <div class="text-center mt-3">
+                    <button id="expandAll" class="btn btn-warning">Expand All</button>
+                    <button id="collapseAll" class="btn btn-warning d-none">Collapse</button>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 <?php endif; ?>

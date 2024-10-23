@@ -13,21 +13,29 @@ function fetchTitleReleaseDates() {
     $data = json_decode($response, true);
 
     $results = [];
+    $processedIds = []; // To track IDs that have already been processed
 
     if (!empty($data)) {
         foreach ($data as $release) {
-            $titleId = $release['id'] ?? null;
-            $region = $release['region'] ?? null;
+            // Manually filter for region 'US' only
+            if (isset($release['region']) && $release['region'] === 'US') {
+                $titleId = $release['id'] ?? null;
 
-            // Check if the titleId exists and if the region is 'US'
-            if ($titleId && $region === 'US') {
-                $results[] = [
-                    'id' => $release['id'] ?? 'N/A',
-                    'title' => $release['title'] ?? 'N/A',
-                    'title_type' => $release['title_type'] ?? 'N/A',
-                    'type' => $release['type'] ?? 'N/A',
-                    'release_date' => $release['release_date'] ?? 'N/A',
-                ];
+                // Check if the titleId exists and has not already been processed
+                if ($titleId && !in_array($titleId, $processedIds)) {
+                    // Add the titleId to the processed list to avoid duplicates
+                    $processedIds[] = $titleId;
+
+                    // Add the release data to the results array
+                    $results[] = [
+                        'id' => $release['id'] ?? 'N/A',
+                        'title' => $release['title'] ?? 'N/A',
+                        'title_type' => $release['title_type'] ?? 'N/A',
+                        'type' => $release['type'] ?? 'N/A',
+                        'release_date' => $release['release_date'] ?? 'N/A',
+                        'region' => $release['region']
+                    ];
+                }
             }
         }
     }

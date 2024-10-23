@@ -40,7 +40,7 @@
                                                 <!-- Overlay to display on hover -->
                                                 <div class="card-overlay">
                                                     <h5>ID: <?php echo htmlspecialchars($release['id']); ?></h5>
-                                                    <p>Title: <?php echo htmlspecialchars($release['title']); ?></p>
+                                                    <p class="text-truncate">Title: <?php echo htmlspecialchars($release['title']); ?></p>
                                                     <p>Type: <?php echo htmlspecialchars($release['title_type']); ?></p>
                                                 </div>
                                             </div>
@@ -57,7 +57,7 @@
                             <div class="row d-flex justify-content-center align-items-center">
                                 <div class="col-lg-1-7 col-md-4">
                                     <div class="card-title-image bg-dark text-light text-center mb-4">
-                                        <div class="card-body">
+                                        <div class="see-all card-body">
                                             <h5 class="card-title">See All</h5>
                                             <p class="card-text">View all titles in this category</p>
                                             <a href="see-all.php?titleType=<?php echo urlencode($titleType); ?>" class="btn btn-warning">See All</a>

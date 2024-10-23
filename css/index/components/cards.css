@@ -6,6 +6,13 @@
     display: flex;
     flex-direction: column;
 }
+.see-all{
+    display: flex;
+    height: 250px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+}
 /* Custom class for 7 columns */
 @media (min-width: 1200px) {
     .col-lg-1-7 {
@@ -16,7 +23,7 @@
 
 .card-title-image {
     position: relative;
-    height: 150px; /* Make the card images smaller */
+    height: 100%; /* Make the card images smaller */
     overflow: hidden;
     border-radius: 8px;
 }

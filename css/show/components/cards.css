@@ -10,7 +10,7 @@
     transform: scale(1.05);
     border-radius: 3px;
     border-color: aliceblue;
-    box-shadow: 5px 5px 5px rgb(0, 0, 0);
+    box-shadow: 5px 5px 5px #000000;
 }
 
 .cast-link:hover, .available-on-link:hover {

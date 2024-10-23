@@ -178,15 +178,15 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Display results
+        // Display results on page load
         function displayResults(fetchedResults) {
             // Clear existing results
             resultsContainer.innerHTML = '';
-
+        
             if (sourcesSection) {
                 sourcesSection.style.display = '';
             }
-
+        
             // Check if fetchedResults is valid and has data
             if (!fetchedResults || fetchedResults.length === 0) {
                 // Display "No results" message if there are no matches
@@ -196,18 +196,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>`;
                 return;
             }
-
+        
             // Loop through the fetched results
             fetchedResults.forEach(result => {
                 const imageUrl = result.image_url || 'images/background.jpg';
                 const card = document.createElement('div');
                 card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
-
+        
                 // Check if the result exists and if it has a valid 'type'
-                if (result && result.type) {
+                if (result && result.result_type) {
+                    let linkUrl = `show.php?titleId=${result.id}`;  // Default to title
+        
+                    // If the result type is 'person', use personId
+                    if (result.result_type.toLowerCase() === 'person') {
+                        linkUrl = `show.php?personId=${result.id}`;
+                    }
+        
                     card.innerHTML = `
-                        <a href="show.php?titleId=${result.id}" class="card-link text-decoration-none text-light">
-                            <div class="card-result h-100 bg-transparent">
+                        <a href="${linkUrl}" class="card-link text-decoration-none text-light">
+                            <div class="card-result h-100 bg-dark">
                                 <img src="${imageUrl}" class="card-img-top position-relative" alt="${result.title}">
                                 <div class="icon-container">
                                     <button class="btn btn-download" data-json="${encodeURIComponent(JSON.stringify(result))}">
@@ -219,41 +226,27 @@ document.addEventListener('DOMContentLoaded', function () {
                                             : ''
                                     }
                                 </div>
-                                <div class="card-body d-flex flex-column">
-                                    <h4 class="card-id text-center mb-0 text-light">ID: ${result.id}</h4>
+                                <div class="card-body d-flex flex-column p-3">
+                                    <h4 class="card-id mb-0 text-warning">ID: ${result.id}</h4>
                                     <hr class="hr my-1">
-                                    <h5 class="card-title text-center text-light mb-0 text-truncate">${result.name || 'Unknown'}</h5>
-                                    <h6 class="card-title mb-2 text-center text-warning">' ${result.type || 'Unknown'} '</h6>
-                                    <p class="card-text mb-0 text-light text-center mb-2"><strong>Year: </strong>${result.year || 'N/A'}</p>
+                                    <h5 class="card-title text-light mb-2 text-truncate">${result.name || 'Unknown'}</h5>
+                                    <h6 class="text-secondary mb-0"><strong>Year: </strong>${result.year || 'N/A'}</h6>
+                                    <h6 class="text-secondary mb-0">${result.type || 'Unknown'}</h6>
                                 </div>
                             </div>
                         </a>`;
                     resultsContainer.appendChild(card);
                 }
             });
-
+        
             // Add event listeners for download and view details buttons
             document.querySelectorAll('.btn-download').forEach(button => {
                 button.addEventListener('click', function () {
                     downloadJson(this.getAttribute('data-json'));
                 });
             });
-
-            // Add event listeners for view details buttons, handle dynamic redirection
-            document.querySelectorAll('.view-details').forEach(button => {
-                button.addEventListener('click', function () {
-                    const id = this.getAttribute('data-id');
-                    const resultType = this.getAttribute('data-result-type');
-
-                    // Check the result type and redirect accordingly
-                    if (resultType === 'person') {
-                        window.location.href = `show.php?personId=${id}`;
-                    } else {
-                        window.location.href = `show.php?titleId=${id}`;
-                    }
-                });
-            });
         }
+        
 
 
         setTimeout(() => {

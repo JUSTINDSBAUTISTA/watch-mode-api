@@ -9,7 +9,7 @@
     transition: all 0.3s ease-out;
     transform: scale(1.05);
     border-color: aliceblue;
-    box-shadow: 5px 5px 5px rgb(0, 0, 0);
+    box-shadow: 5px 5px 5px #000000;
 }
 
 /* Fix image height and center/crop it */

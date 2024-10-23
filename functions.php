@@ -14,6 +14,8 @@ require_once 'functions/fetch-detail-by-personId.php';
 
 require_once 'functions/get-genre.php';
 
+require_once 'functions/fetch-title-release-dates.php';
+
 require_once 'functions/fetch-new-release.php';
 
 require_once 'functions/fetch-sources.php';

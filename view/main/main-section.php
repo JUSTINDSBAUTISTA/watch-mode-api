@@ -32,9 +32,12 @@
     <!-- New Releases Section -->
     <?php require 'view/main/new-release-section.php'; ?>
     
+    <!-- Title Release Dates Section -->
+     <?php require 'view/main/title-release-dates-section.php'; ?>
+    
     <!-- Sources Section -->
     <?php /* require 'view/main/sources-section.php'; */?>
-
+    
     <!-- Worldwide Flags Section -->
     <?php require 'view/main/flags-section.php'; ?>
     

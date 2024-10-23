@@ -4,6 +4,7 @@ require_once 'functions.php'; // Include reusable functions
 // Check if there’s a search query or year filter
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : null;
 $yearQuery = isset($_GET['year']) ? $_GET['year'] : null;
+$region = isset($_GET['region']) ? $_GET['region'] : 'US'; // Default to 'US' if no region is provided
 $showNewReleases = empty($searchQuery) && empty($yearQuery);
 
 // Set startDate and endDate for fetching releases
@@ -14,9 +15,13 @@ $endDate = date('Ymd', strtotime('+30 days')); // 30 days from current date
 $newReleases = $showNewReleases ? fetchNewReleases($startDate, $endDate) : [];
 
 // Fetch sources regions
-$sources_by_type = fetchSources([], 'US'); 
+$sources_by_type = fetchSources([], $region); 
 
+// Fetch flags data
 $flags = fetchFlags(); // Fetch flags data
+
+// Fetch Title Release Dates for the selected region
+$titleReleaseDates = fetchTitleReleaseDates();
 
 ?>
 <!DOCTYPE html>
@@ -24,12 +29,8 @@ $flags = fetchFlags(); // Fetch flags data
     <?php require 'view/layouts/header.php'; ?>
 <body>
 
-    <!-- Background Section -->
-    <!-- <div class="main-background d-flex justify-content-center align-items-center" style="background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)), url('images/background.jpg'); background-size: cover; background-position: center; height: 250px;">
-    </div>   -->
-        
     <!-- Main Section -->
-     <?php require 'view/main/main-section.php'; ?>
+    <?php require 'view/main/main-section.php'; ?>
 
     <!-- Footer Section -->
     <?php require 'view/layouts/footer.php'; ?>
@@ -39,5 +40,34 @@ $flags = fetchFlags(); // Fetch flags data
     <script src="javascript/main/flag_slide.js" ></script>
     <script src="javascript/main/new_release.js" ></script>
     <script src="javascript/main/source_carousels.js" ></script>
+    <script>
+        // Lazy Loading for Images
+        document.addEventListener('DOMContentLoaded', function () {
+            const lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
+
+            if ('IntersectionObserver' in window) {
+                let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            let lazyImage = entry.target;
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.remove('lazy');
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
+                });
+
+                lazyImages.forEach(function (lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            } else {
+                // Fallback for older browsers without IntersectionObserver
+                lazyImages.forEach(function (lazyImage) {
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.remove('lazy');
+                });
+            }
+        });
+    </script>
 </body>
 </html>

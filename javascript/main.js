@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const sortYearButton = document.getElementById('sortYear');
         const sourcesSection = document.getElementById('sourcesSection');
         const flagSection = document.querySelector('#flagsSection');
+        const titleReleaseDate = document.querySelector('.title-release-dates');
 
         function resetSearch() {
             searchInputMain.value = '';
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Show loading spinner
             if (loadingSpinner) loadingSpinner.style.display = 'block';
             if (sourcesSection) sourcesSection.style.display = 'none';
+            if (titleReleaseDate) titleReleaseDate.style.display = 'none';
             if (flagSection) flagSection.style.display = 'none';
         
             resultsContainer.innerHTML = '';
@@ -74,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error fetching results:', error);
             } finally {
                 if (loadingSpinner) loadingSpinner.style.display = 'none';
+                if (titleReleaseDate) titleReleaseDate.style.display = 'none';
                 if (flagSection) flagSection.style.display = 'none';
             }
         }

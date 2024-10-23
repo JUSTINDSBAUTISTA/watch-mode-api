@@ -18,8 +18,8 @@ $initialDisplayCount = 7; // Display only 10 items initially
                        class="release-card text-decoration-none mx-2 <?php echo $index >= $initialDisplayCount ? 'd-none' : ''; ?>"
                        title="<?php echo htmlspecialchars($release['title']); ?>">
                         <div class="card bg-dark text-white mb">
-                            <img src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/background.jpg'; ?>" 
-                                 class="card-img-top" 
+                            <img data-src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/background.jpg'; ?>" 
+                                 class="lazy card-img-top" 
                                  alt="<?php echo htmlspecialchars($release['title']); ?>">
                             <div class="card-body d-flex flex-column justify-content-between p-2">
                                 <h5 class="card-id text-warning mb-1" style="font-size: 1.25em;">
@@ -43,8 +43,8 @@ $initialDisplayCount = 7; // Display only 10 items initially
             <!-- Expand All and Collapse buttons -->
             <?php if ($totalReleases > $initialDisplayCount): ?>
                 <div class="text-center mt-3">
-                    <button id="expandAll" class="btn btn-warning">Expand All</button>
-                    <button id="collapseAll" class="btn btn-warning d-none">Collapse</button>
+                    <button id="expandAll" class="btn btn-light">Expand All</button>
+                    <button id="collapseAll" class="btn btn-light d-none">Collapse</button>
                 </div>
             <?php endif; ?>
         </div>

@@ -40,7 +40,7 @@
                                 </li>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <li class="p-2 text-light">Cast & Crew information not available</li>
+                            <li class="p-2 text-light opacity-50">Cast & Crew information not available</li>
                         <?php endif; ?>
                     </ul>
                 </div>

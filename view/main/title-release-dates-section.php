@@ -1,4 +1,5 @@
-<div class="title-release-dates">
+<?php if (!empty($titleReleaseDates)): // Check if there are any title release dates ?>
+<div id="titleReleaseDates" class="title-release-dates">
     <h2 class="text-center text-warning mt-5 mb-4">Title Release Dates</h2>
 
     <?php 
@@ -27,15 +28,13 @@
                                 <?php foreach ($releaseChunk as $release): ?>
                                     <div class="col-lg-1-7 col-md-4">
                                         <!-- Fetch the poster image for each release dynamically -->
-                                        <?php 
-                                            $image = fetchDetailsByTitleId($release['id'])['posterLarge'] ?? 'images/background.jpg'; 
-                                        ?>
+ -->
                                         <!-- Wrap card in an anchor tag linking to titleId -->
                                         <a href="show.php?titleId=<?php echo htmlspecialchars($release['id']); ?>" class="text-decoration-none" target="_blank">
                                             <div class="card-title-image bg-dark text-light mb-4">
                                                 <!-- Use lazy loading for the images -->
-                                                <img data-src="<?php echo htmlspecialchars($image); ?>" 
-                                                     class="lazy card-title-image" 
+                                                <img src="images/background.jpg" 
+                                                     class="card-title-image" 
                                                      alt="<?php echo htmlspecialchars($release['title']); ?>">
                                                 <!-- Overlay to display on hover -->
                                                 <div class="card-overlay">
@@ -82,3 +81,4 @@
         </div>
     <?php endforeach; ?>
 </div>
+<?php endif; // End of condition checking if there are any title release dates ?>

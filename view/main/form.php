@@ -1,4 +1,4 @@
-<form id="searchFormMain" class="mb-4 row gx-2 gy-2 align-items-center" role="search" autocomplete="off" method="GET" action="your_search_endpoint.php">
+<form id="searchFormMain" class="mb-4 row gx-2 gy-2 align-items-center" role="search" autocomplete="off" method="GET">
     <!-- Reset Button - Moves to the bottom with full width on smaller screens -->
     <div class="col-12 col-md-auto order-3 order-md-1">
         <button id="resetButton" class="btn btn-secondary w-100" type="button">Reset</button>

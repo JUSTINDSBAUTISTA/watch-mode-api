@@ -21,3 +21,5 @@ require_once 'functions/fetch-new-release.php';
 require_once 'functions/fetch-sources.php';
 
 require_once 'functions/fetch-flags.php';
+
+require_once 'functions/fetch-poster-large.php';

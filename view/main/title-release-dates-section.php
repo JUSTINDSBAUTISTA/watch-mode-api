@@ -37,7 +37,8 @@
                                 <?php foreach ($releaseChunk as $release): ?>
                                     <div class="col-lg-1-7 col-md-4">
                                         <?php 
-                                            $image = fetchDetailsByTitleId($release['id'])['posterLarge'] ?? 'images/background.jpg'; 
+                                            // Fetch the large poster for each title
+                                            $image = fetchPosterLargeByTitleId($release['id']) ?? 'images/background.jpg';
                                         ?>
                                         <a href="show.php?titleId=<?php echo htmlspecialchars($release['id']); ?>" class="text-decoration-none" target="_blank">
                                             <div class="card-title-image bg-dark text-light mb-4">

@@ -33,15 +33,6 @@
     <?php require 'view/main/new-release-section.php'; ?>
     
     <!-- Title Release Dates Section -->
-    <div id="titleReleaseDatesPlaceholder" class="text-center mt-5 mb-4">
-        <div class="spinner-border text-warning" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <p>Loading Title Release Dates...</p>
-    </div>
-
-    <div id="titleReleaseDatesContainer"></div>
-
     <?php require 'view/main/title-release-dates-section.php'; ?>
     
     <!-- Sources Section -->

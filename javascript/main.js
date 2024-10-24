@@ -1,4 +1,10 @@
+const searchFormMain = document.getElementById('searchFormMain');
+const titleReleaseDates = document.getElementById('titleReleaseDates');
+console.log(titleReleaseDates);
 
+searchFormMain.addEventListener('submit', function (event) {
+    titleReleaseDates.style.display = 'none';
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const searchFormMain = document.getElementById('searchFormMain');
@@ -45,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             if (titleReleaseDates) titleReleaseDates.style.display = 'none';
-            console.log(titleReleaseDates);
                     
             // Show loading spinner
             if (loadingSpinner) loadingSpinner.style.display = 'block';

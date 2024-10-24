@@ -19,9 +19,12 @@
             </span>
         </h1>
     </div>
+    
+    <!-- A gradient block  -->
     <div style="display: block; height: 150px; width: 100%;
         background: black;
         background: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
         margin-bottom: -150px;
-        "></div>
+        ">
+    </div>
 <?php endif; ?>

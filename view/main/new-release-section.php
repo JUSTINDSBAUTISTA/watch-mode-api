@@ -6,7 +6,7 @@ $initialDisplayCount = 7; // Display only 10 items initially
 
 <!-- Display the New Releases Carousel if there are results -->
 <?php if ($showNewReleases && !empty($newReleases)): ?>
-    <div class="container mb-5">
+    <div class="container">
         <h2 class="text-center text-warning">New Release!</h2>
         <p class="text-light text-center">" This endpoint will return release dates from the current date through the next 30 days. "</p>
 

@@ -39,7 +39,6 @@ $titleReleaseDates = fetchTitleReleaseDates();
     <!-- JavaScript for Main Page -->
     <script src="javascript/main.js" ></script>
     <script src="javascript/main/flag_slide.js" ></script>
-    <script src="javascript/main/title_release_dates.js" ></script>
     <script src="javascript/main/new_release.js" ></script>
     <script src="javascript/main/source_carousels.js" ></script>
 </body>

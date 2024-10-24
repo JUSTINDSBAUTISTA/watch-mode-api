@@ -1,4 +1,4 @@
-<?php if (!empty($titleReleaseDates)): // Check if there are any title release dates ?>
+<?php if (!empty($titleReleaseDates)): ?>
 <div id="titleReleaseDates" class="title-release-dates">
     <h2 class="text-center text-warning mt-5 mb-4">Title Release Dates</h2>
 
@@ -17,7 +17,7 @@
             <div id="carousel-<?php echo htmlspecialchars($titleType); ?>" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <?php 
-                    $limitedReleases = array_slice($releases, 0, 14);
+                    $limitedReleases = array_slice($releases, 0, 7);
                     $totalReleases = count($releases);
                     ?>
 
@@ -27,16 +27,12 @@
                             <div class="row">
                                 <?php foreach ($releaseChunk as $release): ?>
                                     <div class="col-lg-1-7 col-md-4">
-                                        <!-- Fetch the poster image for each release dynamically -->
- -->
-                                        <!-- Wrap card in an anchor tag linking to titleId -->
+                                        <?php 
+                                            $image = fetchDetailsByTitleId($release['id'])['posterLarge'] ?? 'images/background.jpg'; 
+                                        ?>
                                         <a href="show.php?titleId=<?php echo htmlspecialchars($release['id']); ?>" class="text-decoration-none" target="_blank">
                                             <div class="card-title-image bg-dark text-light mb-4">
-                                                <!-- Use lazy loading for the images -->
-                                                <img src="images/background.jpg" 
-                                                     class="card-title-image" 
-                                                     alt="<?php echo htmlspecialchars($release['title']); ?>">
-                                                <!-- Overlay to display on hover -->
+                                                <img src="<?php echo htmlspecialchars($image); ?>" class="card-title-image" alt="<?php echo htmlspecialchars($release['title']); ?>">
                                                 <div class="card-overlay">
                                                     <h5>ID: <?php echo htmlspecialchars($release['id']); ?></h5>
                                                     <p class="text-truncate">Title: <?php echo htmlspecialchars($release['title']); ?></p>
@@ -50,8 +46,7 @@
                         </div>
                     <?php endforeach; ?>
 
-                    <!-- Add "See All" card if total releases exceed 14 -->
-                    <?php if ($totalReleases > 15): ?>
+                    <?php if ($totalReleases > 8): ?>
                         <div class="carousel-item">
                             <div class="row d-flex justify-content-center align-items-center">
                                 <div class="col-lg-1-7 col-md-4">
@@ -68,7 +63,6 @@
                     <?php endif; ?>
                 </div>
 
-                <!-- Carousel controls -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#carousel-<?php echo htmlspecialchars($titleType); ?>" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
@@ -81,4 +75,4 @@
         </div>
     <?php endforeach; ?>
 </div>
-<?php endif; // End of condition checking if there are any title release dates ?>
+<?php endif; ?>

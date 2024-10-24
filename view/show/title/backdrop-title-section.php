@@ -1,15 +1,13 @@
 <!-- Backdrop Section -->
 <?php if ($titleDetails): ?>
     <div class="backdrop d-flex justify-content-center align-items-center text-center position-relative" 
-         style="background-image: linear-gradient(90deg, rgba(19,13,129,1) 0%, rgba(5,0,75,0.3) 50%, rgba(255,0,0,1) 100%), 
+         style="background-image: 
+                linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 2%, rgba(0,0,0,0) 80%), 
                 url('<?php echo !empty($titleDetails['backdrop']) ? htmlspecialchars($titleDetails['backdrop']) : 'images/background.jpg'; ?>'); 
                 background-size: cover; 
                 background-position: center; 
                 max-height: 300px; /* Adjust for mobile devices */">
 
-        <!-- Overlay for Background Opacity -->
-        <div class="position-absolute w-100 h-100" style="background-color: rgba(0, 0, 0, 0.4); top: 0; left: 0;"></div>
-        
         <!-- Responsive Title Text -->
         <h1 class="text-warning position-relative title-responsive">
             <?php echo htmlspecialchars($titleDetails['title']); ?> 
@@ -21,4 +19,9 @@
             </span>
         </h1>
     </div>
+    <div style="display: block; height: 150px; width: 100%;
+        background: black;
+        background: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+        margin-bottom: -150px;
+        "></div>
 <?php endif; ?>

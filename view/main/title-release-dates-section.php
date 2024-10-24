@@ -1,7 +1,9 @@
 <?php if (!empty($titleReleaseDates)): ?>
 <div id="titleReleaseDates" class="title-release-dates">
-    <h2 class="text-center text-warning mt-5 mb-4">Title Release Dates</h2>
-
+    <div class="my-5">
+        <h2 class="text-warning" style="text-decoration: underline">Title Release Dates</h2>
+        <p>This is a new endpoint, and it only targets the US.</p>
+    </div>
     <?php 
     // Group titles by title_type
     $groupedTitles = [];
@@ -13,7 +15,14 @@
     <!-- Loop through each group (based on title_type) -->
     <?php foreach ($groupedTitles as $titleType => $releases): ?>
         <div class="mb-5">
-            <h3 class="text-light"><?php echo htmlspecialchars(ucfirst($titleType)); ?></h3>
+            <h3 id="groupedTitle" class="text-light">
+            <a onmouseover="toggleArrow(this, true)" onmouseout="toggleArrow(this, false)" 
+                href="see-all.php?titleType=<?php echo urlencode($titleType); ?>" class="text-light text-decoration-none">
+                <?php echo htmlspecialchars(ucfirst($titleType)); ?>
+                <span class="arrow d-none"> >></span>
+            </a>
+    
+            </h3>
             <div id="carousel-<?php echo htmlspecialchars($titleType); ?>" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <?php 
@@ -76,3 +85,14 @@
     <?php endforeach; ?>
 </div>
 <?php endif; ?>
+
+<script>
+    function toggleArrow(element, show) {
+        const arrowSpan = element.querySelector('.arrow');
+        if (show) {
+            arrowSpan.classList.remove('d-none');
+        } else {
+            arrowSpan.classList.add('d-none');
+        }
+    }
+</script>

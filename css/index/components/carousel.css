@@ -1,5 +1,5 @@
 /* Carousel Container for New Releases */
-.new-releases-carousel {
+.new-releases-cards {
     max-width: 100%;
     overflow: hidden;
     padding: 10px 0;
@@ -50,11 +50,11 @@
 }
 
 /* Customize Scrollbar Styling */
-.new-releases-carousel::-webkit-scrollbar {
+.new-releases-cards::-webkit-scrollbar {
     height: 1rem;
 }
 
-.new-releases-carousel::-webkit-scrollbar-track {
+.new-releases-cards::-webkit-scrollbar-track {
     background: linear-gradient(
         to right,
         linen 25%,
@@ -68,7 +68,7 @@
     margin: 0 5rem;
 }
 
-.new-releases-carousel::-webkit-scrollbar-thumb {
+.new-releases-cards::-webkit-scrollbar-thumb {
     background-color: slategrey;
     border: 0.5rem solid gainsboro;
 }

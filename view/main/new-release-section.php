@@ -11,15 +11,15 @@ $initialDisplayCount = 7; // Display only 10 items initially
         <p class="text-light text-center">" This endpoint will return release dates from the current date through the next 30 days. "</p>
 
         <!-- Static scrollable container -->
-        <div class="new-releases-carousel overflow-hidden position-relative">
+        <div class="new-releases-cards overflow-hidden position-relative">
             <div class="scroll-container d-flex flex-wrap">
                 <?php foreach ($newReleases as $index => $release): ?>
                     <a href="show.php?titleId=<?php echo htmlspecialchars($release['id']); ?>"
                        class="release-card text-decoration-none mx-2 <?php echo $index >= $initialDisplayCount ? 'd-none' : ''; ?>"
                        title="<?php echo htmlspecialchars($release['title']); ?>">
                         <div class="card bg-dark text-white mb">
-                            <img data-src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/background.jpg'; ?>" 
-                                 class="lazy card-img-top" 
+                            <img src="<?php echo !empty($release['poster_url']) ? htmlspecialchars($release['poster_url']) : 'images/background.jpg'; ?>" 
+                                 class="card-img-top" 
                                  alt="<?php echo htmlspecialchars($release['title']); ?>">
                             <div class="card-body d-flex flex-column justify-content-between p-2">
                                 <h5 class="card-id text-warning mb-1" style="font-size: 1.25em;">

@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const searchFormMain = document.getElementById('searchFormMain');
     if (searchFormMain) {
@@ -12,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const sortNameButton = document.getElementById('sortName');
         const sortYearButton = document.getElementById('sortYear');
         const sourcesSection = document.getElementById('sourcesSection');
-        const flagSection = document.querySelector('#flagsSection');
-        const titleReleaseDate = document.querySelector('.title-release-dates');
+        const flagsSection = document.getElementById('flagsSection'); 
+        const titleReleaseDates = document.getElementById('titleReleaseDates');
 
         function resetSearch() {
             searchInputMain.value = '';
@@ -40,12 +42,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const keyword = searchInputMain.value.trim();
             const searchTypeValue = searchType.value;
             const year = yearFilter.value;
-        
+
+
+            if (titleReleaseDates) titleReleaseDates.style.display = 'none';
+            console.log(titleReleaseDates);
+                    
             // Show loading spinner
             if (loadingSpinner) loadingSpinner.style.display = 'block';
-            if (sourcesSection) sourcesSection.style.display = 'none';
-            if (titleReleaseDate) titleReleaseDate.style.display = 'none';
-            if (flagSection) flagSection.style.display = 'none';
+            if (flagsSection) flagsSection.style.display = 'none'; 
         
             resultsContainer.innerHTML = '';
             paginationControls.innerHTML = '';
@@ -76,8 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error fetching results:', error);
             } finally {
                 if (loadingSpinner) loadingSpinner.style.display = 'none';
-                if (titleReleaseDate) titleReleaseDate.style.display = 'none';
-                if (flagSection) flagSection.style.display = 'none';
+                if (flagsSection) flagsSection.style.display = 'none'; 
+                if (titleReleaseDates) titleReleaseDates.style.display = 'none';
             }
         }
         
@@ -160,6 +164,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const keyword = searchInputMain.value.trim();
             const searchTypeValue = searchType.value;  // Capture the searchType value correctly
             const year = yearFilter.value;
+             // Hide the title release dates section if it's visible
+            console.log('Search Type:', searchTypeValue);
 
             if (/^\d+$/.test(keyword)) {
                 // If the keyword is numeric, assume it's an ID (either title or person) and redirect accordingly
